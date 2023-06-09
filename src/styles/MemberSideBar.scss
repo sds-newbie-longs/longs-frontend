@@ -1,0 +1,21 @@
+.member-side-bar-root {
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 96px;
+
+  .member-side-bar-search-field-container {
+  }
+
+  .member-side-bar-member-list-container {
+    margin-top: 16px;
+
+    .member-side-bar-member-count {
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .member-list-root {
+      margin-top: 8px;
+    }
+  }
+}
