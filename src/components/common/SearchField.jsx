@@ -4,7 +4,7 @@ import SearchSvg from 'components/common/SearchSvg';
 import 'styles/SearchField.scss';
 
 const SearchField = props => {
-  const { isBordered, placeholder, handleSubmit } = props;
+  const { isBordered, placeholder, handleOnSubmit } = props;
 
   const inputRef = useRef();
 
@@ -15,7 +15,7 @@ const SearchField = props => {
 
   const onSubmit = useCallback(data => {
     if (data.length !== 0) {
-      handleSubmit(data);
+      handleOnSubmit(data);
       inputRef.current.value = '';
     }
   }, []);
@@ -50,5 +50,5 @@ export default SearchField;
 SearchField.propTypes = {
   isBordered: PropTypes.bool.isRequired,
   placeholder: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  handleOnSubmit: PropTypes.func.isRequired,
 };
