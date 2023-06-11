@@ -6,7 +6,7 @@ function ContentAreaApiModule() {
     content.owner = 'din';
     content.title = 'Want to Go Home';
     const mockContentsList = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 0; i++) {
       mockContentsList.push(Object.assign({}, content));
     }
     return mockContentsList;
@@ -18,7 +18,7 @@ function ContentAreaApiModule() {
     content.owner = 'soy';
     content.title = 'Want to Go Home';
     const mockContentsList = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 0; i++) {
       mockContentsList.push(Object.assign({}, content));
     }
     return mockContentsList;
