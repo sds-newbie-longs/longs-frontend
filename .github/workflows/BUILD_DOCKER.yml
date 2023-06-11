@@ -13,6 +13,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Build Docker Image
+      run: docker build -t vidigummy/longs-fe -f Dockerfile.nginx .
+
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
       with:
