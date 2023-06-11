@@ -3,7 +3,7 @@ name: Docker Image로 만들어서 배포하기
 on:
   push:
     branches:
-      - NO-ISSUE/배포docker설정
+      - sprint1
 
 jobs:
   build:
