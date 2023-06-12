@@ -1,0 +1,44 @@
+.group-name-root{
+
+  display: flex;
+  height: 56px;
+  &-true{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    background: #F6F7FA;
+    color: #729F64;
+  }
+  &-false{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    color: #5E5E5E;
+  }
+}
+.group-focus-tag{
+  background-image: url("/assets/GroupFocusTag.svg");
+  width: 5px;
+  height: 56px;
+}
+.group-name-p{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 8px;
+  margin: 24px 33px 20px 33px;
+  width: 175px;
+  cursor: pointer;
+}
+
+.group-remove{
+  position: absolute;
+  right: 20px;
+  background-image: url("../assets/GroupRemoveButton.svg");
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
