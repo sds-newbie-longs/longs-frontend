@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ContentAreaApiModule from 'utils/ContentAreaApiModule';
 import 'styles/ContentsArea.scss';
 import { ReactComponent as NoContentImg } from 'assets/noContents.svg';
+import VideoInfoList from './VideoInfoList';
 const ContentsArea = () => {
   const mockPropGroup = 'Knox SRE';
   const mockPropUsers = ['Silence', 'din'];
@@ -52,11 +53,7 @@ const ContentsArea = () => {
                 <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
               </div>
               <div className={'video-info-list-container'}>
-                {list.map((item, subIndex) => (
-                  <div key={subIndex} className={'video-list-wrapper'}>
-                    <span> {item.owner} </span>
-                  </div>
-                ))}
+                <VideoInfoList videoList={list} />
               </div>
             </div>
           ))}
