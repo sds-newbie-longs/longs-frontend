@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import VideoInfo from './VideoInfo';
+import VideoInfo from 'components/VideoInfo';
 import 'styles/VideoInfoList.scss';
 const VideoInfoList = ({ videoList }) => {
   VideoInfoList.propTypes = {
