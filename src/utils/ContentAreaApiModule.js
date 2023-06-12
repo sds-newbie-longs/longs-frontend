@@ -7,10 +7,11 @@ function ContentAreaApiModule() {
     content.title = 'Want to Go Home';
     const mockContentsList = [];
     for (let i = 0; i < 10; i++) {
-      'https://namu.wiki/jump/Gc3gjN02gz6766%2FcLetBPH4OVqHRE1oOsI28oM2vjkwbG5IN1xaAJvsjlSzj15ik';
-    content.owner = 'din';
-    content.title = 'Want to Go Home';
-    const mockContentsList = [];
+      // eslint-disable-next-line no-unused-expressions
+      ('https://namu.wiki/jump/Gc3gjN02gz6766%2FcLetBPH4OVqHRE1oOsI28oM2vjkwbG5IN1xaAJvsjlSzj15ik');
+      content.owner = 'din';
+      content.title = 'Want to Go Home';
+      const mockContentsList = [];
       mockContentsList.push(Object.assign({}, content));
     }
     return mockContentsList;
@@ -22,13 +23,17 @@ function ContentAreaApiModule() {
     content.owner = 'soy';
     content.title = 'Want to Go Home';
     const mockContentsList = [];
+    // eslint-disable-next-line no-unreachable-loop
     for (let i = 0; i < 10; i++) {
-      'https://namu.wiki/jump/Gc3gjN02gz6766%2FcLetBPH4OVqHRE1oOsI28oM2vjkwbG5IN1xaAJvsjlSzj15ik';
-    content.owner = 'soy';
-    content.title = 'Want to Go Home';
-    const mockContentsList = [];
-    for (let i = 0; i < 0; i++) {
-      mockContentsList.push(Object.assign({}, content));
+      // eslint-disable-next-line no-unused-expressions
+      ('https://namu.wiki/jump/Gc3gjN02gz6766%2FcLetBPH4OVqHRE1oOsI28oM2vjkwbG5IN1xaAJvsjlSzj15ik');
+      content.owner = 'soy';
+      content.title = 'Want to Go Home';
+      const mockContentsList = [];
+      for (let i = 0; i < 0; i++) {
+        mockContentsList.push(Object.assign({}, content));
+      }
+      return mockContentsList;
     }
     return mockContentsList;
   };

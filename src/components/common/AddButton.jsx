@@ -12,13 +12,8 @@ const AddButton = props => {
 
   return (
     <div className={'add-button-root'}>
-      <div className={'add-button-container'}>
-        <AddButtonSvg
-          width={width}
-          height={height}
-          className={'add-button-content'}
-          onClick={onAddButtonClick}
-        />
+      <div className={'add-button-container'} onClick={onAddButtonClick}>
+        <AddButtonSvg width={width} height={height} className={'add-button-content'} />
       </div>
     </div>
   );

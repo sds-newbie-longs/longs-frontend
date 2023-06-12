@@ -7,7 +7,6 @@ const ContentsArea = () => {
   const mockPropGroup = 'Knox SRE';
   const mockPropUsers = ['Silence', 'din'];
   const [contentsInfoLists, setContentsInfoLists] = useState([]);
-
   const contentAreaApiModule = new ContentAreaApiModule();
   const fetchData = async () => {
     try {
@@ -20,7 +19,6 @@ const ContentsArea = () => {
         userVideoList = [...userVideoList, userVideos];
       }
       const contentsLists = [firstList, ...userVideoList];
-
       if (contentsLists.every(list => list.length === 0)) {
         setContentsInfoLists([]);
       } else {
@@ -31,11 +29,9 @@ const ContentsArea = () => {
       setContentsInfoLists([]);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []); // 빈 의존성 배열
-
   return (
     <div className="contents-area-root">
       {contentsInfoLists.length === 0 ? (
@@ -53,6 +49,11 @@ const ContentsArea = () => {
                 <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
               </div>
               <div className={'video-info-list-container'}>
+                {list.map((item, subIndex) => (
+                  <div key={subIndex} className={'video-list-wrapper'}>
+                    <span> {item.owner} </span>
+                  </div>
+                ))}
                 <VideoInfoList videoList={list} />
               </div>
             </div>
@@ -62,5 +63,4 @@ const ContentsArea = () => {
     </div>
   );
 };
-
 export default ContentsArea;
