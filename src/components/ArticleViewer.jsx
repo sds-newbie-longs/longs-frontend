@@ -1,0 +1,69 @@
+import React, { useState } from 'react';
+import 'styles/ArticleViewer.scss';
+import MemberInfo from 'components/common/MemberInfo';
+import EditSvg from 'components/common/EditSvg';
+import DeleteSvg from 'components/common/DeleteSvg';
+import PropTypes from 'prop-types';
+
+const ArticleViewer = props => {
+  const { description, title, owner, viewCount } = props;
+
+  const baseColor = '#A9ABB8';
+  const deleteColor = '#F92626';
+  const editColor = '#F1A468';
+
+  const [editHovering, setEditHovering] = useState(false);
+  const [deleteHovering, setDeleteHovering] = useState(false);
+
+  const handleEditOnClick = evt => {
+    // todo: implement later
+  };
+
+  const handleDeleteOnclick = evt => {
+    if (confirm('Delete Video?')) {
+      // todo: implement later
+      // Tasks.getDeleteVideoPromise().then(() => console.log('go home'));
+    }
+  };
+
+  return (
+    <div className={'article-viewer-root'}>
+      <div className={'article-viewer-content'}>
+        <div className={'article-viewer-video-frame'}>
+          <div className={'article-viewer-video-edit'}>
+            <EditSvg
+              onMouseOver={() => setEditHovering(true)}
+              onMouseOut={() => setEditHovering(false)}
+              onClick={handleEditOnClick}
+              color={editHovering ? editColor : baseColor}
+            />
+            <DeleteSvg
+              onMouseOver={() => setDeleteHovering(true)}
+              onMouseOut={() => setDeleteHovering(false)}
+              onClick={handleDeleteOnclick}
+              color={deleteHovering ? deleteColor : baseColor}
+            />
+          </div>
+          <div className={'article-viewer-video'}></div>
+        </div>
+
+        <div className={'article-viewer-meta'}>
+          <span className={'article-viewer-title'}>{title}</span>
+          <MemberInfo name={owner} color={'#F3B582'} />
+          <div className={'article-viewer-description-container'}>
+            <p className={'article-viewer-view-count'}>조회수 {viewCount}</p>
+            <p className={'article-viewer-description'}>{description}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ArticleViewer;
+ArticleViewer.propTypes = {
+  title: PropTypes.string.isRequired,
+  owner: PropTypes.string.isRequired,
+  viewCount: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
+};
