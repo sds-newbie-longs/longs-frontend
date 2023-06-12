@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/GroupButton.scss';
+import 'styles/GroupButton.scss';
 import PropTypes from 'prop-types';
 const GroupButton = props => {
   const groupName = props.groupName;

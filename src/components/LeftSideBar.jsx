@@ -1,6 +1,6 @@
 import React from 'react';
-import '../styles/LeftSideBar.scss';
-import GroupButton from './GroupButton';
+import 'styles/LeftSideBar.scss';
+import GroupButton from 'components/GroupButton';
 
 const LeftSideBar = () => {
   const handleOnRemoveClick = () => {
