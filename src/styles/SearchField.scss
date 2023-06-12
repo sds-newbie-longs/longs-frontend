@@ -1,0 +1,32 @@
+%search-field {
+  & {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-field-input {
+    font-size: 12px;
+    outline: none;
+    border: none;
+    width: 100%;
+  }
+
+  .search-field-icon {
+  }
+}
+
+.search-field-root {
+  .search-field-container-bordered {
+    border: 1px solid #cccccc;
+    border-radius: 2px;
+    padding: 4px 8px;
+
+    @extend %search-field;
+  }
+
+  .search-field-container-borderless {
+    border: none;
+
+    @extend %search-field;
+  }
+}
