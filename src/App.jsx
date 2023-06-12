@@ -1,12 +1,10 @@
 import React from 'react';
 import 'App.scss';
-import AddButton from 'components/common/AddButton';
+import ArticleViewer from './components/ArticleViewer';
 
 function App() {
   return (
-    <div>
-      <AddButton width={70} height={70} handleClick={evt => console.log(evt)} />
-    </div>
+    <ArticleViewer title={'title'} description={'description'} owner={'owner'} viewCount={30} />
   );
 }
 
