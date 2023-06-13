@@ -4,9 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from 'components/MainPage';
 import Login from 'components/Login';
 import ArticleViewer from 'components/ArticleViewer';
-import Upload from 'components/upload';
+import Upload from 'components/Upload';
 
-import Login from 'components/Login';
 // import Upload from 'components/Upload';
 // import Dropzone from 'components/Dropzone';
 
