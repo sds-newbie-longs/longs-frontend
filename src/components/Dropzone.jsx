@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import 'styles/Dropzone.scss';
@@ -13,8 +13,13 @@ const Dropzone = props => {
   });
   const files = acceptedFiles.map(file => <p key={file.path}>{file.path}</p>);
 
+  useEffect(() => {
+    if (files.length > 0) {
+      props.setIsUpload(true);
+    }
+  }, [files.length]);
+
   if (files.length > 0) {
-    props.setIsUpload(true);
     return <div className={'drop-container-full'}>{files}</div>;
   }
   return (
