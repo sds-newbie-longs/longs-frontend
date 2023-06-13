@@ -1,7 +1,7 @@
 import React from 'react';
 import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
-import AddButton from './common/AddButton';
+import AddButton from 'components/common/AddButton';
 import { useNavigate } from 'react-router';
 
 const LeftSideBar = () => {

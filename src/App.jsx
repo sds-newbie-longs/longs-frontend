@@ -1,10 +1,10 @@
 import React from 'react';
 import 'App.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from './components/MainPage';
-import Login from './components/Login';
-import ArticleViewer from './components/ArticleViewer';
-import Upload from './components/upload';
+import MainPage from 'components/MainPage';
+import Login from 'components/Login';
+import ArticleViewer from 'components/ArticleViewer';
+import Upload from 'components/upload';
 
 function App() {
   return (

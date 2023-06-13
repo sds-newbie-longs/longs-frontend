@@ -1,9 +1,9 @@
 import React from 'react';
-import LeftSideBar from './LeftSideBar';
-import Header from './Header';
+import LeftSideBar from 'components/LeftSideBar';
+import Header from 'components/Header';
 import 'styles/MainPage.scss';
-import MemberSideBar from './MemberSideBar';
-import ContentsArea from './ContentsArea';
+import MemberSideBar from 'components/MemberSideBar';
+import ContentsArea from 'components/ContentsArea';
 
 const MainPage = () => {
   return (

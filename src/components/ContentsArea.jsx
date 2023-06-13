@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ContentAreaApiModule from 'utils/ContentAreaApiModule';
 import 'styles/ContentsArea.scss';
 import { ReactComponent as NoContentImg } from 'assets/noContents.svg';
-import VideoInfoList from './VideoInfoList';
+import VideoInfoList from 'components/VideoInfoList';
 const ContentsArea = () => {
   const mockPropGroup = 'Knox SRE';
   const mockPropUsers = ['Silence', 'din'];

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'styles/Header.scss';
-import SearchField from './common/SearchField';
-import AddButton from './common/AddButton';
+import SearchField from 'components/common/SearchField';
+import AddButton from 'components/common/AddButton';
 import { useNavigate } from 'react-router';
 const Header = () => {
   const navigate = useNavigate();
