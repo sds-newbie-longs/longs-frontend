@@ -18,6 +18,14 @@
       .article-viewer-video-edit {
         display: flex;
         gap: 8px;
+
+        svg:hover .article-viewer-edit-icon {
+          fill: #f1a468;
+        }
+
+        svg:hover .article-viewer-delete-icon {
+          fill: #f92626;
+        }
       }
 
       .article-viewer-video {
