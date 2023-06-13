@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 
 import 'styles/Login.scss';
 import Logo from 'assets/Logo.png';
+import { useNavigate } from 'react-router';
 
 const Login = () => {
   const [id, setId] = useState('');
+  const navigate = useNavigate();
 
   const onChange = e => {
     setId(e.target.value);
   };
 
   const onClick = () => {
-    setId('');
+    // setId('');
+    navigate('/');
   };
 
   const buttonClassName = e => {

@@ -7,7 +7,6 @@ const ContentsArea = () => {
   const mockPropGroup = 'Knox SRE';
   const mockPropUsers = ['Silence', 'din'];
   const [contentsInfoLists, setContentsInfoLists] = useState([]);
-
   const contentAreaApiModule = new ContentAreaApiModule();
   const fetchData = async () => {
     try {
@@ -20,7 +19,6 @@ const ContentsArea = () => {
         userVideoList = [...userVideoList, userVideos];
       }
       const contentsLists = [firstList, ...userVideoList];
-
       if (contentsLists.every(list => list.length === 0)) {
         setContentsInfoLists([]);
       } else {
@@ -31,11 +29,9 @@ const ContentsArea = () => {
       setContentsInfoLists([]);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []); // 빈 의존성 배열
-
   return (
     <div className="contents-area-root">
       {contentsInfoLists.length === 0 ? (
@@ -45,22 +41,24 @@ const ContentsArea = () => {
       ) : (
         <div className={'contents-area-list'}>
           {contentsInfoLists.map((list, index) => (
-            <div key={index} className={'contents-area-video-info-container'}>
-              <div className={'contents-area-video-info-container-info-wrapper'}>
-                <div className={'contents-area-video-info-list-container-title'}>
-                  {index === 0 ? 'Recent Uploads' : mockPropUsers[index - 1]}{' '}
+            <>
+              <div key={index} className={'contents-area-video-info-container'}>
+                <div className={'contents-area-video-info-container-info-wrapper'}>
+                  <div className={'contents-area-video-info-list-container-title'}>
+                    {index === 0 ? 'Recent Uploads' : mockPropUsers[index - 1]}{' '}
+                  </div>
+                  <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
                 </div>
-                <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
+                <div className={'video-info-list-container'}>
+                  <VideoInfoList videoList={list} />
+                </div>
               </div>
-              <div className={'video-info-list-container'}>
-                <VideoInfoList videoList={list} />
-              </div>
-            </div>
+              <hr className={'hr'} />
+            </>
           ))}
         </div>
       )}
     </div>
   );
 };
-
 export default ContentsArea;

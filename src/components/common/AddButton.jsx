@@ -11,9 +11,9 @@ const AddButton = props => {
   };
 
   return (
-    <div className={'add-button-root'}>
+    <div className={'add-button-root'} onClick={onAddButtonClick}>
       <div className={'add-button-container'}>
-        <AddButtonSvg className={'add-button-content'} onClick={onAddButtonClick} />
+        <AddButtonSvg className={'add-button-content'} />
       </div>
     </div>
   );
@@ -21,5 +21,7 @@ const AddButton = props => {
 
 export default AddButton;
 AddButton.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
 };

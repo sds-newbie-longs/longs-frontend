@@ -1,0 +1,34 @@
+
+.main-page{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.left-side-bar{
+
+}
+
+.mid-side-bar{
+  display: flex;
+  width: calc(100% - (244px + 275px));
+  flex-direction: column;
+  background-color:#F6F6FA;
+
+  .header{
+    margin: 16px 16px 42px 16px;
+  }
+  .video-list{
+    height: 100%;
+    overflow: scroll;
+  }
+  .video-list::-webkit-scrollbar{
+    display:none;
+  }
+}
+
+.right-side-bar{
+  width: 275px;
+}
