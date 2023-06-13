@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import ContentAreaApiModule from 'utils/ContentAreaApiModule';
 import 'styles/ContentsArea.scss';
 import { ReactComponent as NoContentImg } from 'assets/noContents.svg';
-import VideoInfoList from 'components/VideoInfoList';
+import VideoInfoList from './VideoInfoList';
 const ContentsArea = () => {
   const mockPropGroup = 'Knox SRE';
   const mockPropUsers = ['Silence', 'din'];
   const [contentsInfoLists, setContentsInfoLists] = useState([]);
-
   const contentAreaApiModule = new ContentAreaApiModule();
   const fetchData = async () => {
     try {
@@ -20,7 +19,6 @@ const ContentsArea = () => {
         userVideoList = [...userVideoList, userVideos];
       }
       const contentsLists = [firstList, ...userVideoList];
-
       if (contentsLists.every(list => list.length === 0)) {
         setContentsInfoLists([]);
       } else {
@@ -31,11 +29,9 @@ const ContentsArea = () => {
       setContentsInfoLists([]);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []); // 빈 의존성 배열
-
   return (
     <div className="contents-area-root">
       {contentsInfoLists.length === 0 ? (
@@ -62,5 +58,4 @@ const ContentsArea = () => {
     </div>
   );
 };
-
 export default ContentsArea;

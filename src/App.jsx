@@ -1,11 +1,9 @@
 import React from 'react';
+import MainPage from 'components/MainPage';
 import 'App.scss';
-import ArticleViewer from './components/ArticleViewer';
 
 function App() {
-  return (
-    <ArticleViewer title={'title'} description={'description'} owner={'owner'} viewCount={30} />
-  );
+  return <MainPage></MainPage>;
 }
 
 export default App;

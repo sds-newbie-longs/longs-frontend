@@ -1,10 +1,14 @@
 import React from 'react';
 import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
+import AddButton from './common/AddButton';
 
 const LeftSideBar = () => {
   const handleOnRemoveClick = () => {
     console.log('제거 클릭');
+  };
+  const handleGroupAddClick = () => {
+    console.log('추가 클릭');
   };
   return (
     <div className={'left-side-bar-root'}>
@@ -28,7 +32,8 @@ const LeftSideBar = () => {
           handleOnRemoveClick={handleOnRemoveClick}
         />
       </div>
-      <div className={'group-add-button'}></div>
+
+      <AddButton width={40} height={40} handleClick={handleGroupAddClick} />
     </div>
   );
 };

@@ -22,5 +22,4 @@ const VideoInfoList = ({ videoList }) => {
     </div>
   );
 };
-
 export default VideoInfoList;
