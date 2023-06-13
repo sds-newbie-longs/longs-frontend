@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import VideoInfo from 'components/VideoInfo';
-import 'styles/VideoInfo.scss';
+import 'styles/VideoInfoList.scss';
 const VideoInfoList = ({ videoList }) => {
   VideoInfoList.propTypes = {
     videoList: PropTypes.arrayOf(
@@ -22,5 +22,4 @@ const VideoInfoList = ({ videoList }) => {
     </div>
   );
 };
-
 export default VideoInfoList;
