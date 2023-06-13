@@ -4,7 +4,7 @@ import 'styles/AddButton.scss';
 import PropTypes from 'prop-types';
 
 const AddButton = props => {
-  const { width, height, handleClick } = props;
+  const { handleClick } = props;
 
   const onAddButtonClick = evt => {
     handleClick(evt);
@@ -12,8 +12,8 @@ const AddButton = props => {
 
   return (
     <div className={'add-button-root'}>
-      <div className={'add-button-container'} onClick={onAddButtonClick}>
-        <AddButtonSvg width={width} height={height} className={'add-button-content'} />
+      <div className={'add-button-container'}>
+        <AddButtonSvg className={'add-button-content'} onClick={onAddButtonClick} />
       </div>
     </div>
   );
