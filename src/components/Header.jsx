@@ -2,10 +2,15 @@ import React from 'react';
 import 'styles/Header.scss';
 import SearchField from './common/SearchField';
 import AddButton from './common/AddButton';
+import { useNavigate } from 'react-router';
 const Header = () => {
-  const handleOnSubmit = () => {};
+  const navigate = useNavigate();
   const handleonSearchClick = () => {
     console.log('검색 클릭');
+  };
+  const handleOnUploadClick = () => {
+    navigate('/upload');
+    console.log('업로드 클릭');
   };
   return (
     <div className="app-header">
@@ -13,11 +18,11 @@ const Header = () => {
         <SearchField
           isBordered={true}
           placeholder={'Search Videos'}
-          handleOnSubmit={handleOnSubmit}
+          handleOnSubmit={handleonSearchClick}
         />
       </div>
       <div className="app-header-add-content-button-wrapper">
-        <AddButton width={30} height={30} handleClick={handleonSearchClick} />
+        <AddButton width={30} height={30} handleClick={handleOnUploadClick} />
       </div>
     </div>
   );

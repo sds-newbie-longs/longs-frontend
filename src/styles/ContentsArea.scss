@@ -18,17 +18,24 @@
     width: calc(100% - 16px);
     margin-left: 8px;
     margin-right: 8px;
+
     .contents-area-video-info{
+      &-list-container-title{
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
       &-container{
         display: flex;
         flex-direction: column;
         width: 100%;
+        margin: 16px 0;
         &-info-wrapper{
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           width: 100%;
         }
+
         //얘는 임시임
         .video-info-list-container{
           display: flex;
@@ -38,7 +45,9 @@
         }
       }
     }
-
+    .hr{
+      border:solid 1px #CCCCCC ;
+      width: 100%;
+    }
   }
-
 }

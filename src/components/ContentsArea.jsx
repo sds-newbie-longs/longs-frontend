@@ -41,17 +41,20 @@ const ContentsArea = () => {
       ) : (
         <div className={'contents-area-list'}>
           {contentsInfoLists.map((list, index) => (
-            <div key={index} className={'contents-area-video-info-container'}>
-              <div className={'contents-area-video-info-container-info-wrapper'}>
-                <div className={'contents-area-video-info-list-container-title'}>
-                  {index === 0 ? 'Recent Uploads' : mockPropUsers[index - 1]}{' '}
+            <>
+              <div key={index} className={'contents-area-video-info-container'}>
+                <div className={'contents-area-video-info-container-info-wrapper'}>
+                  <div className={'contents-area-video-info-list-container-title'}>
+                    {index === 0 ? 'Recent Uploads' : mockPropUsers[index - 1]}{' '}
+                  </div>
+                  <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
                 </div>
-                <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
+                <div className={'video-info-list-container'}>
+                  <VideoInfoList videoList={list} />
+                </div>
               </div>
-              <div className={'video-info-list-container'}>
-                <VideoInfoList videoList={list} />
-              </div>
-            </div>
+              <hr className={'hr'} />
+            </>
           ))}
         </div>
       )}
