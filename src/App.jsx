@@ -6,6 +6,10 @@ import Login from 'components/Login';
 import ArticleViewer from 'components/ArticleViewer';
 import Upload from 'components/upload';
 
+import Login from 'components/Login';
+// import Upload from 'components/Upload';
+// import Dropzone from 'components/Dropzone';
+
 function App() {
   return (
     <BrowserRouter>

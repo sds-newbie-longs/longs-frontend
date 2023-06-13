@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import 'styles/upload.scss';
+import 'styles/Upload.scss';
+import Dropzone from 'components/Dropzone';
 import CloseBtn from 'assets/CloseBtn.png';
-import AddBtn from 'assets/AddBtn.png';
 
-const upload = () => {
-  // Initialize once (at the start of your app).
+const Upload = () => {
+  const [isUpload, setIsUpload] = useState(false);
+  const [title, setTitle] = useState('');
+  const [description, setDesscription] = useState('');
 
-  const onclick = () => {
-    console.log(`click...`);
+  const TitleChange = e => {
+    setTitle(e.target.value);
+  };
+
+  const DescriptionChange = e => {
+    setDesscription(e.target.value);
+  };
+
+  const ClickForUpload = e => {
+    // call api later...
+    setTitle('');
+    setDesscription('');
+    setIsUpload(false);
+  };
+
+  const buttonClassName = e => {
+    if (isUpload && title.length > 0) {
+      return 'button-click';
+    }
+    return 'button-nor';
   };
 
   return (
@@ -16,13 +36,7 @@ const upload = () => {
       <div className={'upload-container'}>
         <img className={'close-button'} src={CloseBtn} />
         <p className={'upload-ment'}>Upload Files</p>
-        <div className={'drop-container'}>
-          <div className={'drop-box'}>
-            <p className={'drop-ment1'}>Drop your video here !</p>
-            <p className={'drop-ment2'}>or click</p>
-            <img className={'drop-add'} src={AddBtn} onClick={onclick} />
-          </div>
-        </div>
+        <Dropzone setIsUpload={setIsUpload} />
         <div className={'text-container'}>
           <div className={'text-group'}>
             <p className={'group-ment1'}>Group</p>
@@ -30,15 +44,19 @@ const upload = () => {
           </div>
           <div className={'text-title'}>
             <p>Title</p>
-            <input type="text" placeholder="Text Title"></input>
+            <input type="text" placeholder="Text Title" value={title} onChange={TitleChange} />
           </div>
           <div className={'text-description'}>
             <p>Description</p>
-            <textarea placeholder="Text Description"></textarea>
+            <textarea
+              placeholder="Text Description"
+              value={description}
+              onChange={DescriptionChange}
+            ></textarea>
           </div>
         </div>
         <div className={'submit-container'}>
-          <button className={'upload-btn'} type="submit">
+          <button className={buttonClassName()} type="submit" onClick={ClickForUpload}>
             Upload File
           </button>
           <p>or</p>
@@ -49,4 +67,4 @@ const upload = () => {
   );
 };
 
-export default upload;
+export default Upload;

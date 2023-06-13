@@ -1,22 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import 'styles/login.scss';
+import 'styles/Login.scss';
 import Logo from 'assets/Logo.png';
 
 const Login = () => {
-  const loginHandler = () => {
-    console.log('click..');
+  const [id, setId] = useState('');
+
+  const onChange = e => {
+    setId(e.target.value);
+  };
+
+  const onClick = () => {
+    setId('');
+  };
+
+  const buttonClassName = e => {
+    if (id.length > 0) {
+      return 'button-click';
+    }
+    return 'button-nor';
   };
 
   return (
-    <div className="login">
-      <div className="login-container">
+    <div className={'login-root'}>
+      <div className={'login-container'}>
         <img src={Logo} />
         <p>우리를 위한 공유 플랫폼 롱스</p>
-        <input type="text" placeholder="Insert ID" />
-        <button type="submit" onClick={loginHandler}>
-          {' '}
-          Login{' '}
+        <input type="text" placeholder="Insert ID" value={id} onChange={onChange} />
+        <button className={buttonClassName()} type="submit" onClick={onClick}>
+          Login
         </button>
       </div>
     </div>
