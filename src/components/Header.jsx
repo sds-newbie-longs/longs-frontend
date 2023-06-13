@@ -2,9 +2,10 @@ import React from 'react';
 import 'styles/Header.scss';
 import SearchField from './common/SearchField';
 import AddButton from './common/AddButton';
+
 const Header = () => {
   const handleOnSubmit = () => {};
-  const handleonSearchClick = () => {
+  const handleOnSearchClick = () => {
     console.log('검색 클릭');
   };
   return (
@@ -17,7 +18,7 @@ const Header = () => {
         />
       </div>
       <div className="app-header-add-content-button-wrapper">
-        <AddButton width={30} height={30} handleClick={handleonSearchClick} />
+        <AddButton handleClick={handleOnSearchClick} />
       </div>
     </div>
   );

@@ -1,27 +1,31 @@
-.left-side-bar-root{
+.left-side-bar-root {
   width: 244px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  .main-logo{
-    background-image: url("../assets/MainLogo.svg");
+  .main-logo {
+    background-image: url('../assets/MainLogo.svg');
     width: 125px;
     height: 85px;
     margin: 56px 50px 56px 50px;
     cursor: pointer;
   }
 
-  .group-list{
+  .group-list {
     height: calc(100% - 321px);
     display: flex;
     flex-direction: column;
   }
 
-
-  .group-add-button{
+  .group-add-button {
     margin-bottom: 84px;
     cursor: pointer;
+  }
+
+  .add-button-root {
+    width: 40px;
+    height: 40px;
   }
 }

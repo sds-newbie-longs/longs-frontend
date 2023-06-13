@@ -1,14 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const SvgIcRoundAdd = props => {
-  const { width, height } = props;
-
+const SvgIcRoundAdd = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
+      width="100%"
+      height="100%"
       fill="none"
       viewBox="0 0 36 36"
     >
@@ -20,8 +17,3 @@ const SvgIcRoundAdd = props => {
   );
 };
 export default SvgIcRoundAdd;
-
-SvgIcRoundAdd.propTypes = {
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-};
