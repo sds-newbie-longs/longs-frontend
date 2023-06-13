@@ -1,5 +1,6 @@
 import React from 'react';
-import './App.scss';
+import 'App.scss';
+import ArticleViewer from './components/ArticleViewer';
 
 import Login from 'components/Login';
 // import Upload from 'components/Upload';
@@ -7,10 +8,7 @@ import Login from 'components/Login';
 
 function App() {
   return (
-    <div>
-      <Login />
-      {/* <Upload /> */}
-    </div>
+    <ArticleViewer title={'title'} description={'description'} owner={'owner'} viewCount={30} />
   );
 }
 

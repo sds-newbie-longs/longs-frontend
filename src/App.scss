@@ -1,5 +1,11 @@
-.App {
-  text-align: center;
+* {
+  font-family: 'Noto Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0 auto;
 }
 
 .App-logo {
@@ -35,4 +41,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+* {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+html,body,#root {
+  width: 100%;
+  height: 100%;
 }
