@@ -1,0 +1,16 @@
+.member-info-root {
+  width: 100%;
+  margin-bottom: 8px;
+
+  .member-info-container {
+    display: flex;
+    align-items: center;
+
+    .member-info-profile {
+    }
+
+    .member-info-name {
+      padding-left: 8px;
+    }
+  }
+}

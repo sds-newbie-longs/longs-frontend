@@ -1,0 +1,53 @@
+.contents-area{
+  &-root{
+    width: 100%;
+    height: 100%;
+
+    &-empty{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &-list{
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 16px);
+    margin-left: 8px;
+    margin-right: 8px;
+
+    .contents-area-video-info{
+      &-list-container-title{
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+      &-container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 16px 0;
+        &-info-wrapper{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 100%;
+        }
+
+        //얘는 임시임
+        .video-info-list-container{
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          gap: 5px;
+        }
+      }
+    }
+    .hr{
+      border:solid 1px #CCCCCC ;
+      width: 100%;
+    }
+  }
+}
