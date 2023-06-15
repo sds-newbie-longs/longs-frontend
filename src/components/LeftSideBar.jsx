@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import AxiosInstance from '../utils/axios/AxiosInstance';
 
 const LeftSideBar = props => {
-  const { handleSearchState } = props;
+  const { handleDisableSearchState } = props;
   const navigate = useNavigate();
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
@@ -17,7 +17,7 @@ const LeftSideBar = props => {
     setAddGroupBox(!addGroupBox);
   };
   const handleOnClickLogo = () => {
-    handleSearchState();
+    handleDisableSearchState();
     navigate('/');
   };
 
