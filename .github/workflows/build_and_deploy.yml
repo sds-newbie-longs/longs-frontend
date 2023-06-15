@@ -28,4 +28,4 @@ jobs:
           aws s3 cp \
             --recursive \
             --region ap-northeast-2 \
-            dist s3://longs.iamnew.net
+            build s3://longs.iamnew.net
