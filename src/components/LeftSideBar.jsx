@@ -1,10 +1,12 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
 import { useNavigate } from 'react-router';
 
-const LeftSideBar = () => {
+const LeftSideBar = props => {
+  const { handleSearchState } = props;
   const navigate = useNavigate();
   const handleOnRemoveClick = () => {
     console.log('제거 클릭');
@@ -13,6 +15,7 @@ const LeftSideBar = () => {
     console.log('추가 클릭');
   };
   const handleOnClickLogo = () => {
+    handleSearchState();
     navigate('/');
   };
   return (
