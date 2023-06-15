@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
@@ -6,15 +6,23 @@ import { useNavigate } from 'react-router';
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
+  const groupTextRef = useRef();
+  const [addGroupBox, setAddGroupBox] = useState(false);
   const handleOnRemoveClick = () => {
     console.log('제거 클릭');
   };
   const handleGroupAddClick = () => {
-    console.log('추가 클릭');
+    setAddGroupBox(!addGroupBox);
   };
   const handleOnClickLogo = () => {
     navigate('/');
   };
+
+  function handleOnClickAddGroupButton() {
+    console.log(groupTextRef.current.value + '라고 그룹 명 전송');
+    // 전송후 잘 되었다면?
+    // 전송후 실패 했다면?
+  }
   return (
     <div className={'left-side-bar-root'}>
       <div className={'main-logo'} onClick={handleOnClickLogo} />
@@ -37,7 +45,14 @@ const LeftSideBar = () => {
           handleOnRemoveClick={handleOnRemoveClick}
         />
       </div>
-
+      <div className={'add-group-box'}>
+        {addGroupBox ? (
+          <>
+            <input className={'add-group-box-input'} type="text" ref={groupTextRef} />
+            <div className={'add-group-box-button'} onClick={handleOnClickAddGroupButton} />
+          </>
+        ) : null}
+      </div>
       <AddButton width={40} height={40} handleClick={handleGroupAddClick} />
     </div>
   );
