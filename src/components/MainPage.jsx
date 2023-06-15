@@ -10,13 +10,19 @@ const MainPage = () => {
   const [isSearching, setIsSearching] = useState(false);
 
   const handleSearchState = useCallback(() => {
-    setIsSearching(prevState => !prevState);
+    if (!isSearching) {
+      setIsSearching(true);
+    }
+  });
+
+  const handleDisableSearchState = useCallback(() => {
+    setIsSearching(false);
   });
 
   return (
     <div className={'main-page'}>
       <div className={'left-side-bar'}>
-        <LeftSideBar handleSearchState={handleSearchState} />
+        <LeftSideBar handleDisableSearchState={handleDisableSearchState} />
       </div>
       <div className={'mid-side-bar'}>
         <div className={'header'}>
