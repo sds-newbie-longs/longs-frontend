@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'styles/Header.scss';
 import SearchField from 'components/common/SearchField';
 import AddButton from 'components/common/AddButton';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 const Header = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const navigate = useNavigate();
-  const handleonSearchClick = () => {
+
+  useEffect(() => {
+    navigate('/', { replace: true });
+  }, []);
+
+  const handleonSearchClick = data => {
     console.log('검색 클릭');
+    setSearchParams({ search: data });
+    console.log(searchParams);
   };
+
   const handleOnUploadClick = () => {
     navigate('/upload');
     console.log('업로드 클릭');
   };
+
   return (
     <div className="app-header">
       <div className="app-header-search-field-wrapper">
