@@ -1,21 +1,30 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SearchSvg from 'components/common/SearchSvg';
 import 'styles/SearchField.scss';
 
 const SearchField = props => {
   const { isBordered, placeholder, handleOnSubmit } = props;
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const inputRef = useRef();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    searchParams.delete('search');
+    navigate('/', { replace: true });
+  }, []);
 
   const getContainerClassName = useCallback(() => {
     if (isBordered) return 'search-field-container-bordered';
-    else return 'search-field-container-borderless';
+    return 'search-field-container-borderless';
   }, []);
 
   const onSubmit = useCallback(data => {
     if (data.length !== 0) {
       handleOnSubmit(data);
+      setSearchParams({ search: data });
       inputRef.current.value = '';
     }
   }, []);
