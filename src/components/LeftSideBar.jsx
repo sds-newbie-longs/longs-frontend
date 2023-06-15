@@ -3,6 +3,7 @@ import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
 import { useNavigate } from 'react-router';
+import AxiosInstance from '../utils/axios/AxiosInstance';
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
@@ -20,8 +21,15 @@ const LeftSideBar = () => {
 
   function handleOnClickAddGroupButton() {
     console.log(groupTextRef.current.value + '라고 그룹 명 전송');
-    // 전송후 잘 되었다면?
-    // 전송후 실패 했다면?
+    AxiosInstance.post('', { groupName: groupTextRef.current.value })
+      .then(response => {
+        console.log(response);
+        // 전송후 잘 되었다면?
+        // 전송후 실패 했다면?
+      })
+      .catch(response => {
+        console.log(response);
+      });
   }
   return (
     <div className={'left-side-bar-root'}>
