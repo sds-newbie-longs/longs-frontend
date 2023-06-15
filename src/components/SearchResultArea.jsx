@@ -1,5 +1,8 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { ReactComponent as NoContentImg } from 'assets/noContents.svg';
+
+import 'styles/SearchResultArea.scss';
 
 const SearchResultArea = props => {
   const mockData = [
@@ -39,18 +42,26 @@ const SearchResultArea = props => {
   // 향후 query 결과 반영
   const searchResultList = mockData.filter(data => data.title.toLowerCase().includes(searchText));
 
+  if (searchResultList.length === 0) {
+    return (
+      <div className={'search-result-root-empty'}>
+        <NoContentImg />
+        <p>There are no results {searchText} including. </p>
+      </div>
+    );
+  }
   return (
     <div className={'search-result-root'}>
       {searchResultList.map(data => (
         <p className={'search-result-item'} key={data.id}>
-          <span className={'search-result-thumbnail'} />
-          <span className={'search-result-title'}> {data.title} </span>
-          <span className={'search-result-owner'}> {data.owner} </span>
-          <span className={'search-result-description'}> {data.description} </span>
+          <img className={'search-result-thumbnail'} src={data.thumbnail_url} />
+          <div className={'search-result-info'}>
+            <div className={'search-result-title'}> {data.title} </div>
+            <div className={'search-result-owner'}> {data.owner} </div>
+            <div className={'search-result-description'}> {data.description} </div>
+          </div>
         </p>
       ))}
-      <br />
-      {searchParams.get('search')}
     </div>
   );
 };
