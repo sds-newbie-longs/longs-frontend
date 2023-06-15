@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import 'styles/Header.scss';
 import SearchField from 'components/common/SearchField';
 import AddButton from 'components/common/AddButton';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-const Header = () => {
+const Header = props => {
+  const { handleOnSubmit } = props;
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    navigate('/', { replace: true });
-  }, []);
-
   const handleonSearchClick = data => {
     console.log('검색 클릭');
     setSearchParams({ search: data });
+    handleOnSubmit();
     console.log(searchParams);
   };
 
