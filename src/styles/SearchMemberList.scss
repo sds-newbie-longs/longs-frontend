@@ -1,0 +1,12 @@
+.search-member-list-root {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 4px;
+  background-color: #f6f7fa;
+  margin-top: 8px;
+
+  .search0member-list-item-wrapper:hover {
+    border: 1px solid #729f65;
+  }
+}

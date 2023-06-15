@@ -20,7 +20,11 @@ const MainPage = () => {
         </div>
       </div>
       <div className={'right-side-bar'}>
-        <MemberSideBar></MemberSideBar>
+        <MemberSideBar
+          memberList={[
+            { id: sessionStorage.getItem('id'), name: sessionStorage.getItem('username') },
+          ]}
+        ></MemberSideBar>
       </div>
     </div>
   );
