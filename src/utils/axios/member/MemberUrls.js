@@ -2,8 +2,8 @@ const Urls = {
   GET: '/get url',
   SEARCH: '/searchurl',
   INVITE: '/inviteurl',
-  ID: '/idurl',
-  SIGN_IN: '/signin',
+  ID: '/members/info',
+  SIGN_IN: '/members/login',
 };
 Object.freeze(Urls);
 
