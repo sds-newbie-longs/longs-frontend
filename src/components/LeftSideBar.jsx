@@ -63,7 +63,7 @@ const LeftSideBar = props => {
           </>
         ) : null}
       </div>
-      <AddButton width={40} height={40} handleClick={handleGroupAddClick} />
+      <AddButton handleClick={handleGroupAddClick} />
     </div>
   );
 };
