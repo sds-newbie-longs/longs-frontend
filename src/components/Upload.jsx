@@ -1,13 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import 'styles/Upload.scss';
 import Dropzone from 'components/Dropzone';
 import CloseBtn from 'assets/CloseBtn.png';
+import Tasks from 'utils/axios/member/AxiosMemberTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
-const Upload = () => {
+const Upload = props => {
+  const navigator = useNavigate();
   const [isUpload, setIsUpload] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDesscription] = useState('');
+  const [groupId, setGroupId] = useState(0);
+  const [groupName, setGroupName] = useState('');
+
+  const { state } = useLocation();
+
+  useEffect(() => {
+    if (state === null) {
+      navigator('/');
+    } else {
+      setGroupId(state.groupId);
+      setGroupName(state.groupName);
+    }
+    Tasks.getMemberIdPromise().then(res => {
+      const code = res.data.code;
+      if (code === BusinessCode.INFO_SUCCESS) {
+        sessionStorage.setItem('username', res.data.username);
+        sessionStorage.setItem('id', res.data.id);
+      }
+      if (sessionStorage.getItem('id') === null) {
+        navigator('/login');
+      }
+    });
+  }, []);
 
   const TitleChange = e => {
     setTitle(e.target.value);
@@ -40,7 +68,9 @@ const Upload = () => {
         <div className={'text-container'}>
           <div className={'text-group'}>
             <p className={'group-ment1'}>Group</p>
-            <p className={'group-ment2'}>knox SRE</p>
+            <p className={'group-ment2'}>
+              {groupName}:{groupId}
+            </p>
           </div>
           <div className={'text-title'}>
             <p>Title</p>

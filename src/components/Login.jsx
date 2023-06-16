@@ -18,7 +18,7 @@ const Login = () => {
     Tasks.getSignInPromise(username).then(res => {
       const code = res.data.code;
       if (code === BusinessCode.LOGIN_SUCCESS) {
-        Tasks.getMemberIdPromise(username).then(res => {
+        Tasks.getMemberIdPromise().then(res => {
           const data = res.data;
           sessionStorage.setItem('username', data.username);
           sessionStorage.setItem('id', data.id);

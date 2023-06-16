@@ -6,16 +6,26 @@ import MemberSideBar from 'components/MemberSideBar';
 import ContentsArea from 'components/ContentsArea';
 import SearchResultArea from 'components/SearchResultArea';
 import { useNavigate } from 'react-router';
+import Tasks from 'utils/axios/member/AxiosMemberTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
 
 const MainPage = () => {
   const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem('id') === null) {
-      navigator('/login');
-    }
+    Tasks.getMemberIdPromise().then(res => {
+      const code = res.data.code;
+      if (code === BusinessCode.INFO_SUCCESS) {
+        sessionStorage.setItem('username', res.data.username);
+        sessionStorage.setItem('id', res.data.id);
+      }
+      if (sessionStorage.getItem('id') === null) {
+        navigator('/login');
+      }
+    });
   }, []);
+
   const handleSearchState = useCallback(() => {
     if (!isSearching) {
       setIsSearching(true);
