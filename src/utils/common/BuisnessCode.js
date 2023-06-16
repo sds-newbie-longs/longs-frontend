@@ -1,6 +1,6 @@
 const BusinessCode = {
-  LOGIN_SUCCESS: 'M001',
-  LOGIN_FAILED: 'M002',
+  LOGIN_SUCCESS: 'L001',
+  LOGIN_FAILED: 'L002',
 };
 
 Object.freeze(BusinessCode);

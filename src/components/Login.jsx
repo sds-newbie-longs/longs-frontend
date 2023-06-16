@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import 'styles/Login.scss';
 import Logo from 'assets/MainLogo.svg';
 import { useNavigate } from 'react-router';
+import Tasks from 'utils/axios/member/AxiosMemberTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -13,21 +15,17 @@ const Login = () => {
   };
 
   const onClick = () => {
-    // todo: 서버 api 공유 되면 대체
-    /* Tasks.getSignInPromise(username).then(res => {
+    Tasks.getSignInPromise(username).then(res => {
       const code = res.data.code;
       if (code === BusinessCode.LOGIN_SUCCESS) {
         Tasks.getMemberIdPromise(username).then(res => {
-          const id = res.data;
+          const data = res.data;
+          sessionStorage.setItem('username', data.username);
+          sessionStorage.setItem('id', data.id);
           navigate('/');
-          sessionStorage.setItem('username', username);
-          sessionStorage.setItem('id', id);
         });
       }
-    }); */
-    sessionStorage.setItem('username', username);
-    sessionStorage.setItem('id', 1);
-    navigate('/');
+    });
   };
 
   const buttonClassName = e => {

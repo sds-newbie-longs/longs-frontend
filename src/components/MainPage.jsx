@@ -1,14 +1,21 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import LeftSideBar from 'components/LeftSideBar';
 import Header from 'components/Header';
 import 'styles/MainPage.scss';
 import MemberSideBar from 'components/MemberSideBar';
 import ContentsArea from 'components/ContentsArea';
 import SearchResultArea from './SearchResultArea';
+import { useNavigate } from 'react-router';
 
 const MainPage = () => {
+  const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
 
+  useEffect(() => {
+    if (sessionStorage.getItem('id') === null) {
+      navigator('/login');
+    }
+  }, []);
   const handleSearchState = useCallback(() => {
     if (!isSearching) {
       setIsSearching(true);
