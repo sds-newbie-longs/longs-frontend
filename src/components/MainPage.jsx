@@ -4,7 +4,7 @@ import Header from 'components/Header';
 import 'styles/MainPage.scss';
 import MemberSideBar from 'components/MemberSideBar';
 import ContentsArea from 'components/ContentsArea';
-import SearchResultArea from './SearchResultArea';
+import SearchResultArea from 'components/SearchResultArea';
 import { useNavigate } from 'react-router';
 
 const MainPage = () => {
