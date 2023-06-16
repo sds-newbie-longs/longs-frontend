@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import 'styles/Dropzone.scss';
+import AddButton from './common/AddButton';
 
 const Dropzone = props => {
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
@@ -28,7 +29,9 @@ const Dropzone = props => {
         <input className={'drop-container-input'} {...getInputProps()} />
         <p className={'drop-ment1'}>Drop your video here !</p>
         <p className={'drop-ment2'}>or click</p>
-        <button type="button" onClick={open} />
+        <div className={'drop-add-button-wrapper'}>
+          <AddButton handleClick={open} />
+        </div>
       </div>
     </div>
   );
