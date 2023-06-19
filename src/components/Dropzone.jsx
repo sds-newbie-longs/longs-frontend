@@ -3,16 +3,37 @@ import { useDropzone } from 'react-dropzone';
 import 'styles/Dropzone.scss';
 import AddButton from 'components/common/AddButton';
 import PropTypes from 'prop-types';
-import { encode } from 'utils/video/VideoEncoder';
+// import { encode } from 'utils/video/VideoEncoder';
+import TusUploader from 'utils/video/TusUploader';
 
 const Dropzone = props => {
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
+    const endpoint = 'http://127.0.0.1:3000/upload';
     const reader = new FileReader();
 
     reader.readAsArrayBuffer(file);
     reader.onloadend = evt => {
-      encode(file.name, evt.target.result);
+      // encode(file.name, evt.target.result);
+    };
+    reader.onload = () => {
+      const uploader = TusUploader(file, endpoint, {
+        filename: file.name,
+        filetype: file.type,
+      });
+
+      const onProgress = () => {
+        console.log(`progress...`);
+      };
+
+      const onSuccess = () => {
+        console.log(`success....`);
+      };
+
+      const onError = () => {};
+      console.log(`error.....`);
+
+      uploader.startUpload(onProgress, onSuccess, onError);
     };
   }, []);
 
