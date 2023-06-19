@@ -4,6 +4,7 @@ import 'styles/Header.scss';
 import SearchField from 'components/common/SearchField';
 import AddButton from 'components/common/AddButton';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+
 const Header = props => {
   const { handleOnSubmit } = props;
 
@@ -33,7 +34,7 @@ const Header = props => {
         />
       </div>
       <div className="app-header-add-content-button-wrapper">
-        <AddButton width={30} height={30} handleClick={handleOnUploadClick} />
+        <AddButton handleClick={handleOnUploadClick} />
       </div>
     </div>
   );

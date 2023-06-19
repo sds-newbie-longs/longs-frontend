@@ -1,14 +1,21 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import LeftSideBar from 'components/LeftSideBar';
 import Header from 'components/Header';
 import 'styles/MainPage.scss';
 import MemberSideBar from 'components/MemberSideBar';
 import ContentsArea from 'components/ContentsArea';
-import SearchResultArea from './SearchResultArea';
+import SearchResultArea from 'components/SearchResultArea';
+import { useNavigate } from 'react-router';
 
 const MainPage = () => {
+  const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
 
+  useEffect(() => {
+    if (sessionStorage.getItem('id') === null) {
+      navigator('/login');
+    }
+  }, []);
   const handleSearchState = useCallback(() => {
     if (!isSearching) {
       setIsSearching(true);
@@ -31,7 +38,11 @@ const MainPage = () => {
         <div className={'video-list'}>{isSearching ? <SearchResultArea /> : <ContentsArea />}</div>
       </div>
       <div className={'right-side-bar'}>
-        <MemberSideBar></MemberSideBar>
+        <MemberSideBar
+          memberList={[
+            { id: sessionStorage.getItem('id'), name: sessionStorage.getItem('username') },
+          ]}
+        ></MemberSideBar>
       </div>
     </div>
   );

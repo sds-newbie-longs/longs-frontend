@@ -21,7 +21,5 @@ const AddButton = props => {
 
 export default AddButton;
 AddButton.propTypes = {
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
 };
