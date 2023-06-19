@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'http://35.216.94.36:8080/',
+  baseURL: 'longs-api.iamnew.net/',
   // baseURL: 'http://localhost:8080/',
   timeout: 1000,
   headers: {

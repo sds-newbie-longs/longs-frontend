@@ -1,5 +1,5 @@
 const Urls = {
-  DELETE: '/delete url',
+  DELETE: '/boards',
 };
 Object.freeze(Urls);
 
