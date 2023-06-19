@@ -6,6 +6,8 @@ const BusinessCode = {
   INFO_FAILED: 'MI002',
   GROUP_SELECT_SUCCESS: 'CL001',
   GROUP_SELECT_FAILED: 'CL002',
+  GROUP_INSERT_SUCCESS: 'CC001',
+  GROUP_INSERT_FAILED: 'CC002',
 };
 
 Object.freeze(BusinessCode);
