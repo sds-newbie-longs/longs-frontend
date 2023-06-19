@@ -6,7 +6,7 @@ import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
 import Tasks from 'utils/axios/group/AxiosGroupTasks';
-import BusinessCode from '../utils/common/BuisnessCode';
+import BusinessCode from 'utils/common/BuisnessCode';
 
 const LeftSideBar = props => {
   const { handleDisableSearchState } = props;

@@ -12,7 +12,7 @@ const GroupButton = props => {
 
   return (
     <div
-      className={props.selected ? 'group-name-root-true' : 'group-name-root-false'}
+      className={selected ? 'group-name-root-true' : 'group-name-root-false'}
       onMouseEnter={() => setHover('1')}
       onMouseLeave={() => setHover('')}
     >
