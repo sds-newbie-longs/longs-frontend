@@ -1,7 +1,8 @@
 import { createFFmpeg } from '@ffmpeg/ffmpeg';
 
-let interval, ffmpeg, resultFileName, currentCodec, name, data, fileName, result;
-const chunkingThreshold = 314_572_800;
+let interval, ffmpeg, resultFileName, currentCodec, name, data, fileName;
+
+// const chunkingThreshold = 314_572_800;
 
 async function encodeVideo() {
   await ffmpeg.run('-i', name, '-c:v', 'libx264', '-c:a', 'copy', resultFileName);
@@ -61,12 +62,10 @@ self.onmessage = async evt => {
 
   clearInterval(interval);
   console.log('encode complete');
-  if (getFileSizeFromUint8Array(data) > chunkingThreshold) console.log(result);
-  else console.log(ffmpeg.FS('readFile', resultFileName));
 
   postMessage({
     type: 'done',
-    data: ffmpeg.FS('readFile', resultFileName),
+    data: currentCodec === 'h264' ? data : ffmpeg.FS('readFile', resultFileName),
   });
 };
 
@@ -88,7 +87,7 @@ const getFileName = file => {
 // 이 밑으로는 다음에
 // 대용량 파일을 청크 단위로 분할하여 처리하는 함수
 // eslint-disable-next-line no-unused-vars
-async function processLargeFile(fileData) {
+/* async function processLargeFile(fileData) {
   console.log('processing large file...');
   const CHUNK_SIZE = 4 * 1024 * 1024; // 청크 크기 (4MB)
 
@@ -110,7 +109,7 @@ async function processLargeFile(fileData) {
   }
 
   // 모든 청크가 처리된 후 파일 합치기
-  result = await mergeChunks(chunkPromises);
+  await mergeChunks(chunkPromises);
 }
 
 // 청크를 처리하는 함수 (ffmpeg.wasm 사용)
@@ -153,7 +152,7 @@ async function mergeChunks(chunkPromises) {
 // 파일의 크기를 확인하는 함수
 function getFileSizeFromUint8Array(array) {
   return array.byteLength;
-}
+} */
 
 function removeSpaces(str) {
   return str.replace(/\s/g, '');
