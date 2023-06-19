@@ -5,23 +5,25 @@ import Logo from 'assets/MainLogo.svg';
 import { useNavigate } from 'react-router';
 import Tasks from 'utils/axios/member/AxiosMemberTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
+import PropTypes from 'prop-types';
 
-const Login = () => {
+const Login = props => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
   const onChange = e => {
     setUsername(e.target.value);
   };
-
+  const setUesrInfo = data => {
+    props.handleOnUesrInfo({ userName: data.username, userId: data.id });
+  };
   const onClick = () => {
     Tasks.getSignInPromise(username).then(res => {
       const code = res.data.code;
       if (code === BusinessCode.LOGIN_SUCCESS) {
-        Tasks.getMemberIdPromise(username).then(res => {
+        Tasks.getMemberIdPromise().then(res => {
           const data = res.data;
-          sessionStorage.setItem('username', data.username);
-          sessionStorage.setItem('id', data.id);
+          setUesrInfo(data);
           navigate('/');
         });
       }
@@ -60,5 +62,7 @@ const Login = () => {
     </div>
   );
 };
-
+Login.propTypes = {
+  handleOnUesrInfo: PropTypes.func,
+};
 export default Login;

@@ -14,7 +14,7 @@ const Tasks = {
     return axios.post(Urls.INVITE, { id });
   },
 
-  getMemberIdPromise: username => {
+  getMemberIdPromise: () => {
     return axios.get(Urls.ID);
   },
 

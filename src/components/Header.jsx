@@ -20,7 +20,12 @@ const Header = props => {
   };
 
   const handleOnUploadClick = () => {
-    navigate('/upload');
+    navigate('/upload', {
+      state: {
+        groupId: 1,
+        groupName: 'Knox SER',
+      },
+    });
     console.log('업로드 클릭');
   };
 

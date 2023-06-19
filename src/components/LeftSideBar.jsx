@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
+import AxiosInstance from 'components/utils/axios/AxiosInstance';
+import PropTypes from 'prop-types';
 import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
-import { useNavigate } from 'react-router';
-import AxiosInstance from '../utils/axios/AxiosInstance';
-import PropTypes from 'prop-types';
 
 const LeftSideBar = props => {
   const { handleDisableSearchState } = props;
@@ -68,7 +68,8 @@ const LeftSideBar = props => {
     </div>
   );
 };
-LeftSideBar.propTypes = {
-  handleDisableSearchState: PropTypes.func,
-};
 export default LeftSideBar;
+
+LeftSideBar.propTypes = {
+  handleDisableSearchState: PropTypes.func.isRequired,
+};
