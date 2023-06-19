@@ -1,16 +1,27 @@
-/* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-
 import 'styles/Dropzone.scss';
-import AddButton from './common/AddButton';
+import AddButton from 'components/common/AddButton';
+import PropTypes from 'prop-types';
+import { encode } from 'utils/video/VideoEncoder';
 
 const Dropzone = props => {
+  const onDrop = useCallback(acceptedFiles => {
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
+
+    reader.readAsArrayBuffer(file);
+    reader.onloadend = evt => {
+      encode(file.name, evt.target.result);
+    };
+  }, []);
+
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     noClick: true,
     accept: {
-      'video/mp4': [],
+      'video/*': [],
     },
+    onDrop,
   });
   const files = acceptedFiles.map(file => <p key={file.path}>{file.path}</p>);
 
@@ -26,7 +37,7 @@ const Dropzone = props => {
   return (
     <div className={'drop-container-empty'}>
       <div {...getRootProps({ className: 'dropzone' })}>
-        <input className={'drop-container-input'} {...getInputProps()} />
+        <input className={'drop-container-input'} {...getInputProps()} type={'file'} />
         <p className={'drop-ment1'}>Drop your video here !</p>
         <p className={'drop-ment2'}>or click</p>
         <div className={'drop-add-button-wrapper'}>
@@ -36,5 +47,8 @@ const Dropzone = props => {
     </div>
   );
 };
-
 export default Dropzone;
+
+Dropzone.propTypes = {
+  setIsUpload: PropTypes.func,
+};
