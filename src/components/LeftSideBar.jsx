@@ -53,6 +53,7 @@ const LeftSideBar = props => {
         setGroupList(groupList => [...groupList, e]);
       }
     });
+    // 여기서 그룹과 동영상이 나오게 하기
   };
 
   function handleOnClickAddGroupButton() {
@@ -72,16 +73,18 @@ const LeftSideBar = props => {
       <div className={'main-logo'} onClick={handleOnClickLogo} />
 
       <div className={'group-list'}>
-        {groupList.map(evt => (
-          <GroupButton
-            key={evt.channelId}
-            groupKey={evt.channelId}
-            groupName={evt.name}
-            selected={evt.select}
-            handleOnSelectClick={handleOnSelectClick}
-            handleOnRemoveClick={handleOnRemoveClick}
-          ></GroupButton>
-        ))}
+        {groupList.length === 0
+          ? null
+          : groupList.map(evt => (
+              <GroupButton
+                key={evt.channelId}
+                groupKey={evt.channelId}
+                groupName={evt.name}
+                selected={evt.select}
+                handleOnSelectClick={handleOnSelectClick}
+                handleOnRemoveClick={handleOnRemoveClick}
+              ></GroupButton>
+            ))}
       </div>
       <div className={'add-group-box'}>
         {addGroupBox ? (
