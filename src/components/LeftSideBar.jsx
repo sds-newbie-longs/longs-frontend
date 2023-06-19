@@ -1,16 +1,37 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import AxiosInstance from 'components/utils/axios/AxiosInstance';
+import AxiosInstance from 'utils/axios/AxiosInstance';
 import PropTypes from 'prop-types';
 import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
+import Tasks from 'utils/axios/group/AxiosGroupTasks';
+import BusinessCode from '../utils/common/BuisnessCode';
 
 const LeftSideBar = props => {
   const { handleDisableSearchState } = props;
   const navigate = useNavigate();
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
+  const [groupList, setGroupList] = useState([]);
+
+  useEffect(e => {
+    Tasks.getSelectGroupsPriomise().then(res => {
+      setGroupList([]);
+      const code = res.data.code;
+      if (code === BusinessCode.GROUP_SELECT_SUCCESS) {
+        res.data.channelList.forEach((e, index) => {
+          if (index === 0) {
+            e.select = true;
+          } else {
+            e.select = false;
+          }
+          setGroupList(groupList => [...groupList, e]);
+        });
+      }
+    });
+  }, []);
+
   const handleOnRemoveClick = () => {
     console.log('제거 클릭');
   };
@@ -20,6 +41,18 @@ const LeftSideBar = props => {
   const handleOnClickLogo = () => {
     handleDisableSearchState();
     navigate('/');
+  };
+  const handleOnSelectClick = evt => {
+    setGroupList([]);
+    groupList.forEach(e => {
+      if (evt === e.channelId) {
+        e.select = true;
+        setGroupList(groupList => [...groupList, e]);
+      } else {
+        e.select = false;
+        setGroupList(groupList => [...groupList, e]);
+      }
+    });
   };
 
   function handleOnClickAddGroupButton() {
@@ -39,22 +72,16 @@ const LeftSideBar = props => {
       <div className={'main-logo'} onClick={handleOnClickLogo} />
 
       <div className={'group-list'}>
-        {/*  임시 사용 버튼 */}
-        <GroupButton
-          groupName={'Knox SRE'}
-          selected={true}
-          handleOnRemoveClick={handleOnRemoveClick}
-        />
-        <GroupButton
-          groupName={'Knox Common'}
-          selected={false}
-          handleOnRemoveClick={handleOnRemoveClick}
-        />
-        <GroupButton
-          groupName={'Knox Portal'}
-          selected={false}
-          handleOnRemoveClick={handleOnRemoveClick}
-        />
+        {groupList.map(evt => (
+          <GroupButton
+            key={evt.channelId}
+            groupKey={evt.channelId}
+            groupName={evt.name}
+            selected={evt.select}
+            handleOnSelectClick={handleOnSelectClick}
+            handleOnRemoveClick={handleOnRemoveClick}
+          ></GroupButton>
+        ))}
       </div>
       <div className={'add-group-box'}>
         {addGroupBox ? (
