@@ -9,7 +9,7 @@ import TusUploader from 'utils/video/TusUploader';
 const Dropzone = props => {
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
-    const endpoint = 'http://127.0.0.1:3000/upload';
+    const endpoint = 'http://longs-api.iamnew.net/video/upload';
     const reader = new FileReader();
 
     reader.readAsArrayBuffer(file);
@@ -22,18 +22,7 @@ const Dropzone = props => {
         filetype: file.type,
       });
 
-      const onProgress = () => {
-        console.log(`progress...`);
-      };
-
-      const onSuccess = () => {
-        console.log(`success....`);
-      };
-
-      const onError = () => {};
-      console.log(`error.....`);
-
-      uploader.startUpload(onProgress, onSuccess, onError);
+      uploader.startUpload();
     };
   }, []);
 

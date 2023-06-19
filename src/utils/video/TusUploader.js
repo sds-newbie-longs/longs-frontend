@@ -1,18 +1,15 @@
-import { Upload } from 'tus-js-client';
+import * as tus from 'tus-js-client';
 
 const TusUploader = (file, endpoint, metadata) => {
   let upload = null;
 
-  const startUpload = (onProgress, onSuccess, onError) => {
-    const options = {
+  const startUpload = () => {
+    upload = new tus.Upload(file, {
       endpoint,
       metadata,
-      onError,
-      onProgress,
-      onSuccess,
-    };
-    upload = new Upload(file, options);
+    });
     upload.start();
+    console.log(`started....`);
   };
 
   const pauseUpload = () => {
