@@ -9,7 +9,7 @@ import TusUploader from 'utils/video/TusUploader';
 const Dropzone = props => {
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
-    const endpoint = 'http://longs-api.iamnew.net/video/upload';
+    const endpoint = 'http://dev.rainmaker.cool/video/upload';
     const reader = new FileReader();
 
     reader.readAsArrayBuffer(file);
