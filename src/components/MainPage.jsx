@@ -21,6 +21,7 @@ const MainPage = props => {
     Tasks.getMemberIdPromise()
       .then(res => {
         const data = res.data;
+        console.log(data);
         setUesrInfo(data);
       })
       .catch(res => {
