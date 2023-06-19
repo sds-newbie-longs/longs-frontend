@@ -4,9 +4,9 @@ import 'styles/Upload.scss';
 import Dropzone from 'components/Dropzone';
 import CloseBtn from 'assets/CloseBtn.png';
 import Tasks from 'utils/axios/member/AxiosMemberTasks';
-import BusinessCode from 'utils/common/BuisnessCode';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router';
+import PropTypes from 'prop-types';
 
 const Upload = props => {
   const navigator = useNavigate();
@@ -18,6 +18,10 @@ const Upload = props => {
 
   const { state } = useLocation();
 
+  const setUesrInfo = data => {
+    props.handleOnUesrInfo({ userName: data.username, userId: data.id });
+  };
+
   useEffect(() => {
     if (state === null) {
       navigator('/');
@@ -25,16 +29,16 @@ const Upload = props => {
       setGroupId(state.groupId);
       setGroupName(state.groupName);
     }
-    Tasks.getMemberIdPromise().then(res => {
-      const code = res.data.code;
-      if (code === BusinessCode.INFO_SUCCESS) {
-        sessionStorage.setItem('username', res.data.username);
-        sessionStorage.setItem('id', res.data.id);
-      }
-      if (sessionStorage.getItem('id') === null) {
+
+    Tasks.getMemberIdPromise()
+      .then(res => {
+        const data = res.data;
+        console.log(data);
+        setUesrInfo(data);
+      })
+      .catch(res => {
         navigator('/login');
-      }
-    });
+      });
   }, []);
 
   const TitleChange = e => {
@@ -96,5 +100,7 @@ const Upload = props => {
     </div>
   );
 };
-
+Upload.propTypes = {
+  handleOnUesrInfo: PropTypes.func,
+};
 export default Upload;
