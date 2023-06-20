@@ -3,7 +3,7 @@ import { Upload } from 'tus-js-client';
 const TusUploader = (file, endpoint, metadata) => {
   let upload = null;
 
-  const startUpload = (onProgress, onSuccess, onError, onBeforeRequest) => {
+  const startUpload = (onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse) => {
     const options = {
       endpoint,
       metadata,
@@ -11,6 +11,7 @@ const TusUploader = (file, endpoint, metadata) => {
       onProgress,
       onSuccess,
       onBeforeRequest,
+      onAfterResponse,
     };
     upload = new Upload(file, options);
     upload.start();
