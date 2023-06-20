@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import AxiosInstance from 'utils/axios/AxiosInstance';
 import PropTypes from 'prop-types';
 import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
@@ -14,14 +13,18 @@ const LeftSideBar = props => {
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
   const [groupList, setGroupList] = useState([]);
+  const [groupListSelected, setgGoupListSelected] = useState(0);
 
   useEffect(e => {
-    Tasks.getSelectGroupsPriomise().then(res => {
+    getGroupList();
+  }, []);
+  const getGroupList = () => {
+    Tasks.getSelectGroupsPromise().then(res => {
       setGroupList([]);
       const code = res.data.code;
       if (code === BusinessCode.GROUP_SELECT_SUCCESS) {
         res.data.channelList.forEach((e, index) => {
-          if (index === 0) {
+          if (index === groupListSelected) {
             e.select = true;
           } else {
             e.select = false;
@@ -30,8 +33,7 @@ const LeftSideBar = props => {
         });
       }
     });
-  }, []);
-
+  };
   const handleOnRemoveClick = () => {
     console.log('제거 클릭');
   };
@@ -45,6 +47,7 @@ const LeftSideBar = props => {
   const handleOnSelectClick = evt => {
     setGroupList([]);
     hanleGroupIdState(evt);
+    setgGoupListSelected(evt - 1);
     groupList.forEach(e => {
       if (evt === e.channelId) {
         e.select = true;
@@ -58,11 +61,14 @@ const LeftSideBar = props => {
   };
 
   function handleOnClickAddGroupButton() {
-    console.log(groupTextRef.current.value + '라고 그룹 명 전송');
-    AxiosInstance.post('', { groupName: groupTextRef.current.value })
+    Tasks.getInsertGroupsPromise(groupTextRef.current.value)
       .then(response => {
-        console.log(response);
+        const code = response.data.code;
         // 전송후 잘 되었다면?
+        if (code === BusinessCode.GROUP_INSERT_SUCCESS) {
+          getGroupList();
+          setAddGroupBox(false);
+        }
         // 전송후 실패 했다면?
       })
       .catch(response => {
