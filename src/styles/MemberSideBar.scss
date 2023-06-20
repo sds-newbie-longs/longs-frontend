@@ -4,6 +4,12 @@
   padding-top: 96px;
 
   .member-side-bar-search-field-container {
+    position: relative;
+
+    .member-side-bar-search-result {
+      position: absolute;
+      width: 100%;
+    }
   }
 
   .member-side-bar-member-list-container {

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import generate from 'utils/common/ColorGenerator';
 import Video from 'components/common/Video';
 import { VideoOptions } from 'utils/common/VideoOptions';
+import Tasks from "../utils/axios/video/AxiosVideoTasks";
 
 const ArticleViewer = props => {
   const { description, title, owner, viewCount, videoSrc } = props;
@@ -15,10 +16,13 @@ const ArticleViewer = props => {
     // todo: implement later
   };
 
-  const handleDeleteOnclick = evt => {
+  const handleDeleteOnclick = () => {
     if (confirm('Delete Video?')) {
-      // todo: implement later
-      // Tasks.getDeleteVideoPromise().then(() => console.log('go home'));
+      Tasks.getDeleteVideoPromise().then(res => {
+        const resBody = res.data;
+        if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) navigator('/');
+        else alert('Error : Cannot Delete Video');
+      });
     }
   };
 
