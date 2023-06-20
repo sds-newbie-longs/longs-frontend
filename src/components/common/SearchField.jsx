@@ -16,7 +16,7 @@ const SearchField = props => {
   const onSubmit = useCallback(data => {
     if (data.length !== 0) {
       handleOnSubmit(data);
-      inputRef.current.value = '';
+      inputRef.current.blur();
     }
   }, []);
 
