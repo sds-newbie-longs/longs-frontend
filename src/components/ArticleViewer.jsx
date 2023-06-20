@@ -5,18 +5,24 @@ import EditSvg from 'components/common/EditSvg';
 import DeleteSvg from 'components/common/DeleteSvg';
 import PropTypes from 'prop-types';
 import generate from 'utils/common/ColorGenerator';
+import Video from 'components/common/Video';
+import { VideoOptions } from 'utils/common/VideoOptions';
+import Tasks from 'utils/axios/video/AxiosVideoTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
 
 const ArticleViewer = props => {
-  const { description, title, owner, viewCount } = props;
-
+  const { description, title, owner, viewCount, videoSrc } = props;
   const handleEditOnClick = evt => {
     // todo: implement later
   };
 
-  const handleDeleteOnclick = evt => {
+  const handleDeleteOnclick = () => {
     if (confirm('Delete Video?')) {
-      // todo: implement later
-      // Tasks.getDeleteVideoPromise().then(() => console.log('go home'));
+      Tasks.getDeleteVideoPromise().then(res => {
+        const resBody = res.data;
+        if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) navigator('/');
+        else alert('Error : Cannot Delete Video');
+      });
     }
   };
 
@@ -28,7 +34,9 @@ const ArticleViewer = props => {
             <EditSvg onClick={handleEditOnClick} />
             <DeleteSvg onClick={handleDeleteOnclick} />
           </div>
-          <div className={'article-viewer-video'}></div>
+          <div className={'article-viewer-video'}>
+            <Video options={VideoOptions} src={videoSrc} />
+          </div>
         </div>
 
         <div className={'article-viewer-meta'}>
@@ -50,4 +58,5 @@ ArticleViewer.propTypes = {
   owner: PropTypes.string.isRequired,
   viewCount: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
+  videoSrc: PropTypes.string.isRequired,
 };

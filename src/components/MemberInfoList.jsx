@@ -9,9 +9,11 @@ const MemberInfoList = props => {
   return (
     <div className={'member-list-root'}>
       <div className={'member-list-container'}>
-        {members.map(member => {
-          return <MemberInfo key={member.id} name={member.name} color={generate()} />;
-        })}
+        {members.length === 0
+          ? null
+          : members.map(member => {
+              return <MemberInfo key={member.id} name={member.username} color={generate()} />;
+            })}
       </div>
     </div>
   );
