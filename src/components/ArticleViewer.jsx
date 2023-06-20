@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 import generate from 'utils/common/ColorGenerator';
 import Video from 'components/common/Video';
 import { VideoOptions } from 'utils/common/VideoOptions';
-import Tasks from "../utils/axios/video/AxiosVideoTasks";
+import Tasks from 'utils/axios/video/AxiosVideoTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
 
 const ArticleViewer = props => {
   const { description, title, owner, viewCount, videoSrc } = props;
-
   const handleEditOnClick = evt => {
     // todo: implement later
   };
