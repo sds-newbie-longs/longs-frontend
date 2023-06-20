@@ -17,7 +17,8 @@ const MemberSideBar = props => {
   }, [groupId]);
 
   const groupMemberSelect = () => {
-    if (groupId === -1) {
+    if (groupId !== -1) {
+      // 선택된 업로드가 없는 경우
       Tasks.getGroupMembersPromise(groupId).then(res => {
         const code = res.data.code;
         if (code === BusinessCode.GROUP_MEMBER_SELECT_SUCCESS) {
