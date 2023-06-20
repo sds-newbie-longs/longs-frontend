@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import ContentAreaApiModule from 'utils/ContentAreaApiModule';
 import 'styles/ContentsArea.scss';
 import { ReactComponent as NoContentImg } from 'assets/noContents.svg';
 import VideoInfoList from 'components/VideoInfoList';
+
 const ContentsArea = () => {
   const mockPropGroup = 'Knox SRE';
   const mockPropUsers = ['Silence', 'din'];
@@ -41,8 +42,8 @@ const ContentsArea = () => {
       ) : (
         <div className={'contents-area-list'}>
           {contentsInfoLists.map((list, index) => (
-            <>
-              <div key={index} className={'contents-area-video-info-container'}>
+            <Fragment key={index}>
+              <div className={'contents-area-video-info-container'}>
                 <div className={'contents-area-video-info-container-info-wrapper'}>
                   <div className={'contents-area-video-info-list-container-title'}>
                     {index === 0 ? 'Recent Uploads' : mockPropUsers[index - 1]}{' '}
@@ -54,7 +55,7 @@ const ContentsArea = () => {
                 </div>
               </div>
               <hr className={'hr'} />
-            </>
+            </Fragment>
           ))}
         </div>
       )}
