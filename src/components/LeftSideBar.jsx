@@ -26,6 +26,7 @@ const LeftSideBar = props => {
         res.data.channelList.forEach((e, index) => {
           if (index === groupListSelected) {
             e.select = true;
+            hanleGroupIdState(index);
           } else {
             e.select = false;
           }
