@@ -8,7 +8,7 @@ import Tasks from 'utils/axios/group/AxiosGroupTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
 
 const LeftSideBar = props => {
-  const { handleDisableSearchState } = props;
+  const { handleDisableSearchState, hanleGroupIdState } = props;
   const navigate = useNavigate();
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
@@ -46,6 +46,7 @@ const LeftSideBar = props => {
   };
   const handleOnSelectClick = evt => {
     setGroupList([]);
+    hanleGroupIdState(evt);
     setgGoupListSelected(evt - 1);
     groupList.forEach(e => {
       if (evt === e.channelId) {
@@ -108,4 +109,5 @@ export default LeftSideBar;
 
 LeftSideBar.propTypes = {
   handleDisableSearchState: PropTypes.func.isRequired,
+  hanleGroupIdState: PropTypes.func.isRequired,
 };

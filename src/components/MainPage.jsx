@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 const MainPage = props => {
   const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
+  const [groupId, setGroupId] = useState(-1);
 
   const setUesrInfo = data => {
     props.handleOnUesrInfo({ userName: data.username, userId: data.id });
@@ -34,15 +35,20 @@ const MainPage = props => {
       setIsSearching(true);
     }
   });
-
-  const handleDisableSearchState = useCallback(() => {
+  const hanleGroupIdState = evt => {
+    setGroupId(evt);
+  };
+  const handleDisableSearchState = useCallback(groupId => {
     setIsSearching(false);
   });
 
   return (
     <div className={'main-page'}>
       <div className={'left-side-bar'}>
-        <LeftSideBar handleDisableSearchState={handleDisableSearchState} />
+        <LeftSideBar
+          handleDisableSearchState={handleDisableSearchState}
+          hanleGroupIdState={hanleGroupIdState}
+        />
       </div>
       <div className={'mid-side-bar'}>
         <div className={'header'}>
@@ -51,7 +57,7 @@ const MainPage = props => {
         <div className={'video-list'}>{isSearching ? <SearchResultArea /> : <ContentsArea />}</div>
       </div>
       <div className={'right-side-bar'}>
-        <MemberSideBar memberList={[{ id: props.userId, name: props.userName }]}></MemberSideBar>
+        <MemberSideBar groupId={groupId}></MemberSideBar>
       </div>
     </div>
   );
