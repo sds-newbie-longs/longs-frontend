@@ -1,0 +1,25 @@
+.search-member-list-item-root {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: 4px;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba(114, 159, 101, 0.05);
+  }
+
+  .search-member-list-item-content {
+    font-size: 12px;
+  }
+
+  .search-member-list-item-icon-wrapper {
+    &:hover {
+      cursor: pointer;
+
+      & .send-icon {
+        fill: #729f65;
+      }
+    }
+  }
+}

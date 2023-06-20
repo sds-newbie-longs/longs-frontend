@@ -10,7 +10,7 @@ const MemberInfoList = props => {
     <div className={'member-list-root'}>
       <div className={'member-list-container'}>
         {members.map(member => {
-          return <MemberInfo key={member.id} name={member.name} color={generate()} />;
+          return <MemberInfo key={member.id} name={member.username} color={generate()} />;
         })}
       </div>
     </div>
