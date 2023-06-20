@@ -5,18 +5,25 @@ import EditSvg from 'components/common/EditSvg';
 import DeleteSvg from 'components/common/DeleteSvg';
 import PropTypes from 'prop-types';
 import generate from 'utils/common/ColorGenerator';
+import Tasks from 'utils/axios/video/AxiosVideoTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
+import { useNavigate } from 'react-router';
 
 const ArticleViewer = props => {
   const { description, title, owner, viewCount } = props;
+  const navigator = useNavigate();
 
   const handleEditOnClick = evt => {
     // todo: implement later
   };
 
-  const handleDeleteOnclick = evt => {
+  const handleDeleteOnclick = () => {
     if (confirm('Delete Video?')) {
-      // todo: implement later
-      // Tasks.getDeleteVideoPromise().then(() => console.log('go home'));
+      Tasks.getDeleteVideoPromise().then(res => {
+        const resBody = res.data;
+        if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) navigator('/');
+        else alert('Error : Cannot Delete Video');
+      });
     }
   };
 
