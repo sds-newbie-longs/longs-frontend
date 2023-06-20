@@ -5,11 +5,9 @@ import EditSvg from 'components/common/EditSvg';
 import DeleteSvg from 'components/common/DeleteSvg';
 import PropTypes from 'prop-types';
 import generate from 'utils/common/ColorGenerator';
-import Video from 'components/common/Video';
-import { VideoOptions } from 'utils/common/VideoOptions';
 
 const ArticleViewer = props => {
-  const { description, title, owner, viewCount, videoSrc } = props;
+  const { description, title, owner, viewCount } = props;
 
   const handleEditOnClick = evt => {
     // todo: implement later
@@ -30,9 +28,7 @@ const ArticleViewer = props => {
             <EditSvg onClick={handleEditOnClick} />
             <DeleteSvg onClick={handleDeleteOnclick} />
           </div>
-          <div className={'article-viewer-video'}>
-            <Video options={VideoOptions} src={videoSrc} />
-          </div>
+          <div className={'article-viewer-video'}></div>
         </div>
 
         <div className={'article-viewer-meta'}>
@@ -54,5 +50,4 @@ ArticleViewer.propTypes = {
   owner: PropTypes.string.isRequired,
   viewCount: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
-  videoSrc: PropTypes.string.isRequired,
 };
