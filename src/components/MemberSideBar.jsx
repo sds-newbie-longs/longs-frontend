@@ -4,8 +4,8 @@ import MemberInfoList from 'components/MemberInfoList';
 import 'styles/MemberSideBar.scss';
 import PropTypes from 'prop-types';
 import SearchMemberList from 'components/common/SearchMemberList';
-import Tasks from '../utils/axios/group_member/AxiosGroupMemberTasks';
-import BusinessCode from '../utils/common/BuisnessCode';
+import Tasks from 'utils/axios/group_member/AxiosGroupMemberTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
 
 const MemberSideBar = props => {
   const { groupId } = props;
