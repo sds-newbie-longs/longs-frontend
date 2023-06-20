@@ -4,10 +4,10 @@ import 'styles/SearchMemberListItem.scss';
 import SendPlusSvg from 'components/common/SendPlusSvg';
 
 const SearchMemberListItem = props => {
-  const { id, name, handleOnClick } = props;
+  const { memberId, name, handleOnClick } = props;
 
   const onClick = evt => {
-    handleOnClick(id, name, evt);
+    handleOnClick(memberId, name, evt);
   };
   return (
     <div className={'search-member-list-item-root'}>
@@ -21,7 +21,7 @@ const SearchMemberListItem = props => {
 
 export default SearchMemberListItem;
 SearchMemberListItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  memberId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   handleOnClick: PropTypes.func.isRequired,
 };

@@ -13,6 +13,14 @@ const MemberSideBar = props => {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
+    document.onclick = evt => {
+      const classList = evt.target.classList;
+      const contains = classList.contains('search-member-list-item-root');
+      if (!contains) setSearchResult([]);
+    };
+  }, []);
+
+  useEffect(() => {
     groupMemberSelect();
   }, [groupId]);
 
@@ -37,10 +45,7 @@ const MemberSideBar = props => {
   };
 
   const askServer = useCallback(keyword => {
-    // Tasks.getSearchPromise(keyword).then(res => res.data);
     groupMemberSearch();
-    const lastId = searchResult.length === 0 ? 0 : searchResult[searchResult.length - 1].id;
-    setSearchResult(prevState => [...prevState, { id: lastId + 1, username: keyword }]);
   }, []);
 
   const onInvited = useCallback((id, username) => {
@@ -54,7 +59,11 @@ const MemberSideBar = props => {
       <div className={'member-side-bar-search-field-container'}>
         <SearchField isBordered={false} placeholder={'Search Members'} handleOnSubmit={askServer} />
         <div className={'member-side-bar-search-result'}>
-          <SearchMemberList resultList={searchResult} handleOnInvited={onInvited} />
+          <SearchMemberList
+            resultList={searchResult}
+            handleOnInvited={onInvited}
+            onBlur={() => console.log('list blur')}
+          />
         </div>
       </div>
       <div className={'member-side-bar-member-list-container'}>
