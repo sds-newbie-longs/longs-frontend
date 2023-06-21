@@ -62,11 +62,15 @@ const Upload = props => {
     }
     return 'button-nor';
   };
+  const ClickToGoMain = () => {
+    navigator('/');
+    console.log('go to main...');
+  };
 
   return (
     <div className={'upload-root'}>
       <div className={'upload-container'}>
-        <img className={'close-button'} src={CloseBtn} />
+        <img className={'close-button'} src={CloseBtn} onClick={ClickToGoMain} />
         <p className={'upload-ment'}>Upload Files</p>
         <Dropzone setIsUpload={setIsUpload} />
         <div className={'text-container'}>
@@ -94,7 +98,9 @@ const Upload = props => {
             Upload File
           </button>
           <p>or</p>
-          <button className={'cancle-btn'}>cancle</button>
+          <button className={'cancle-btn'} onClick={ClickToGoMain}>
+            cancle
+          </button>
         </div>
       </div>
     </div>

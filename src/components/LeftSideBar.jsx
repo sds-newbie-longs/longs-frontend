@@ -87,7 +87,7 @@ const LeftSideBar = props => {
               <GroupButton
                 key={evt.channelId}
                 groupKey={evt.channelId}
-                groupName={evt.name}
+                groupName={evt.channelName}
                 selected={evt.select}
                 handleOnSelectClick={handleOnSelectClick}
                 handleOnRemoveClick={handleOnRemoveClick}
