@@ -1,5 +1,7 @@
 const Urls = {
-  DELETE: '/boards',
+  GET: '/groups',
+  POST: '/groups',
+  DELETE: '/groups',
 };
 Object.freeze(Urls);
 
