@@ -10,7 +10,7 @@ import TusUploader from 'utils/video/TusUploader';
 
 const Dropzone = props => {
   const [currentProgress, setCurrentProgress] = useState(0);
-  const done = 'done';
+  let response;
 
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
@@ -31,8 +31,10 @@ const Dropzone = props => {
         console.log(bytesUploaded, bytesTotal, percentage + '%');
         setCurrentProgress(percentage);
       };
+      // 업로드가 성공적으로 완료되었을 때 실행
       const onSuccess = () => {
         console.log('Download %s from %s', file.name, file.type);
+        console.log('response =>' + response);
       };
       const onError = err => {
         console.log(err);
@@ -42,14 +44,12 @@ const Dropzone = props => {
         // const xhr = req.getUnderlyingObject();
         // xhr.withCredentials = true;
       };
+      // 응답을 성공적으로 받았을 때 실행
       const onAfterResponse = (req, res) => {
-        setCurrentProgress(101);
         const url = req.getURL();
-        const vid = url.split('/')[4];
+        response = res.getBody();
 
-        if (vid !== 'upload') {
-          console.log(`videoUUID => ${vid}`);
-        }
+        console.log('get url => ' + url);
       };
 
       uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse);
@@ -74,11 +74,7 @@ const Dropzone = props => {
   if (files.length > 0) {
     return (
       <div className={'drop-container-full'}>
-        <CircularProgressbar
-          value={currentProgress}
-          text={`${currentProgress < 101 ? currentProgress : done}%`}
-          maxValue={101}
-        />
+        <CircularProgressbar value={currentProgress} text={`${currentProgress}%`} maxValue={101} />
       </div>
     );
   }
