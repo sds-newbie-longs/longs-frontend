@@ -9,7 +9,9 @@ import PropTypes from 'prop-types';
 import TusUploader from 'utils/video/TusUploader';
 
 const Dropzone = props => {
+  const { setIsUpload, setUuid } = props;
   const [currentProgress, setCurrentProgress] = useState(0);
+  const done = 'done';
   let response;
 
   const onDrop = useCallback(acceptedFiles => {
@@ -35,21 +37,20 @@ const Dropzone = props => {
       const onSuccess = () => {
         console.log('Download %s from %s', file.name, file.type);
         console.log('response =>' + response);
+        setUuid(response);
       };
       const onError = err => {
         console.log(err);
       };
       const onBeforeRequest = req => {
-        // 로컬 노드js 테스트 시 주석
-        // const xhr = req.getUnderlyingObject();
-        // xhr.withCredentials = true;
+        const xhr = req.getUnderlyingObject();
+        xhr.withCredentials = true;
       };
       // 응답을 성공적으로 받았을 때 실행
       const onAfterResponse = (req, res) => {
-        const url = req.getURL();
         response = res.getBody();
 
-        console.log('get url => ' + url);
+        console.log('response =>' + response);
       };
 
       uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse);
@@ -67,14 +68,18 @@ const Dropzone = props => {
   const files = acceptedFiles.map(file => <p key={file.path}>{file.path}</p>);
   useEffect(() => {
     if (files.length > 0) {
-      props.setIsUpload(true);
+      setIsUpload(true);
     }
   }, [files.length]);
 
   if (files.length > 0) {
     return (
       <div className={'drop-container-full'}>
-        <CircularProgressbar value={currentProgress} text={`${currentProgress}%`} maxValue={101} />
+        <CircularProgressbar
+          value={currentProgress}
+          text={`${response === '' ? done : currentProgress}%`}
+          maxValue={101}
+        />
       </div>
     );
   }
@@ -92,6 +97,8 @@ const Dropzone = props => {
   );
 };
 export default Dropzone;
+
 Dropzone.propTypes = {
   setIsUpload: PropTypes.func,
+  setUuid: PropTypes.func,
 };
