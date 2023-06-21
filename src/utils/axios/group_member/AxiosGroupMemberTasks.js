@@ -3,7 +3,7 @@ import Urls from 'utils/axios/group_member/GroupMemberUrls';
 
 const Tasks = {
   getInviteGroupMemberPromise: (channelId, memberId) => {
-    return axios.post(Urls.INVITE, { channelId, memberId });
+    return axios.post(Urls.INVITE + '/' + channelId, { memberId });
   },
 
   getGroupMembersPromise: groupId => {

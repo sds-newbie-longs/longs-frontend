@@ -13,7 +13,7 @@ const LeftSideBar = props => {
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
   const [groupList, setGroupList] = useState([]);
-  const [groupListSelected, setgGoupListSelected] = useState(0);
+  const [groupListSelected, setGroupListSelected] = useState(0);
 
   useEffect(e => {
     getGroupList();
@@ -26,7 +26,7 @@ const LeftSideBar = props => {
         res.data.channelList.forEach((e, index) => {
           if (index === groupListSelected) {
             e.select = true;
-            hanleGroupIdState(index);
+            hanleGroupIdState(e.channelId);
           } else {
             e.select = false;
           }
@@ -48,7 +48,7 @@ const LeftSideBar = props => {
   const handleOnSelectClick = evt => {
     setGroupList([]);
     hanleGroupIdState(evt);
-    setgGoupListSelected(evt - 1);
+    setGroupListSelected(evt - 1);
     groupList.forEach(e => {
       if (evt === e.channelId) {
         e.select = true;

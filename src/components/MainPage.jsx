@@ -17,7 +17,6 @@ const MainPage = props => {
   const setUesrInfo = data => {
     props.handleOnUesrInfo({ userName: data.username, userId: data.id });
   };
-
   useEffect(() => {
     Tasks.getMemberIdPromise()
       .then(res => {
