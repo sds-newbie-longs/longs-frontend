@@ -10,13 +10,13 @@ const SearchField = props => {
 
   const getContainerClassName = useCallback(() => {
     if (isBordered) return 'search-field-container-bordered';
-    else return 'search-field-container-borderless';
+    return 'search-field-container-borderless';
   }, []);
 
   const onSubmit = useCallback(data => {
     if (data.length !== 0) {
       handleOnSubmit(data);
-      inputRef.current.value = '';
+      inputRef.current.blur();
     }
   }, []);
 

@@ -1,46 +1,114 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
+import PropTypes from 'prop-types';
 import 'styles/LeftSideBar.scss';
 import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
-import { useNavigate } from 'react-router';
+import Tasks from 'utils/axios/group/AxiosGroupTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
 
-const LeftSideBar = () => {
+const LeftSideBar = props => {
+  const { handleDisableSearchState, hanleGroupIdState } = props;
   const navigate = useNavigate();
+  const groupTextRef = useRef();
+  const [addGroupBox, setAddGroupBox] = useState(false);
+  const [groupList, setGroupList] = useState([]);
+  const [groupListSelected, setgGoupListSelected] = useState(0);
+
+  useEffect(e => {
+    getGroupList();
+  }, []);
+  const getGroupList = () => {
+    Tasks.getSelectGroupsPromise().then(res => {
+      setGroupList([]);
+      const code = res.data.code;
+      if (code === BusinessCode.GROUP_SELECT_SUCCESS) {
+        res.data.channelList.forEach((e, index) => {
+          if (index === groupListSelected) {
+            e.select = true;
+            hanleGroupIdState(index);
+          } else {
+            e.select = false;
+          }
+          setGroupList(groupList => [...groupList, e]);
+        });
+      }
+    });
+  };
   const handleOnRemoveClick = () => {
     console.log('제거 클릭');
   };
   const handleGroupAddClick = () => {
-    console.log('추가 클릭');
+    setAddGroupBox(!addGroupBox);
   };
   const handleOnClickLogo = () => {
+    handleDisableSearchState();
     navigate('/');
   };
+  const handleOnSelectClick = evt => {
+    setGroupList([]);
+    hanleGroupIdState(evt);
+    setgGoupListSelected(evt - 1);
+    groupList.forEach(e => {
+      if (evt === e.channelId) {
+        e.select = true;
+        setGroupList(groupList => [...groupList, e]);
+      } else {
+        e.select = false;
+        setGroupList(groupList => [...groupList, e]);
+      }
+    });
+    // 여기서 그룹과 동영상이 나오게 하기
+  };
+
+  function handleOnClickAddGroupButton() {
+    Tasks.getInsertGroupsPromise(groupTextRef.current.value)
+      .then(response => {
+        const code = response.data.code;
+        // 전송후 잘 되었다면?
+        if (code === BusinessCode.GROUP_INSERT_SUCCESS) {
+          getGroupList();
+          setAddGroupBox(false);
+        }
+        // 전송후 실패 했다면?
+      })
+      .catch(response => {
+        console.log(response);
+      });
+  }
   return (
     <div className={'left-side-bar-root'}>
       <div className={'main-logo'} onClick={handleOnClickLogo} />
 
       <div className={'group-list'}>
-        {/*  임시 사용 버튼 */}
-        <GroupButton
-          groupName={'Knox SRE'}
-          selected={true}
-          handleOnRemoveClick={handleOnRemoveClick}
-        />
-        <GroupButton
-          groupName={'Knox Common'}
-          selected={false}
-          handleOnRemoveClick={handleOnRemoveClick}
-        />
-        <GroupButton
-          groupName={'Knox Portal'}
-          selected={false}
-          handleOnRemoveClick={handleOnRemoveClick}
-        />
+        {groupList.length === 0
+          ? null
+          : groupList.map(evt => (
+              <GroupButton
+                key={evt.channelId}
+                groupKey={evt.channelId}
+                groupName={evt.channelName}
+                selected={evt.select}
+                handleOnSelectClick={handleOnSelectClick}
+                handleOnRemoveClick={handleOnRemoveClick}
+              ></GroupButton>
+            ))}
       </div>
-
-      <AddButton width={40} height={40} handleClick={handleGroupAddClick} />
+      <div className={'add-group-box'}>
+        {addGroupBox ? (
+          <>
+            <input className={'add-group-box-input'} type="text" ref={groupTextRef} />
+            <div className={'add-group-box-button'} onClick={handleOnClickAddGroupButton} />
+          </>
+        ) : null}
+      </div>
+      <AddButton handleClick={handleGroupAddClick} />
     </div>
   );
 };
-
 export default LeftSideBar;
+
+LeftSideBar.propTypes = {
+  handleDisableSearchState: PropTypes.func.isRequired,
+  hanleGroupIdState: PropTypes.func.isRequired,
+};

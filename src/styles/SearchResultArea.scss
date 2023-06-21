@@ -1,0 +1,53 @@
+.search-result-root {
+  display: flex;
+  flex-direction: column;
+
+  .search-result-item {
+    display: flex;
+    flex-direction: row;
+    width: 726px;
+    height: 154px;
+    margin: 8px 0px 0px 16px;
+
+    .search-result-thumbnail {
+      width: 224px;
+      height: 126px;
+    }
+    .search-result-info {
+      display: flex;
+      flex-direction: column;
+      margin-left: 8px;
+      color: #3f3f3f;
+
+      .search-result-title {
+        margin-top: 8px;
+        font-weight: 700;
+        font-size: 16px;
+      }
+      .search-result-owner {
+        margin-top: 8px;
+        font-weight: 400;
+        font-size: 12px;
+      }
+      .search-result-description {
+        margin-top: 8px;
+        font-weight: 400;
+        font-size: 8px;
+      }
+    }
+  }
+}
+
+.search-result-root-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 200px;
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    color: #a9abb8;
+  }
+}

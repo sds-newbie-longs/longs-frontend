@@ -13,8 +13,6 @@
   @extend %drop-container;
   justify-content: center;
   align-items: center;
-  background: #f6f7fa;
-  border: 2px solid #d3e2d0;
 }
 
 .drop-container-empty {
@@ -41,12 +39,13 @@
     font-size: 16px;
     color: #a9abb8;
   }
-  button {
+  .drop-add-button-wrapper {
     margin-top: 129px;
     margin-left: 228px;
-    background-image: url('../assets/AddBtn.png');
     border: none;
-    width: 40px;
-    height: 40px;
+    .add-button-root {
+      width: 40px;
+      height: 40px;
+    }
   }
 }
