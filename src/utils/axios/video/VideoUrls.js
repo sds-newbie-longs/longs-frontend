@@ -1,6 +1,6 @@
 const Urls = {
   DELETE: '/boards',
-  POST: 'post url',
+  POST: '/groups/',
   GET_VIDEO_LIST: '/groups/{groupId}/boards/boardList',
 };
 Object.freeze(Urls);

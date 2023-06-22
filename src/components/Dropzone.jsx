@@ -102,10 +102,10 @@ const Dropzone = props => {
 
   const files = acceptedFiles.map(file => <p key={file.path}>{file.path}</p>);
   useEffect(() => {
-    if (files.length > 0) {
+    if (currentProgress === 100) {
       setIsUpload(true);
     }
-  }, [files.length]);
+  }, [currentProgress]);
 
   if (files.length > 0) {
     return (
