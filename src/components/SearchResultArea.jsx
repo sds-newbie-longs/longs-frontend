@@ -3,8 +3,8 @@ import { ReactComponent as NoContentImg } from 'assets/noContents.svg';
 
 import 'styles/SearchResultArea.scss';
 import PropTypes from 'prop-types';
-import Tasks from '../utils/axios/video/AxiosVideoTasks';
-import BusinessCode from '../utils/common/BuisnessCode';
+import Tasks from 'utils/axios/video/AxiosVideoTasks';
+import BusinessCode from 'utils/common/BuisnessCode';
 
 const SearchResultArea = props => {
   const { searchKeyword, groupId } = props;
