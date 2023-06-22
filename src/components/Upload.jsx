@@ -23,7 +23,7 @@ const Upload = props => {
   const { state } = useLocation();
 
   useEffect(() => {
-    check().catch(() => navigator('/'));
+    check().catch(() => navigate('/'));
     if (state === null) {
       navigate('/');
     } else {
@@ -63,7 +63,7 @@ const Upload = props => {
     return 'button-nor';
   };
   const ClickToGoMain = () => {
-    navigator('/');
+    navigate('/');
     console.log('go to main...');
   };
 
