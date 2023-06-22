@@ -6,6 +6,7 @@ import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
 import Tasks from 'utils/axios/group/AxiosGroupTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
+import AxiosGroupMemberTasks from '../utils/axios/group_member/AxiosGroupMemberTasks';
 
 const LeftSideBar = props => {
   const { handleDisableSearchState, hanleGroupIdState } = props;
@@ -13,30 +14,56 @@ const LeftSideBar = props => {
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
   const [groupList, setGroupList] = useState([]);
-  const [groupListSelected, setgGoupListSelected] = useState(0);
 
   useEffect(e => {
-    getGroupList();
+    getGroupList(0);
   }, []);
-  const getGroupList = () => {
+  const getGroupList = groupListSelected => {
     Tasks.getSelectGroupsPromise().then(res => {
       setGroupList([]);
       const code = res.data.code;
       if (code === BusinessCode.GROUP_SELECT_SUCCESS) {
-        res.data.channelList.forEach((e, index) => {
-          if (index === groupListSelected) {
-            e.select = true;
-            hanleGroupIdState(index);
-          } else {
-            e.select = false;
-          }
-          setGroupList(groupList => [...groupList, e]);
-        });
+        console.log(res.data.channelList);
+        if (res.data.channelList.length !== 0) {
+          res.data.channelList.forEach((e, index) => {
+            if (index === groupListSelected) {
+              e.select = true;
+              hanleGroupIdState(e.channelId);
+            } else {
+              e.select = false;
+            }
+            setGroupList(groupList => [...groupList, e]);
+          });
+        } else {
+          // 그룹이 존재 하지 않음.
+          hanleGroupIdState(0);
+        }
       }
     });
   };
-  const handleOnRemoveClick = () => {
-    console.log('제거 클릭');
+  const handleOnRemoveClick = (groupKey, ownerId) => {
+    console.log(groupKey, ownerId);
+    //
+    console.log(props.userId);
+    if (props.userId === ownerId) {
+      console.log('소유자이기에 그룹을 삭제');
+      Tasks.getDeleteGroupsPromise(groupKey).then(async res => {
+        const code = res.data.code;
+        if (code === BusinessCode.GROUP_DELETE_SUCCESS) {
+          console.log(res.data);
+          await getGroupList(0);
+        }
+      });
+    } else {
+      console.log('회원이기에 그룹을 탈퇴');
+      AxiosGroupMemberTasks.getDeleteGroupMemberPromise(groupKey).then(async res => {
+        const code = res.data.code;
+        if (code === BusinessCode.GROUP_MEMBER_DELETE_SUCCESS) {
+          console.log(res.data);
+          await getGroupList(0);
+        }
+      });
+    }
   };
   const handleGroupAddClick = () => {
     setAddGroupBox(!addGroupBox);
@@ -48,7 +75,7 @@ const LeftSideBar = props => {
   const handleOnSelectClick = evt => {
     setGroupList([]);
     hanleGroupIdState(evt);
-    setgGoupListSelected(evt - 1);
+    getGroupList(evt - 1);
     groupList.forEach(e => {
       if (evt === e.channelId) {
         e.select = true;
@@ -88,6 +115,7 @@ const LeftSideBar = props => {
                 key={evt.channelId}
                 groupKey={evt.channelId}
                 groupName={evt.channelName}
+                ownerId={evt.ownerId}
                 selected={evt.select}
                 handleOnSelectClick={handleOnSelectClick}
                 handleOnRemoveClick={handleOnRemoveClick}
@@ -111,4 +139,5 @@ export default LeftSideBar;
 LeftSideBar.propTypes = {
   handleDisableSearchState: PropTypes.func.isRequired,
   hanleGroupIdState: PropTypes.func.isRequired,
+  userId: PropTypes.string,
 };

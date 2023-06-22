@@ -13,8 +13,10 @@ const MainPage = props => {
   const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
   const [groupId, setGroupId] = useState(-1);
+  const [userId, setUserId] = useState(-1);
 
   const setUesrInfo = data => {
+    setUserId(data.id);
     props.handleOnUesrInfo({ userName: data.username, userId: data.id });
   };
 
@@ -48,6 +50,7 @@ const MainPage = props => {
         <LeftSideBar
           handleDisableSearchState={handleDisableSearchState}
           hanleGroupIdState={hanleGroupIdState}
+          userId={userId}
         />
       </div>
       <div className={'mid-side-bar'}>
