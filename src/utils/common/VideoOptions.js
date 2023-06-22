@@ -1,13 +1,15 @@
 export const VideoOptions = {
   width: 772,
   height: 416,
-  vhs: {
-    overrideNative: true,
+  preload: 'auto',
+  html5: {
+    vhs: {
+      overrideNative: true,
+    },
+    nativeAudioTracks: false,
+    nativeVideoTracks: false,
   },
-  liveui: true,
-  autoplay: false,
   controls: true,
-  responsive: false,
-  fluid: false,
+  fill: true,
   sources: [],
 };

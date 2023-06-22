@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import VideoInfo from 'components/VideoInfo';
 import 'styles/VideoInfoList.scss';
 import { useNavigate } from 'react-router';
+
 const VideoInfoList = ({ videoList }) => {
   const navigate = useNavigate();
   VideoInfoList.propTypes = {
@@ -15,7 +16,7 @@ const VideoInfoList = ({ videoList }) => {
     ).isRequired,
   };
   const handelOnClickVideo = () => {
-    navigate('/articleviwer');
+    navigate('/article');
   };
   return (
     <div className={'video-info-list-root'}>
