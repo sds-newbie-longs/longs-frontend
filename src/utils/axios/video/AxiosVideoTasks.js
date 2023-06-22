@@ -11,7 +11,9 @@ const Tasks = {
       videoUuid,
       title,
       description,
-    });
+  getVideoListByGroup: groupId => {
+    const requestUrl = Urls.GET_VIDEO_LIST.replace('{groupId}', groupId);
+    return axios.get(requestUrl);
   },
 };
 

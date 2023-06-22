@@ -14,25 +14,21 @@ const Upload = props => {
   const navigate = useNavigate();
   const [isUpload, setIsUpload] = useState(false);
   const [title, setTitle] = useState('');
-  const [description, setDesscription] = useState('');
+  const [description, setDescription] = useState('');
   const [groupId, setGroupId] = useState(0);
   const [groupName, setGroupName] = useState('');
   const [uuid, setUuid] = useState('');
 
   const { state } = useLocation();
 
-  const setUesrInfo = data => {
-    props.handleOnUesrInfo({ userName: data.username, userId: data.id });
-  };
-
   useEffect(() => {
+    check().catch(() => navigator('/'));
     if (state === null) {
       navigate('/');
     } else {
       setGroupId(state.groupId);
       setGroupName(state.groupName);
     }
-
     Tasks.getMemberIdPromise()
       .then(res => {
         const data = res.data;
@@ -53,14 +49,14 @@ const Upload = props => {
     console.log(uuid);
   };
 
-  const ClickForUpload = e => {
+  const ClickForUpload = () => {
     // call api later...
     // VideoTasks.getUploadBoardPromise(groupId, uuid, title, description).then(res => {
     //   console.log(groupId, uuid, title, description);
     //   navigate('/');
     // });
     setTitle('');
-    setDesscription('');
+    setDescription('');
     setIsUpload(false);
     // test
     const notify = () => toast.success('동영상이 성공적으로 업로드 되었습니다.');
@@ -68,7 +64,7 @@ const Upload = props => {
     setTimeout(() => navigate('/'), 2000);
   };
 
-  const buttonClassName = e => {
+  const buttonClassName = () => {
     if (isUpload && title.length > 0) {
       return 'button-click';
     }
@@ -82,7 +78,7 @@ const Upload = props => {
   return (
     <div className={'upload-root'}>
       <div className={'upload-container'}>
-        <img className={'close-button'} src={CloseBtn} onClick={ClickToGoMain} />
+        <img className={'close-button'} src={CloseBtn} alt={'Close Button'} onClick={ClickToGoMain} />
         <p className={'upload-ment'}>Upload Files</p>
         <Dropzone setIsUpload={setIsUpload} setUuid={setUuid} />
         <div className={'text-container'}>
