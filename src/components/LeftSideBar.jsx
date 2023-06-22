@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import 'styles/LeftSideBar.scss';
@@ -8,16 +8,17 @@ import Tasks from 'utils/axios/group/AxiosGroupTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
 
 const LeftSideBar = props => {
-  const { handleDisableSearchState, hanleGroupIdState } = props;
+  const { handleDisableSearchState } = props;
   const navigate = useNavigate();
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
   const [groupList, setGroupList] = useState([]);
   const [groupListSelected, setGroupListSelected] = useState(0);
 
-  useEffect(e => {
+  useEffect(() => {
     getGroupList();
   }, []);
+
   const getGroupList = () => {
     Tasks.getSelectGroupsPromise().then(res => {
       setGroupList([]);
@@ -45,6 +46,7 @@ const LeftSideBar = props => {
     handleDisableSearchState();
     navigate('/');
   };
+  
   const handleOnSelectClick = evt => {
     setGroupList([]);
     hanleGroupIdState(evt);
@@ -79,27 +81,24 @@ const LeftSideBar = props => {
   return (
     <div className={'left-side-bar-root'}>
       <div className={'main-logo'} onClick={handleOnClickLogo} />
-
       <div className={'group-list'}>
-        {groupList.length === 0
-          ? null
-          : groupList.map(evt => (
-              <GroupButton
-                key={evt.channelId}
-                groupKey={evt.channelId}
-                groupName={evt.channelName}
-                selected={evt.select}
-                handleOnSelectClick={handleOnSelectClick}
-                handleOnRemoveClick={handleOnRemoveClick}
-              ></GroupButton>
-            ))}
+        {groupList.map(group => (
+          <GroupButton
+            key={group.channelId}
+            groupKey={group.channelId}
+            groupName={group.channelName}
+            selected={group.select}
+            handleOnSelectClick={handleOnSelectClick}
+            handleOnRemoveClick={handleOnRemoveClick}
+          ></GroupButton>
+        ))}
       </div>
       <div className={'add-group-box'}>
         {addGroupBox ? (
-          <>
+          <Fragment>
             <input className={'add-group-box-input'} type="text" ref={groupTextRef} />
             <div className={'add-group-box-button'} onClick={handleOnClickAddGroupButton} />
-          </>
+          </Fragment>
         ) : null}
       </div>
       <AddButton handleClick={handleGroupAddClick} />
@@ -110,5 +109,5 @@ export default LeftSideBar;
 
 LeftSideBar.propTypes = {
   handleDisableSearchState: PropTypes.func.isRequired,
-  hanleGroupIdState: PropTypes.func.isRequired,
+  handleGroupIdState: PropTypes.func.isRequired,
 };
