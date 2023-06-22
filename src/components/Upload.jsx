@@ -40,15 +40,17 @@ const Upload = props => {
     console.log(uuid);
   };
 
-  const ClickForUpload = () => {
-    VideoTasks.getUploadBoardPromise(groupId, uuid, title, description).then(res => {
-      const notify = () => toast.success('동영상이 성공적으로 업로드 되었습니다.');
-      notify();
-      setTimeout(() => navigate('/'), 2000);
-    });
-    // setTitle('');
-    // setDescription('');
-    // setIsUpload(false);
+  const ClickForUpload = async () => {
+    VideoTasks.getUploadBoardPromise(groupId, uuid, title, description)
+      .then(res => {
+        if (res.status === 200) {
+          console.log('good....200 ok');
+        }
+      })
+      .catch(res => console.log(`catch.... ${res.status}`));
+    const notify = () => toast.success('동영상이 성공적으로 업로드 되었습니다.');
+    notify();
+    setTimeout(() => navigate('/'), 2000);
   };
 
   const buttonClassName = () => {
