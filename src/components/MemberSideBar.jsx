@@ -11,20 +11,44 @@ const MemberSideBar = props => {
   const { groupId } = props;
   const [searchResult, setSearchResult] = useState([]);
   const [members, setMembers] = useState([]);
+  const [search, SetSearch] = useState('');
+  const [selectedId, SetSelectedId] = useState(0);
+
+  useEffect(() => {
+    document.onclick = evt => {
+      const classList = evt.target.classList;
+      const contains = classList.contains('search-member-list-item-root');
+      if (!contains) setSearchResult([]);
+    };
+  }, []);
 
   useEffect(() => {
     groupMemberSelect();
   }, [groupId]);
 
+  useEffect(() => {
+    if (search.trim() !== '') {
+      groupMemberSearch(search);
+    }
+  }, [search]);
+
+  useEffect(() => {
+    if (selectedId !== 0) {
+      groupMemberInvited(selectedId);
+      groupMemberSelect();
+    }
+  }, [selectedId]);
   const groupMemberSelect = () => {
     if (groupId !== -1) {
       // 선택된 업로드가 없는 경우
-      Tasks.getGroupMembersPromise(groupId).then(res => {
-        const code = res.data.code;
-        if (code === BusinessCode.GROUP_MEMBER_SELECT_SUCCESS) {
-          setMembers(res.data.memberList);
-        }
-      });
+      Tasks.getGroupMembersPromise(groupId)
+        .then(res => {
+          const code = res.data.code;
+          if (code === BusinessCode.GROUP_MEMBER_SELECT_SUCCESS) {
+            setMembers(res.data.memberList);
+          }
+        })
+        .catch(reason => console.log(reason));
     }
   };
   const groupMemberSearch = keyword => {
@@ -32,21 +56,32 @@ const MemberSideBar = props => {
       const code = res.data.code;
       if (code === BusinessCode.GROUP_MEMBER_SEARCH_SUCCESS) {
         setSearchResult(res.data.searchList);
+        // 임시 사용
+        setSearchResult(prevState => [...prevState, { id: keyword, username: keyword }]);
       }
     });
   };
 
-  const askServer = useCallback(keyword => {
-    // Tasks.getSearchPromise(keyword).then(res => res.data);
-    groupMemberSearch();
-    const lastId = searchResult.length === 0 ? 0 : searchResult[searchResult.length - 1].id;
-    setSearchResult(prevState => [...prevState, { id: lastId + 1, username: keyword }]);
-  }, []);
+
+  const askServer = keyword => {
+    SetSearch(keyword);
+  };
+
+  const groupMemberInvited = id => {
+    Tasks.getInviteGroupMemberPromise(groupId, id).then(async res => {
+      const code = res.data.code;
+      if (code === BusinessCode.GROUP_INVITE_SUCCESS) {
+        await groupMemberSelect();
+      }
+    });
+  };
+
 
   const onInvited = useCallback((id, username) => {
     setSearchResult(() => []);
     setMembers(prevState => [...prevState, { id, username }]);
     // 초대 및 다시 조회하기
+    SetSelectedId(id);
   }, []);
 
   return (
@@ -54,7 +89,11 @@ const MemberSideBar = props => {
       <div className={'member-side-bar-search-field-container'}>
         <SearchField isBordered={false} placeholder={'Search Members'} handleOnSubmit={askServer} />
         <div className={'member-side-bar-search-result'}>
-          <SearchMemberList resultList={searchResult} handleOnInvited={onInvited} />
+          <SearchMemberList
+            resultList={searchResult}
+            handleOnInvited={onInvited}
+            onBlur={() => console.log('list blur')}
+          />
         </div>
       </div>
       <div className={'member-side-bar-member-list-container'}>

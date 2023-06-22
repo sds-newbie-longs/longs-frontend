@@ -1,65 +1,55 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import ContentAreaApiModule from 'utils/ContentAreaApiModule';
 import 'styles/ContentsArea.scss';
 import { ReactComponent as NoContentImg } from 'assets/noContents.svg';
 import VideoInfoList from 'components/VideoInfoList';
+import Tasks from 'utils/axios/video/AxiosVideoTasks';
+import PropTypes from 'prop-types';
+import BusinessCode from 'utils/common/BuisnessCode';
 
-const ContentsArea = () => {
-  const mockPropGroup = 'Knox SRE';
-  const mockPropUsers = ['Silence', 'din'];
-  const [contentsInfoLists, setContentsInfoLists] = useState([]);
-  const contentAreaApiModule = new ContentAreaApiModule();
-  const fetchData = async () => {
-    try {
-      const firstList = await contentAreaApiModule.mockGetAllContentsWithGroup(mockPropGroup);
-      let userVideoList = [];
-      for (const userName of mockPropUsers) {
-        const userVideos = await contentAreaApiModule.mockGetAllContentsWithName(mockPropGroup, [
-          userName,
-        ]);
-        userVideoList = [...userVideoList, userVideos];
-      }
-      const contentsLists = [firstList, ...userVideoList];
-      if (contentsLists.every(list => list.length === 0)) {
-        setContentsInfoLists([]);
-      } else {
-        setContentsInfoLists(contentsLists);
-      }
-    } catch (error) {
-      console.error(error);
-      setContentsInfoLists([]);
-    }
-  };
+const ContentsArea = props => {
+  const { groupId } = props;
+
+  const [allBoardList, setAllBoardList] = useState([]);
+
   useEffect(() => {
-    fetchData();
-  }, []); // 빈 의존성 배열
+    Tasks.getVideoListByGroup(groupId)
+      .then(res => {
+        const body = res.data;
+        if (body.code === BusinessCode.GET_VIDEO_LIST_SUCCESS) {
+          setAllBoardList(body.allBoardList);
+        }
+      })
+      .catch(reason => console.log(reason));
+  }, []);
+
   return (
     <div className="contents-area-root">
-      {contentsInfoLists.length === 0 ? (
+      {allBoardList.length === 0 ? (
         <div className={'contents-area-root-empty'}>
           <NoContentImg />
         </div>
       ) : (
         <div className={'contents-area-list'}>
-          {contentsInfoLists.map((list, index) => (
-            <Fragment key={index}>
-              <div className={'contents-area-video-info-container'}>
-                <div className={'contents-area-video-info-container-info-wrapper'}>
-                  <div className={'contents-area-video-info-list-container-title'}>
-                    {index === 0 ? 'Recent Uploads' : mockPropUsers[index - 1]}{' '}
-                  </div>
-                  <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
+          <Fragment>
+            <div className={'contents-area-video-info-container'}>
+              <div className={'contents-area-video-info-container-info-wrapper'}>
+                <div className={'contents-area-video-info-list-container-title'}>
+                  <span>Recent Uploads</span>
                 </div>
-                <div className={'video-info-list-container'}>
-                  <VideoInfoList videoList={list} />
-                </div>
+                <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
               </div>
-              <hr className={'hr'} />
-            </Fragment>
-          ))}
+              <div className={'video-info-list-container'}>
+                <VideoInfoList videoList={allBoardList} />
+              </div>
+            </div>
+            <hr className={'hr'} />
+          </Fragment>
         </div>
       )}
     </div>
   );
 };
 export default ContentsArea;
+ContentsArea.propTypes = {
+  groupId: PropTypes.number.isRequired,
+};

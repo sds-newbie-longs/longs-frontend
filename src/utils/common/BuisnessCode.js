@@ -18,6 +18,7 @@ const BusinessCode = {
   GROUP_MEMBER_SEARCH_FAILED: 'MS002',
   GROUP_INSERT_SUCCESS: 'CC001',
   GROUP_INSERT_FAILED: 'CC002',
+  GET_VIDEO_LIST_SUCCESS: 'B005',
 };
 
 Object.freeze(BusinessCode);

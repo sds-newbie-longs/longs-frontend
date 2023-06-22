@@ -17,9 +17,9 @@ const SearchMemberList = props => {
       {resultList.map(member => {
         return (
           <SearchMemberListItem
-            id={member.id}
+            memberId={member.memberId}
             name={member.username}
-            key={member.id}
+            key={member.memberId}
             handleOnClick={onSendIconClick}
           />
         );
