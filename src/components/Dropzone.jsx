@@ -10,7 +10,9 @@ import TusUploader from 'utils/video/TusUploader';
 import { encode } from 'utils/video/VideoEncoder';
 
 const Dropzone = props => {
+  const { setIsUpload, setUuid } = props;
   const [currentProgress, setCurrentProgress] = useState(0);
+  const done = 'done';
   let response;
   // const endpoint = 'https://longs-api.iamnew.net/video/upload';
   // const endpoint = 'http://35.216.94.36/video/upload';
@@ -55,6 +57,39 @@ const Dropzone = props => {
     reader.onloadend = evt => {
       encode(file.name, evt.target.result, onEncoded);
     };
+    reader.onload = () => {
+      console.log('load');
+      const uploader = TusUploader(file, endpoint, {
+        filename: file.name,
+        filetype: file.type,
+      });
+      const onProgress = (bytesUploaded, bytesTotal) => {
+        const percentage = Math.round((bytesUploaded / bytesTotal) * 100);
+        console.log(bytesUploaded, bytesTotal, percentage + '%');
+        setCurrentProgress(percentage);
+      };
+      // 업로드가 성공적으로 완료되었을 때 실행
+      const onSuccess = () => {
+        console.log('Download %s from %s', file.name, file.type);
+        console.log('response =>' + response);
+        setUuid(response);
+      };
+      const onError = err => {
+        console.log(err);
+      };
+      const onBeforeRequest = req => {
+        const xhr = req.getUnderlyingObject();
+        xhr.withCredentials = true;
+      };
+      // 응답을 성공적으로 받았을 때 실행
+      const onAfterResponse = (req, res) => {
+        response = res.getBody();
+
+        console.log('response =>' + response);
+      };
+
+      uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse);
+    };
   }, []);
 
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
@@ -68,14 +103,18 @@ const Dropzone = props => {
   const files = acceptedFiles.map(file => <p key={file.path}>{file.path}</p>);
   useEffect(() => {
     if (files.length > 0) {
-      props.setIsUpload(true);
+      setIsUpload(true);
     }
   }, [files.length]);
 
   if (files.length > 0) {
     return (
       <div className={'drop-container-full'}>
-        <CircularProgressbar value={currentProgress} text={`${currentProgress}%`} maxValue={101} />
+        <CircularProgressbar
+          value={currentProgress}
+          text={`${response === '' ? done : currentProgress}%`}
+          maxValue={101}
+        />
       </div>
     );
   }
@@ -93,6 +132,8 @@ const Dropzone = props => {
   );
 };
 export default Dropzone;
+
 Dropzone.propTypes = {
   setIsUpload: PropTypes.func,
+  setUuid: PropTypes.func,
 };
