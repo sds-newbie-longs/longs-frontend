@@ -8,9 +8,10 @@ const VideoInfoList = ({ videoList }) => {
   VideoInfoList.propTypes = {
     videoList: PropTypes.arrayOf(
       PropTypes.shape({
-        picture_url: PropTypes.string.isRequired,
-        owner: PropTypes.string.isRequired,
+        thumbnailUrl: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
       }),
     ).isRequired,
   };
