@@ -16,14 +16,15 @@
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-hot-toast": "^2.4.1",
     "react-router": "^6.12.0",
     "react-router-dom": "^6.12.1",
     "react-scripts": "5.0.1",
     "sass": "^1.62.1",
     "tus-js-client": "^3.1.0",
-    "web-vitals": "^2.1.4",
     "video.js": "^7.21.4",
-    "videojs-hls-quality-selector": "^1.1.4"
+    "videojs-hls-quality-selector": "^1.1.4",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
