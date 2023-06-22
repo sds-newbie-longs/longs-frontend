@@ -10,17 +10,26 @@ const ContentsArea = props => {
   const { groupId } = props;
 
   const [allBoardList, setAllBoardList] = useState([]);
+  const [memberBoardList, setMemberBoardList] = useState([]);
 
   useEffect(() => {
+    if (groupId !== -1) {
+      getVideoListByGroup();
+    }
+  }, [groupId]);
+
+  const getVideoListByGroup = () => {
     Tasks.getVideoListByGroup(groupId)
       .then(res => {
         const body = res.data;
         if (body.code === BusinessCode.GET_VIDEO_LIST_SUCCESS) {
+          console.log(body);
           setAllBoardList(body.allBoardList);
+          setMemberBoardList(body.memberBoardList);
         }
       })
       .catch(reason => console.log(reason));
-  }, []);
+  };
 
   return (
     <div className="contents-area-root">
@@ -43,6 +52,25 @@ const ContentsArea = props => {
               </div>
             </div>
             <hr className={'hr'} />
+            {memberBoardList.map((memberBoardList, index) => {
+              console.log(memberBoardList);
+              return (
+                <>
+                  <div className={'contents-area-video-info-container'} key={index}>
+                    <div className={'contents-area-video-info-container-info-wrapper'}>
+                      <div className={'contents-area-video-info-list-container-title'}>
+                        <span>{memberBoardList.username}</span>
+                      </div>
+                      <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
+                    </div>
+                    <div className={'video-info-list-container'}>
+                      <VideoInfoList videoList={memberBoardList.boardList} />
+                    </div>
+                  </div>
+                  <hr className={'hr'} />
+                </>
+              );
+            })}
           </Fragment>
         </div>
       )}

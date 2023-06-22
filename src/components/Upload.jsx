@@ -8,8 +8,8 @@ import check from 'utils/common/SessionChecker';
 import 'styles/Upload.scss';
 import Dropzone from 'components/Dropzone';
 import CloseBtn from 'assets/CloseBtn.png';
+import VideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
-// import VideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
 const Upload = props => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Upload = props => {
   const { state } = useLocation();
 
   useEffect(() => {
-    check().catch(() => navigator('/'));
+    check().catch(() => navigate('/'));
     if (state === null) {
       navigate('/');
     } else {
@@ -41,17 +41,15 @@ const Upload = props => {
     console.log(uuid);
   };
 
-  const ClickForUpload = () => {
-    // call api later...
-    // VideoTasks.getUploadBoardPromise(groupId, uuid, title, description).then(res => {
-    //   console.log(groupId, uuid, title, description);
-    //   navigate('/');
-    // });
-    setTitle('');
-    setDescription('');
-    setIsUpload(false);
-    // test
-    const notify = () => toast.success('동영상이 성공적으로 업로드 되었습니다.');
+  const ClickForUpload = async () => {
+    VideoTasks.getUploadBoardPromise(groupId, uuid, title, description)
+      .then(res => {
+        if (res.status === 200) {
+          console.log('good....200 ok');
+        }
+      })
+      .catch(error => console.log(error.code));
+    const notify = () => toast('동영상이 성공적으로 업로드 되었습니다.');
     notify();
     setTimeout(() => navigate('/'), 2000);
   };
@@ -63,7 +61,7 @@ const Upload = props => {
     return 'button-nor';
   };
   const ClickToGoMain = () => {
-    navigator('/');
+    navigate('/');
     console.log('go to main...');
   };
 

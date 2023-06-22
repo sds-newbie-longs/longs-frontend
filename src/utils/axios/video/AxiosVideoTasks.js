@@ -6,12 +6,16 @@ const Tasks = {
     return axios.delete(Urls.DELETE, { data: { boardId } });
   },
   getUploadBoardPromise: (channelId, videoUuid, title, description) => {
-    return axios.post(Urls.POST, {
-      channelId,
-      videoUuid,
-      title,
-      description,
-    });
+    return axios.post(
+      Urls.POST + channelId + '/boards',
+      {
+        channelId,
+        videoUuid,
+        title,
+        description,
+      },
+      { timeout: 0 },
+    );
   },
   getVideoListByGroup: groupId => {
     const requestUrl = Urls.GET_VIDEO_LIST.replace('{groupId}', groupId);
