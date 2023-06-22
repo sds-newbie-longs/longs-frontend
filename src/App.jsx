@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<MainPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route
-          path="/articleviwer"
+          path="/article"
           element={
             <ArticleViewer
               title={'title'}
@@ -21,7 +21,7 @@ function App() {
               owner={'owner'}
               viewCount={30}
               videoSrc={
-                'https://act-longs.s3.ap-northeast-2.amazonaws.com/videos/c0c5afcaaad24d91bfb777440ef3bc12/master.m3u8'
+                'https://act-longs.s3.ap-northeast-2.amazonaws.com/videos/ae51dni2iy61k4y27abe1k2gxql72b3g/master.m3u8'
               }
             />
           }
