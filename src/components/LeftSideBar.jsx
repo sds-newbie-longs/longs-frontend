@@ -9,7 +9,7 @@ import BusinessCode from 'utils/common/BuisnessCode';
 import AxiosGroupMemberTasks from 'utils/axios/group_member/AxiosGroupMemberTasks';
 
 const LeftSideBar = props => {
-  const { handleDisableSearchState, handleGroupIdState, userId } = props;
+  const { handleMainListChangeState, handleGroupIdState, userId } = props;
   const navigate = useNavigate();
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
@@ -62,13 +62,13 @@ const LeftSideBar = props => {
     setAddGroupBox(!addGroupBox);
   };
   const handleOnClickLogo = () => {
-    handleDisableSearchState();
+    handleMainListChangeState(0);
     navigate('/');
   };
   const handleOnSelectClick = evt => {
     setGroupList([]);
     handleGroupIdState(evt);
-    handleDisableSearchState();
+    handleMainListChangeState(0);
 
     groupList.forEach((e, index) => {
       if (evt === e.channelId) {
@@ -130,7 +130,7 @@ const LeftSideBar = props => {
 export default LeftSideBar;
 
 LeftSideBar.propTypes = {
-  handleDisableSearchState: PropTypes.func.isRequired,
+  handleMainListChangeState: PropTypes.func.isRequired,
   handleGroupIdState: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
 };
