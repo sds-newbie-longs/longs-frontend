@@ -11,8 +11,11 @@ import check from 'utils/common/SessionChecker';
 const MainPage = () => {
   const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
-  const [groupId, setGroupId] = useState(1);
+  const [groupId, setGroupId] = useState(-1);
 
+  const setUesrInfo = data => {
+    props.handleOnUesrInfo({ userName: data.username, userId: data.id });
+  };
   useEffect(() => {
     check().catch(() => {
       navigator('/login');

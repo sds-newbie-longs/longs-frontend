@@ -13,26 +13,28 @@ const LeftSideBar = props => {
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
   const [groupList, setGroupList] = useState([]);
-  console.log('left side bar');
+  const [groupListSelected, setGroupListSelected] = useState(0);
 
   useEffect(() => {
     getGroupList();
   }, []);
 
   const getGroupList = () => {
-    Tasks.getSelectGroupsPromise()
-      .then(res => {
-        const code = res.data.code;
-        if (code === BusinessCode.GROUP_SELECT_SUCCESS) {
-          let groupList = res.data.channelList;
-          groupList = groupList.map(g => {
-            return { ...g, selected: false };
-          });
-          groupList[0].selected = true;
-          setGroupList(groupList);
-        }
-      })
-      .catch(reason => console.log(reason));
+    Tasks.getSelectGroupsPromise().then(res => {
+      setGroupList([]);
+      const code = res.data.code;
+      if (code === BusinessCode.GROUP_SELECT_SUCCESS) {
+        res.data.channelList.forEach((e, index) => {
+          if (index === groupListSelected) {
+            e.select = true;
+            hanleGroupIdState(e.channelId);
+          } else {
+            e.select = false;
+          }
+          setGroupList(groupList => [...groupList, e]);
+        });
+      }
+    });
   };
   const handleOnRemoveClick = () => {
     console.log('제거 클릭');
@@ -44,10 +46,22 @@ const LeftSideBar = props => {
     handleDisableSearchState();
     navigate('/');
   };
-
-  const handleOnSelectClick = useCallback(() => {
-    console.log(groupList);
-  }, []);
+  
+  const handleOnSelectClick = evt => {
+    setGroupList([]);
+    hanleGroupIdState(evt);
+    setGroupListSelected(evt - 1);
+    groupList.forEach(e => {
+      if (evt === e.channelId) {
+        e.select = true;
+        setGroupList(groupList => [...groupList, e]);
+      } else {
+        e.select = false;
+        setGroupList(groupList => [...groupList, e]);
+      }
+    });
+    // 여기서 그룹과 동영상이 나오게 하기
+  };
 
   function handleOnClickAddGroupButton() {
     Tasks.getInsertGroupsPromise(groupTextRef.current.value)
