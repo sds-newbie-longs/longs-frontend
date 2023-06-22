@@ -17,6 +17,18 @@ const Tasks = {
     const requestUrl = Urls.GET_VIDEO_LIST.replace('{groupId}', groupId);
     return axios.get(requestUrl);
   },
+
+  getSearchVideoListById: (groupId, keyword) => {
+    const requestUrl = Urls.GET_SEARCH_VIDEO_LIST.replace('{groupId}', groupId);
+    return axios.get(requestUrl + keyword);
+  },
+  getVideoPromise: (groupId, boardId) => {
+    const requestUrl = Urls.GET_SEARCH_VIDEO_LIST.replace('{groupId}', groupId).replace(
+      '{boardId}',
+      boardId,
+    );
+    return axios.get(requestUrl);
+  },
 };
 
 export default Tasks;

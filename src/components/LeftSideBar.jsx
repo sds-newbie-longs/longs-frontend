@@ -68,6 +68,7 @@ const LeftSideBar = props => {
   const handleOnSelectClick = evt => {
     setGroupList([]);
     handleGroupIdState(evt);
+    handleDisableSearchState();
 
     groupList.forEach((e, index) => {
       if (evt === e.channelId) {
