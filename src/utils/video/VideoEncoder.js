@@ -1,4 +1,4 @@
-function encode(name, data) {
+function encode(name, data, callback) {
   const worker = new Worker(new URL('VideoWorker.js', import.meta.url));
   worker.onmessage = function (e) {
     const msg = e.data;
@@ -18,7 +18,7 @@ function encode(name, data) {
         break;
       case 'done':
         console.log(msg.data);
-        break;
+        callback(msg.data);
     }
   };
 }

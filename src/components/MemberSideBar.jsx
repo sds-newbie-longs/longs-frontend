@@ -19,12 +19,14 @@ const MemberSideBar = props => {
   const groupMemberSelect = () => {
     if (groupId !== -1) {
       // 선택된 업로드가 없는 경우
-      Tasks.getGroupMembersPromise(groupId).then(res => {
-        const code = res.data.code;
-        if (code === BusinessCode.GROUP_MEMBER_SELECT_SUCCESS) {
-          setMembers(res.data.memberList);
-        }
-      });
+      Tasks.getGroupMembersPromise(groupId)
+        .then(res => {
+          const code = res.data.code;
+          if (code === BusinessCode.GROUP_MEMBER_SELECT_SUCCESS) {
+            setMembers(res.data.memberList);
+          }
+        })
+        .catch(reason => console.log(reason));
     }
   };
   const groupMemberSearch = keyword => {

@@ -3,42 +3,29 @@ import React, { useEffect, useState } from 'react';
 import 'styles/Upload.scss';
 import Dropzone from 'components/Dropzone';
 import CloseBtn from 'assets/CloseBtn.png';
-import Tasks from 'utils/axios/member/AxiosMemberTasks';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
+import check from 'utils/common/SessionChecker';
 
-const Upload = props => {
+const Upload = () => {
   const navigator = useNavigate();
   const [isUpload, setIsUpload] = useState(false);
   const [title, setTitle] = useState('');
-  const [description, setDesscription] = useState('');
+  const [description, setDescription] = useState('');
   const [groupId, setGroupId] = useState(0);
   const [groupName, setGroupName] = useState('');
 
   const { state } = useLocation();
 
-  const setUesrInfo = data => {
-    props.handleOnUesrInfo({ userName: data.username, userId: data.id });
-  };
-
   useEffect(() => {
+    check().catch(() => navigator('/'));
     if (state === null) {
       navigator('/');
     } else {
       setGroupId(state.groupId);
       setGroupName(state.groupName);
     }
-
-    Tasks.getMemberIdPromise()
-      .then(res => {
-        const data = res.data;
-        console.log(data);
-        setUesrInfo(data);
-      })
-      .catch(res => {
-        navigator('/login');
-      });
   }, []);
 
   const TitleChange = e => {
@@ -46,17 +33,17 @@ const Upload = props => {
   };
 
   const DescriptionChange = e => {
-    setDesscription(e.target.value);
+    setDescription(e.target.value);
   };
 
-  const ClickForUpload = e => {
+  const ClickForUpload = () => {
     // call api later...
     setTitle('');
-    setDesscription('');
+    setDescription('');
     setIsUpload(false);
   };
 
-  const buttonClassName = e => {
+  const buttonClassName = () => {
     if (isUpload && title.length > 0) {
       return 'button-click';
     }
@@ -66,7 +53,7 @@ const Upload = props => {
   return (
     <div className={'upload-root'}>
       <div className={'upload-container'}>
-        <img className={'close-button'} src={CloseBtn} />
+        <img className={'close-button'} src={CloseBtn} alt={'Close Button'} />
         <p className={'upload-ment'}>Upload Files</p>
         <Dropzone setIsUpload={setIsUpload} />
         <div className={'text-container'}>
