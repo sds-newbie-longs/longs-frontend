@@ -8,8 +8,7 @@ import check from 'utils/common/SessionChecker';
 import 'styles/Upload.scss';
 import Dropzone from 'components/Dropzone';
 import CloseBtn from 'assets/CloseBtn.png';
-
-// import VideoTasks from 'utils/axios/video/AxiosVideoTasks';
+import VideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
 const Upload = props => {
   const navigate = useNavigate();
@@ -42,18 +41,14 @@ const Upload = props => {
   };
 
   const ClickForUpload = () => {
-    // call api later...
-    // VideoTasks.getUploadBoardPromise(groupId, uuid, title, description).then(res => {
-    //   console.log(groupId, uuid, title, description);
-    //   navigate('/');
-    // });
-    setTitle('');
-    setDescription('');
-    setIsUpload(false);
-    // test
-    const notify = () => toast.success('동영상이 성공적으로 업로드 되었습니다.');
-    notify();
-    setTimeout(() => navigate('/'), 2000);
+    VideoTasks.getUploadBoardPromise(groupId, uuid, title, description).then(res => {
+      const notify = () => toast.success('동영상이 성공적으로 업로드 되었습니다.');
+      notify();
+      setTimeout(() => navigate('/'), 2000);
+    });
+    // setTitle('');
+    // setDescription('');
+    // setIsUpload(false);
   };
 
   const buttonClassName = () => {
