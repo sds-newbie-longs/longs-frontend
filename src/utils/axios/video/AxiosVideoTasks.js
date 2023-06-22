@@ -6,7 +6,7 @@ const Tasks = {
     return axios.delete(Urls.DELETE, { data: { boardId } });
   },
   getUploadBoardPromise: (channelId, videoUuid, title, description) => {
-    return axios.post(Urls.POST, {
+    return axios.post(Urls.POST + channelId + '/boards', {
       channelId,
       videoUuid,
       title,
