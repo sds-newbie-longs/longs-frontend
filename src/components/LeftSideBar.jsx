@@ -6,7 +6,7 @@ import GroupButton from 'components/GroupButton';
 import AddButton from 'components/common/AddButton';
 import Tasks from 'utils/axios/group/AxiosGroupTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
-import AxiosGroupMemberTasks from '../utils/axios/group_member/AxiosGroupMemberTasks';
+import AxiosGroupMemberTasks from 'utils/axios/group_member/AxiosGroupMemberTasks';
 
 const LeftSideBar = props => {
   const { handleDisableSearchState, handleGroupIdState, userId } = props;
@@ -68,6 +68,7 @@ const LeftSideBar = props => {
   const handleOnSelectClick = evt => {
     setGroupList([]);
     handleGroupIdState(evt);
+    handleDisableSearchState();
 
     groupList.forEach((e, index) => {
       if (evt === e.channelId) {

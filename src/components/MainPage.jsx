@@ -12,6 +12,7 @@ const MainPage = () => {
   const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
   const [groupId, setGroupId] = useState(-1);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
     check().catch(() => {
@@ -19,9 +20,10 @@ const MainPage = () => {
     });
   }, []);
 
-  const handleSearchState = useCallback(() => {
+  const handleSearchState = useCallback(searchKeyword => {
     if (!isSearching) {
       setIsSearching(true);
+      setSearchKeyword(searchKeyword);
     }
   }, []);
   const handleGroupIdState = evt => {
@@ -45,7 +47,11 @@ const MainPage = () => {
           <Header handleOnSubmit={handleSearchState} />
         </div>
         <div className={'video-list'}>
-          {isSearching ? <SearchResultArea /> : <ContentsArea groupId={groupId} />}
+          {isSearching ? (
+            <SearchResultArea searchKeyword={searchKeyword} groupId={groupId} />
+          ) : (
+            <ContentsArea groupId={groupId} />
+          )}
         </div>
       </div>
       <div className={'right-side-bar'}>
