@@ -17,6 +17,10 @@ const Tasks = {
       { timeout: 0 },
     );
   },
+  getVideoListByGroup: groupId => {
+    const requestUrl = Urls.GET_VIDEO_LIST.replace('{groupId}', groupId);
+    return axios.get(requestUrl);
+  },
 };
 
 export default Tasks;

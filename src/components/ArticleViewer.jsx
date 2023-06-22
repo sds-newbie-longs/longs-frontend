@@ -58,5 +58,5 @@ ArticleViewer.propTypes = {
   owner: PropTypes.string.isRequired,
   viewCount: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
-  videoSrc: PropTypes.any.isRequired,
+  videoSrc: PropTypes.string.isRequired,
 };

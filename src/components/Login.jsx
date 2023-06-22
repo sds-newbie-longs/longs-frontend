@@ -5,32 +5,25 @@ import Logo from 'assets/MainLogo.svg';
 import { useNavigate } from 'react-router';
 import Tasks from 'utils/axios/member/AxiosMemberTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
-import PropTypes from 'prop-types';
 
-const Login = props => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
   const onChange = e => {
     setUsername(e.target.value);
   };
-  const setUesrInfo = data => {
-    props.handleOnUesrInfo({ userName: data.username, userId: data.id });
-  };
+
   const onClick = () => {
     Tasks.getSignInPromise(username).then(res => {
       const code = res.data.code;
       if (code === BusinessCode.LOGIN_SUCCESS) {
-        Tasks.getMemberIdPromise().then(res => {
-          const data = res.data;
-          setUesrInfo(data);
-          navigate('/');
-        });
+        navigate('/');
       }
     });
   };
 
-  const buttonClassName = e => {
+  const buttonClassName = () => {
     if (username.length > 0) {
       return 'button-click';
     }
@@ -46,7 +39,7 @@ const Login = props => {
   return (
     <div className={'login-root'}>
       <div className={'login-container'}>
-        <img src={Logo} />
+        <img src={Logo} alt={'Longs Icon'} />
         <p>우리를 위한 공유 플랫폼 롱스</p>
         <input
           type="text"
@@ -62,7 +55,5 @@ const Login = props => {
     </div>
   );
 };
-Login.propTypes = {
-  handleOnUesrInfo: PropTypes.func,
-};
+
 export default Login;
