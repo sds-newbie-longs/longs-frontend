@@ -12,12 +12,7 @@ const MainPage = () => {
   const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
   const [groupId, setGroupId] = useState(-1);
-  const [userId, setUserId] = useState(-1);
 
-  const setUesrInfo = data => {
-    setUserId(data.id);
-    props.handleOnUesrInfo({ userName: data.username, userId: data.id });
-  };
   useEffect(() => {
     check().catch(() => {
       navigator('/login');
@@ -42,7 +37,7 @@ const MainPage = () => {
         <LeftSideBar
           handleDisableSearchState={handleDisableSearchState}
           handleGroupIdState={handleGroupIdState}
-          userId={userId}
+          userId={sessionStorage.getItem('id')}
         />
       </div>
       <div className={'mid-side-bar'}>
