@@ -49,7 +49,7 @@ const Upload = props => {
         }
       })
       .catch(error => console.log(error.code));
-    const notify = () => toast.success('동영상이 성공적으로 업로드 되었습니다.');
+    const notify = () => toast('동영상이 성공적으로 업로드 되었습니다.');
     notify();
     setTimeout(() => navigate('/'), 2000);
   };
