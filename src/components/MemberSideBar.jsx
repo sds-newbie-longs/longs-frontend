@@ -62,7 +62,6 @@ const MemberSideBar = props => {
     });
   };
 
-
   const askServer = keyword => {
     SetSearch(keyword);
   };
@@ -75,7 +74,6 @@ const MemberSideBar = props => {
       }
     });
   };
-
 
   const onInvited = useCallback((id, username) => {
     setSearchResult(() => []);

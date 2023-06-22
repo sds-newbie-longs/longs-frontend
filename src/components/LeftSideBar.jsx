@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import 'styles/LeftSideBar.scss';
@@ -9,11 +9,12 @@ import BusinessCode from 'utils/common/BuisnessCode';
 import AxiosGroupMemberTasks from '../utils/axios/group_member/AxiosGroupMemberTasks';
 
 const LeftSideBar = props => {
-  const { handleDisableSearchState } = props;
+  const { handleDisableSearchState, handleGroupIdState, userId } = props;
   const navigate = useNavigate();
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
   const [groupList, setGroupList] = useState([]);
+  const [selectGroup, setSelectGroup] = useState(0);
 
   useEffect(e => {
     getGroupList(0);
@@ -27,7 +28,7 @@ const LeftSideBar = props => {
           res.data.channelList.forEach((e, index) => {
             if (index === groupListSelected) {
               e.select = true;
-              hanleGroupIdState(e.channelId);
+              handleGroupIdState(e.channelId);
             } else {
               e.select = false;
             }
@@ -35,13 +36,13 @@ const LeftSideBar = props => {
           });
         } else {
           // 그룹이 존재 하지 않음.
-          hanleGroupIdState(0);
+          handleGroupIdState(0);
         }
       }
     });
   };
   const handleOnRemoveClick = (groupKey, ownerId) => {
-    if (props.userId === ownerId) {
+    if (userId === ownerId) {
       Tasks.getDeleteGroupsPromise(groupKey).then(async res => {
         const code = res.data.code;
         if (code === BusinessCode.GROUP_DELETE_SUCCESS) {
@@ -64,14 +65,15 @@ const LeftSideBar = props => {
     handleDisableSearchState();
     navigate('/');
   };
-  
   const handleOnSelectClick = evt => {
     setGroupList([]);
-    hanleGroupIdState(evt);
-    getGroupList(evt - 1);
-    groupList.forEach(e => {
+    handleGroupIdState(evt);
+
+    groupList.forEach((e, index) => {
       if (evt === e.channelId) {
         e.select = true;
+        getGroupList(index);
+        setSelectGroup(index);
         setGroupList(groupList => [...groupList, e]);
       } else {
         e.select = false;
@@ -87,7 +89,7 @@ const LeftSideBar = props => {
         const code = response.data.code;
         // 전송후 잘 되었다면?
         if (code === BusinessCode.GROUP_INSERT_SUCCESS) {
-          getGroupList();
+          getGroupList(selectGroup);
           setAddGroupBox(false);
         }
         // 전송후 실패 했다면?
@@ -128,6 +130,6 @@ export default LeftSideBar;
 
 LeftSideBar.propTypes = {
   handleDisableSearchState: PropTypes.func.isRequired,
-  hanleGroupIdState: PropTypes.func.isRequired,
+  handleGroupIdState: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
 };
