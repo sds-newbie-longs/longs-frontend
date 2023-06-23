@@ -13,7 +13,7 @@ async function loadFFmpeg() {
     log: true,
     progress: p => {
       clearInterval(interval);
-      interval = setInterval(() => console.log('progress : ', p.ratio), 500);
+      interval = setInterval(() => postMessage({ type: 'progress', data: p.ratio * 100 }), 500);
     },
   });
   await ffmpeg.load();

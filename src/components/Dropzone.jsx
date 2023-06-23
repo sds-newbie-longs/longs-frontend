@@ -5,9 +5,9 @@ import 'react-circular-progressbar/dist/styles.css';
 import 'styles/Dropzone.scss';
 import AddButton from 'components/common/AddButton';
 import PropTypes from 'prop-types';
-// import { encode } from 'utils/video/VideoEncoder';
 import TusUploader from 'utils/video/TusUploader';
-import { encode } from '../utils/video/VideoEncoder';
+import { encode } from 'utils/video/VideoEncoder';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Dropzone = props => {
   const { setIsUpload, setUuid } = props;
@@ -18,7 +18,10 @@ const Dropzone = props => {
   // const endpoint = 'http://35.216.94.36/video/upload';
   const endpoint = 'http://localhost:8080/video/upload';
 
+  const notify = text => toast(text);
+
   const onEncoded = useCallback(data => {
+    notify('동영상이 성공적으로 업로드 되었습니다.');
     const uploader = TusUploader(new File([data], fileName), endpoint, {
       filename: fileName,
       filetype: fileType,
@@ -46,7 +49,6 @@ const Dropzone = props => {
     const onAfterResponse = (req, res) => {
       const url = req.getURL();
       response = res.getBody();
-
       console.log('get url => ' + url);
     };
 
@@ -61,7 +63,22 @@ const Dropzone = props => {
     reader.onloadend = evt => {
       fileName = file.name;
       fileType = file.type;
-      encode(file.name, evt.target.result, onEncoded);
+      toast.promise(
+        encode(file.name, evt.target.result, onEncoded, updateProgress),
+        {
+          loading: '동영상을 인코딩 중입니다..',
+          success: '인코딩이 완료되었습니다.',
+          error: '에러가 발생하였습니다.',
+        },
+        {
+          style: {
+            minWidth: '250px',
+          },
+          success: {
+            duration: 5000,
+          },
+        },
+      );
     };
     reader.onload = () => {
       /* console.log('load');
@@ -98,6 +115,10 @@ const Dropzone = props => {
     };
   }, []);
 
+  const updateProgress = useCallback(progress => {
+    setCurrentProgress(progress);
+  }, []);
+
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     noClick: true,
     accept: {
@@ -116,6 +137,7 @@ const Dropzone = props => {
   if (files.length > 0) {
     return (
       <div className={'drop-container-full'}>
+        <Toaster />
         <CircularProgressbar
           value={currentProgress}
           text={`${response === '' ? done : currentProgress}%`}
