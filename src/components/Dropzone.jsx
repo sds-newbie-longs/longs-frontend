@@ -6,54 +6,16 @@ import 'styles/Dropzone.scss';
 import AddButton from 'components/common/AddButton';
 import PropTypes from 'prop-types';
 import TusUploader from 'utils/video/TusUploader';
-import { encode } from 'utils/video/VideoEncoder';
-import toast, { Toaster } from 'react-hot-toast';
 
 const Dropzone = props => {
   const { setIsUpload, setUuid } = props;
   const [currentProgress, setCurrentProgress] = useState(0);
   const done = 'done';
   let response, fileName, fileType;
-  // const endpoint = 'https://longs-api.iamnew.net/video/upload';
+  const endpoint = 'https://longs-api.iamnew.net/video/upload';
   // const endpoint = 'http://35.216.94.36/video/upload';
-  const endpoint = 'http://localhost:8080/video/upload';
+  // const endpoint = 'http://localhost:8080/video/upload';
 
-  const notify = text => toast(text);
-
-  const onEncoded = useCallback(data => {
-    notify('동영상이 성공적으로 업로드 되었습니다.');
-    const uploader = TusUploader(new File([data], fileName), endpoint, {
-      filename: fileName,
-      filetype: fileType,
-    });
-    const onProgress = (bytesUploaded, bytesTotal) => {
-      const percentage = Math.round((bytesUploaded / bytesTotal) * 100);
-      console.log(bytesUploaded, bytesTotal, percentage + '%');
-      setCurrentProgress(percentage);
-    };
-    // 업로드가 성공적으로 완료되었을 때 실행
-    const onSuccess = () => {
-      console.log('Download %s from %s', fileName, fileType);
-      console.log('response =>' + response);
-      setUuid(response);
-    };
-    const onError = err => {
-      console.log(err);
-    };
-    const onBeforeRequest = req => {
-      // 로컬 노드js 테스트 시 주석
-      const xhr = req.getUnderlyingObject();
-      xhr.withCredentials = true;
-    };
-    // 응답을 성공적으로 받았을 때 실행
-    const onAfterResponse = (req, res) => {
-      const url = req.getURL();
-      response = res.getBody();
-      console.log('get url => ' + url);
-    };
-
-    uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse);
-  }, []);
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
     /* fileName = file.name;
@@ -63,22 +25,34 @@ const Dropzone = props => {
     reader.onloadend = evt => {
       fileName = file.name;
       fileType = file.type;
-      toast.promise(
-        encode(file.name, evt.target.result, onEncoded, updateProgress),
-        {
-          loading: '동영상을 인코딩 중입니다..',
-          success: '인코딩이 완료되었습니다.',
-          error: '에러가 발생하였습니다.',
-        },
-        {
-          style: {
-            minWidth: '250px',
-          },
-          success: {
-            duration: 5000,
-          },
-        },
-      );
+      const uploader = TusUploader(file, endpoint);
+      const onProgress = (bytesUploaded, bytesTotal) => {
+        const percentage = Math.round((bytesUploaded / bytesTotal) * 100);
+        console.log(bytesUploaded, bytesTotal, percentage + '%');
+        setCurrentProgress(percentage);
+      };
+      // 업로드가 성공적으로 완료되었을 때 실행
+      const onSuccess = () => {
+        console.log('Download %s from %s', fileName, fileType);
+        console.log('response =>' + response);
+        setUuid(response);
+      };
+      const onError = err => {
+        console.log(err);
+      };
+      const onBeforeRequest = req => {
+        // 로컬 노드js 테스트 시 주석
+        const xhr = req.getUnderlyingObject();
+        xhr.withCredentials = true;
+      };
+      // 응답을 성공적으로 받았을 때 실행
+      const onAfterResponse = (req, res) => {
+        const url = req.getURL();
+        response = res.getBody();
+        console.log('get url => ' + url);
+      };
+
+      uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse);
     };
     reader.onload = () => {
       /* console.log('load');
@@ -115,10 +89,6 @@ const Dropzone = props => {
     };
   }, []);
 
-  const updateProgress = useCallback(progress => {
-    setCurrentProgress(progress);
-  }, []);
-
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     noClick: true,
     accept: {
@@ -137,7 +107,6 @@ const Dropzone = props => {
   if (files.length > 0) {
     return (
       <div className={'drop-container-full'}>
-        <Toaster />
         <CircularProgressbar
           value={currentProgress}
           text={`${response === '' ? done : currentProgress}%`}

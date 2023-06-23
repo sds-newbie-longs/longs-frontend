@@ -5,6 +5,7 @@ let interval, ffmpeg, resultFileName, currentCodec, name, data, fileName;
 // const chunkingThreshold = 314_572_800;
 
 async function encodeVideo() {
+  postMessage({ type: 'start' });
   await ffmpeg.run('-i', name, '-c:v', 'libx264', '-c:a', 'copy', resultFileName);
 }
 
