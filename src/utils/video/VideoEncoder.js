@@ -4,6 +4,9 @@ function encode(name, data, callback, updateProgress) {
     worker.onmessage = function (e) {
       const msg = e.data;
       switch (msg.type) {
+        case 'start':
+          console.log('start encoding');
+          break;
         case 'ready':
           worker.postMessage({ type: 'run', arguments: { name, data } });
           break;
