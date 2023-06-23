@@ -20,6 +20,8 @@ const BusinessCode = {
   GROUP_INSERT_FAILED: 'CC002',
   GET_SEARCH_VIDEO_LIST: 'B004',
   GET_VIDEO_LIST_SUCCESS: 'B005',
+  GET_VIDEO_SUCCESS: 'B001',
+  GET_VIDEO_FAILED: 'B002',
 };
 
 Object.freeze(BusinessCode);

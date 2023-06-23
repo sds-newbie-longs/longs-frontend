@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import BusinessCode from 'utils/common/BuisnessCode';
 
 const ContentsArea = props => {
-  const { groupId } = props;
+  const { groupId, handleMainListChangeState } = props;
 
   const [allBoardList, setAllBoardList] = useState([]);
   const [memberBoardList, setMemberBoardList] = useState([]);
@@ -70,7 +70,10 @@ const ContentsArea = props => {
                 <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
               </div>
               <div className={'video-info-list-container'}>
-                <VideoInfoList videoList={allBoardList} />
+                <VideoInfoList
+                  videoList={allBoardList}
+                  handleMainListChangeState={handleMainListChangeState}
+                />
               </div>
             </div>
             <hr className={'hr'} />
