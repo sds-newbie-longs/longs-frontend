@@ -7,20 +7,22 @@ import AddButton from 'components/common/AddButton';
 import PropTypes from 'prop-types';
 // import { encode } from 'utils/video/VideoEncoder';
 import TusUploader from 'utils/video/TusUploader';
-import { encode } from 'utils/video/VideoEncoder';
+import { encode } from '../utils/video/VideoEncoder';
 
 const Dropzone = props => {
   const { setIsUpload, setUuid } = props;
   const [currentProgress, setCurrentProgress] = useState(0);
   const done = 'done';
-  let response;
+  let response, fileName, fileType;
   // const endpoint = 'https://longs-api.iamnew.net/video/upload';
   // const endpoint = 'http://35.216.94.36/video/upload';
   const endpoint = 'http://localhost:8080/video/upload';
 
   const onEncoded = useCallback(data => {
-    console.log('load');
-    const uploader = TusUploader(data, endpoint);
+    const uploader = TusUploader(new File([data], fileName), endpoint, {
+      filename: fileName,
+      filetype: fileType,
+    });
     const onProgress = (bytesUploaded, bytesTotal) => {
       const percentage = Math.round((bytesUploaded / bytesTotal) * 100);
       console.log(bytesUploaded, bytesTotal, percentage + '%');
@@ -28,7 +30,9 @@ const Dropzone = props => {
     };
     // 업로드가 성공적으로 완료되었을 때 실행
     const onSuccess = () => {
+      console.log('Download %s from %s', fileName, fileType);
       console.log('response =>' + response);
+      setUuid(response);
     };
     const onError = err => {
       console.log(err);
@@ -55,10 +59,12 @@ const Dropzone = props => {
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend = evt => {
+      fileName = file.name;
+      fileType = file.type;
       encode(file.name, evt.target.result, onEncoded);
     };
     reader.onload = () => {
-      console.log('load');
+      /* console.log('load');
       const uploader = TusUploader(file, endpoint, {
         filename: file.name,
         filetype: file.type,
@@ -88,7 +94,7 @@ const Dropzone = props => {
         console.log('response =>' + response);
       };
 
-      uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse);
+      uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse); */
     };
   }, []);
 
