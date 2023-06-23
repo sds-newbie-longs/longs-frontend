@@ -6,10 +6,8 @@ import Login from 'components/Login';
 import ArticleViewer from 'components/ArticleViewer';
 import Upload from 'components/Upload';
 
-// import Upload from 'components/Upload';
-// import Dropzone from 'components/Dropzone';
-
 function App() {
+  const [uploadCode, setUploadCode] = useState(0);
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState('');
 
@@ -18,13 +16,22 @@ function App() {
     setUserName(event.userName);
   };
 
+  const handleUploadCode = code => {
+    setUploadCode(code);
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
           element={
-            <MainPage userId={userId} userName={userName} handleOnUesrInfo={handleOnUesrInfo} />
+            <MainPage
+              userId={userId}
+              userName={userName}
+              handleOnUesrInfo={handleOnUesrInfo}
+              uploadCode={uploadCode}
+            />
           }
         ></Route>
         <Route path="/login" element={<Login handleOnUesrInfo={handleOnUesrInfo} />}></Route>
@@ -42,7 +49,12 @@ function App() {
             />
           }
         ></Route>
-        <Route path="/upload" element={<Upload handleOnUesrInfo={handleOnUesrInfo} />}></Route>
+        <Route
+          path="/upload"
+          element={
+            <Upload handleOnUesrInfo={handleOnUesrInfo} handleUploadCode={handleUploadCode} />
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

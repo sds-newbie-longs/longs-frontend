@@ -8,6 +8,7 @@ import SearchResultArea from 'components/SearchResultArea';
 import { useNavigate } from 'react-router';
 import Tasks from 'utils/axios/member/AxiosMemberTasks';
 import PropTypes from 'prop-types';
+import { toast, Toaster } from 'react-hot-toast';
 
 const MainPage = props => {
   const navigator = useNavigate();
@@ -17,6 +18,19 @@ const MainPage = props => {
   const setUesrInfo = data => {
     props.handleOnUesrInfo({ userName: data.username, userId: data.id });
   };
+
+  useEffect(() => {
+    if (props.uploadCode === 200) {
+      const notify = () => toast.success('게시물이 성공적으로 업로드 되었습니다.');
+      notify();
+    } else if (props.uploadCode === 400) {
+      const notify = () => toast.error('게시물 업로드를 실패하였습니다.');
+      notify();
+    } else {
+      toast.dismiss();
+    }
+    console.log('main page => ' + props.uploadCode);
+  }, [props.uploadCode]);
 
   useEffect(() => {
     Tasks.getMemberIdPromise()
@@ -59,6 +73,7 @@ const MainPage = props => {
       <div className={'right-side-bar'}>
         <MemberSideBar groupId={groupId}></MemberSideBar>
       </div>
+      <Toaster />
     </div>
   );
 };
@@ -66,5 +81,6 @@ MainPage.propTypes = {
   userId: PropTypes.number,
   userName: PropTypes.string,
   handleOnUesrInfo: PropTypes.func,
+  uploadCode: PropTypes.any,
 };
 export default MainPage;
