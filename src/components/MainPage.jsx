@@ -11,7 +11,7 @@ import check from 'utils/common/SessionChecker';
 const MainPage = () => {
   const navigator = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
-  const [groupId, setGroupId] = useState(-1);
+  const [group, setGroup] = useState({});
   const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
@@ -26,8 +26,9 @@ const MainPage = () => {
       setSearchKeyword(searchKeyword);
     }
   }, []);
-  const handleGroupIdState = evt => {
-    setGroupId(evt);
+  const handleGroupState = group => {
+    console.log('group changed');
+    setGroup(group);
   };
   const handleDisableSearchState = useCallback(() => {
     setIsSearching(false);
@@ -38,24 +39,24 @@ const MainPage = () => {
       <div className={'left-side-bar'}>
         <LeftSideBar
           handleDisableSearchState={handleDisableSearchState}
-          handleGroupIdState={handleGroupIdState}
-          userId={sessionStorage.getItem('id')}
+          handleGroupIdState={handleGroupState}
+          handleGroupState={handleGroupState}
         />
       </div>
       <div className={'mid-side-bar'}>
         <div className={'header'}>
-          <Header handleOnSubmit={handleSearchState} />
+          <Header handleOnSubmit={handleSearchState} groupId={group.id} groupName={group.name} />
         </div>
         <div className={'video-list'}>
           {isSearching ? (
-            <SearchResultArea searchKeyword={searchKeyword} groupId={groupId} />
+            <SearchResultArea searchKeyword={searchKeyword} groupId={group.id} />
           ) : (
-            <ContentsArea groupId={groupId} />
+            <ContentsArea groupId={group.id} />
           )}
         </div>
       </div>
       <div className={'right-side-bar'}>
-        <MemberSideBar groupId={groupId}></MemberSideBar>
+        <MemberSideBar groupId={group.id}></MemberSideBar>
       </div>
     </div>
   );
