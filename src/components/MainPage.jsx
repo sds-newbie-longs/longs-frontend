@@ -11,7 +11,7 @@ import ArticleViewer from './ArticleViewer';
 
 const MainPage = () => {
   const navigator = useNavigate();
-  const [group, setGroup] = useState({});
+  const [groupId, setGroupId] = useState();
   const [isMainList, setIsMainList] = useState(0); // 0 : 기본 화면, 1 : 검색, 2 : 상세 페이지
   const [searchKeyword, setSearchKeyword] = useState('');
   const [videoId, setVideoId] = useState();
@@ -26,10 +26,17 @@ const MainPage = () => {
     setIsMainList(1);
     setSearchKeyword(searchKeyword);
   }, []);
-  const handleGroupState = group => {
-    console.log('group changed');
-    setGroup(group);
-  };
+
+  const handleDisableSearchState = useCallback(() => {
+    setIsMainList(0);
+    setSearchKeyword('');
+  }, []);
+
+  const handleGroupState = useCallback(group => {
+    console.log(group);
+    setGroupId(group.id);
+  }, []);
+
   const handleMainListChangeState = useCallback(evt => {
     if (typeof evt === 'number') {
       setIsMainList(evt);
@@ -44,21 +51,20 @@ const MainPage = () => {
       <div className={'left-side-bar'}>
         <LeftSideBar
           handleDisableSearchState={handleDisableSearchState}
-          handleGroupIdState={handleGroupState}
           handleGroupState={handleGroupState}
         />
       </div>
       <div className={'mid-side-bar'}>
         <div className={'header'}>
-          <Header handleOnSubmit={handleSearchState} groupId={group.id} groupName={group.name} />
+          <Header handleOnSubmit={handleSearchState} groupId={groupId} />
         </div>
         <div className={'video-list'}>
           {isMainList === 0 ? (
-            <ContentsArea groupId={group.id} handleMainListChangeState={handleMainListChangeState} />
+            <ContentsArea groupId={groupId} handleMainListChangeState={handleMainListChangeState} />
           ) : isMainList === 1 ? (
             <SearchResultArea
               searchKeyword={searchKeyword}
-              groupId={group.id}
+              groupId={groupId}
               handleMainListChangeState={handleMainListChangeState}
             />
           ) : (
@@ -67,7 +73,7 @@ const MainPage = () => {
         </div>
       </div>
       <div className={'right-side-bar'}>
-        <MemberSideBar groupId={group.id}></MemberSideBar>
+        <MemberSideBar groupId={groupId}></MemberSideBar>
       </div>
     </div>
   );

@@ -14,8 +14,12 @@ const LeftSideBar = props => {
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
   const [groupList, setGroupList] = useState([]);
-  let selectedGroup;
+  const [selectedGroup, setSelectedGroup] = useState();
   const userId = Number.parseInt(sessionStorage.getItem('id'));
+
+  useEffect(() => {
+    handleGroupState(groupList.filter(group => group.id === selectedGroup));
+  }, [selectedGroup]);
 
   useEffect(() => {
     Tasks.getSelectGroupsPromise().then(res => {
@@ -30,10 +34,11 @@ const LeftSideBar = props => {
             selected: false,
           };
         });
-        groupList[0].selected = true;
-        selectedGroup = groupList[0].id;
-        setGroupList(groupList);
-        handleGroupState(groupList[0]);
+        if (groupList.length > 0) {
+          groupList[0].selected = true;
+          setGroupList(groupList);
+          setSelectedGroup(groupList[0].id);
+        }
       }
     });
   }, []);
@@ -79,15 +84,14 @@ const LeftSideBar = props => {
 
   const handleOnSelectClick = useCallback(groupId => {
     if (selectedGroup === groupId) return;
-    handleDisableSearchState();
+
     setGroupList(prevState => {
       return prevState.map(group => {
         if (group.id === groupId) return { ...group, selected: true };
-        else return { ...group, selected: false };
+        return { ...group, selected: false };
       });
     });
-    handleGroupState(groupList.filter(group => group.id === groupId));
-    selectedGroup = groupId;
+    setSelectedGroup(groupId);
   }, []);
 
   const handleOnClickAddGroupButton = useCallback(() => {
@@ -131,7 +135,7 @@ const LeftSideBar = props => {
             <input className={'add-group-box-input'} type="text" ref={groupTextRef} />
             <div className={'add-group-box-button'} onClick={handleOnClickAddGroupButton} />
           </Fragment>
-        ) : null}
+        ) : undefined}
       </div>
       <AddButton handleClick={handleGroupAddClick} />
     </div>

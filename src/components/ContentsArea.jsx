@@ -44,7 +44,10 @@ const ContentsArea = props => {
               <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
             </div>
             <div className={'video-info-list-container'}>
-              <VideoInfoList videoList={boardList} />
+              <VideoInfoList
+                videoList={boardList}
+                handleMainListChangeState={handleMainListChangeState}
+              />
             </div>
           </div>
           <hr className={'hr'} />
@@ -93,4 +96,5 @@ const ContentsArea = props => {
 export default ContentsArea;
 ContentsArea.propTypes = {
   groupId: PropTypes.number,
+  handleMainListChangeState: PropTypes.func,
 };
