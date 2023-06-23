@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import 'styles/ContentsArea.scss';
 import { ReactComponent as NoContentImg } from 'assets/noContents.svg';
 import VideoInfoList from 'components/VideoInfoList';
@@ -31,6 +31,27 @@ const ContentsArea = props => {
       .catch(reason => console.log(reason));
   };
 
+  const getMemberBoardListJsx = useCallback((boardList, username, index) => {
+    if (boardList.length > 0) {
+      return (
+        <Fragment key={index}>
+          <div className={'contents-area-video-info-container'} key={index}>
+            <div className={'contents-area-video-info-container-info-wrapper'}>
+              <div className={'contents-area-video-info-list-container-title'}>
+                <span>{username}</span>
+              </div>
+              <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
+            </div>
+            <div className={'video-info-list-container'}>
+              <VideoInfoList videoList={boardList} />
+            </div>
+          </div>
+          <hr className={'hr'} />
+        </Fragment>
+      );
+    }
+  }, []);
+
   return (
     <div className="contents-area-root">
       {allBoardList.length === 0 ? (
@@ -53,22 +74,10 @@ const ContentsArea = props => {
             </div>
             <hr className={'hr'} />
             {memberBoardList.map((memberBoardList, index) => {
-              console.log(memberBoardList);
-              return (
-                <>
-                  <div className={'contents-area-video-info-container'} key={index}>
-                    <div className={'contents-area-video-info-container-info-wrapper'}>
-                      <div className={'contents-area-video-info-list-container-title'}>
-                        <span>{memberBoardList.username}</span>
-                      </div>
-                      <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
-                    </div>
-                    <div className={'video-info-list-container'}>
-                      <VideoInfoList videoList={memberBoardList.boardList} />
-                    </div>
-                  </div>
-                  <hr className={'hr'} />
-                </>
+              return getMemberBoardListJsx(
+                memberBoardList.boardList,
+                memberBoardList.username,
+                index,
               );
             })}
           </Fragment>

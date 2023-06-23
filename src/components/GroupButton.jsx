@@ -32,7 +32,7 @@ GroupButton.propTypes = {
   groupKey: PropTypes.number,
   groupName: PropTypes.string,
   selected: PropTypes.bool,
-  ownerId: PropTypes.string,
+  ownerId: PropTypes.number.isRequired,
   handleOnRemoveClick: PropTypes.func,
   handleOnSelectClick: PropTypes.func,
 };
