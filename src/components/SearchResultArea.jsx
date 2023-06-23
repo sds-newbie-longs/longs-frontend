@@ -7,7 +7,7 @@ import Tasks from 'utils/axios/video/AxiosVideoTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
 
 const SearchResultArea = props => {
-  const { searchKeyword, groupId } = props;
+  const { searchKeyword, groupId, handleMainListChangeState } = props;
   const [searchResultList, setSearchResultList] = useState([]);
 
   useEffect(() => {
@@ -35,7 +35,11 @@ const SearchResultArea = props => {
   return (
     <div className={'search-result-root'}>
       {searchResultList.map(data => (
-        <p className={'search-result-item'} key={data.id}>
+        <p
+          className={'search-result-item'}
+          key={data.boardId}
+          onClick={() => handleMainListChangeState([3, data.boardId])}
+        >
           <img className={'search-result-thumbnail'} src={data.thumbnail_url} />
           <div className={'search-result-info'}>
             <div className={'search-result-title'}> {data.title} </div>
@@ -51,5 +55,6 @@ const SearchResultArea = props => {
 SearchResultArea.propTypes = {
   searchKeyword: PropTypes.string.isRequired,
   groupId: PropTypes.number.isRequired,
+  handleMainListChangeState: PropTypes.func.isRequired,
 };
 export default SearchResultArea;

@@ -27,10 +27,7 @@ const Tasks = {
     return axios.get(requestUrl + keyword);
   },
   getVideoPromise: (groupId, boardId) => {
-    const requestUrl = Urls.GET_SEARCH_VIDEO_LIST.replace('{groupId}', groupId).replace(
-      '{boardId}',
-      boardId,
-    );
+    const requestUrl = Urls.GET.replace('{groupId}', groupId).replace('{boardId}', boardId);
     return axios.get(requestUrl);
   },
 };

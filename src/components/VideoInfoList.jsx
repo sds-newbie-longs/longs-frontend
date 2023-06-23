@@ -2,22 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import VideoInfo from 'components/VideoInfo';
 import 'styles/VideoInfoList.scss';
-import { useNavigate } from 'react-router';
 
-const VideoInfoList = ({ videoList }) => {
-  const navigate = useNavigate();
+const VideoInfoList = ({ videoList, handleMainListChangeState }) => {
   VideoInfoList.propTypes = {
     videoList: PropTypes.arrayOf(
       PropTypes.shape({
+        boardId: PropTypes.number.isRequired,
         thumbnailUrl: PropTypes.string.isRequired,
         username: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
       }),
     ).isRequired,
+    handleMainListChangeState: PropTypes.func.isRequired,
   };
   const handelOnClickVideo = () => {
-    navigate('/article');
+    handleMainListChangeState([3, videoList[0].boardId]);
   };
   return (
     <div className={'video-info-list-root'}>

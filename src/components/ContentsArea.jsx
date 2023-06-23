@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import BusinessCode from 'utils/common/BuisnessCode';
 
 const ContentsArea = props => {
-  const { groupId } = props;
+  const { groupId, handleMainListChangeState } = props;
 
   const [allBoardList, setAllBoardList] = useState([]);
   const [memberBoardList, setMemberBoardList] = useState([]);
@@ -23,7 +23,6 @@ const ContentsArea = props => {
       .then(res => {
         const body = res.data;
         if (body.code === BusinessCode.GET_VIDEO_LIST_SUCCESS) {
-          console.log(body);
           setAllBoardList(body.allBoardList);
           setMemberBoardList(body.memberBoardList);
         }
@@ -48,15 +47,17 @@ const ContentsArea = props => {
                 <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
               </div>
               <div className={'video-info-list-container'}>
-                <VideoInfoList videoList={allBoardList} />
+                <VideoInfoList
+                  videoList={allBoardList}
+                  handleMainListChangeState={handleMainListChangeState}
+                />
               </div>
             </div>
             <hr className={'hr'} />
             {memberBoardList.map((memberBoardList, index) => {
-              console.log(memberBoardList);
               return (
-                <>
-                  <div className={'contents-area-video-info-container'} key={index}>
+                <div key={index}>
+                  <div className={'contents-area-video-info-container'}>
                     <div className={'contents-area-video-info-container-info-wrapper'}>
                       <div className={'contents-area-video-info-list-container-title'}>
                         <span>{memberBoardList.username}</span>
@@ -64,11 +65,14 @@ const ContentsArea = props => {
                       <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
                     </div>
                     <div className={'video-info-list-container'}>
-                      <VideoInfoList videoList={memberBoardList.boardList} />
+                      <VideoInfoList
+                        videoList={memberBoardList.boardList}
+                        handleMainListChangeState={handleMainListChangeState}
+                      />
                     </div>
                   </div>
                   <hr className={'hr'} />
-                </>
+                </div>
               );
             })}
           </Fragment>
@@ -80,4 +84,5 @@ const ContentsArea = props => {
 export default ContentsArea;
 ContentsArea.propTypes = {
   groupId: PropTypes.number.isRequired,
+  handleMainListChangeState: PropTypes.func.isRequired,
 };
