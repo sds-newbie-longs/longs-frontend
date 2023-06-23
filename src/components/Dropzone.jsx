@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -9,9 +9,8 @@ import PropTypes from 'prop-types';
 import TusUploader from 'utils/video/TusUploader';
 
 const Dropzone = props => {
-  const { setIsUpload, setUuid } = props;
+  const { setUuid } = props;
   const [currentProgress, setCurrentProgress] = useState(0);
-  const done = 'done';
   let response;
 
   const onDrop = useCallback(acceptedFiles => {
@@ -38,6 +37,7 @@ const Dropzone = props => {
         console.log('Download %s from %s', file.name, file.type);
         console.log('response =>' + response);
         setUuid(response);
+        console.log('=======upload end========');
       };
       const onError = err => {
         console.log(err);
@@ -49,8 +49,6 @@ const Dropzone = props => {
       // 응답을 성공적으로 받았을 때 실행
       const onAfterResponse = (req, res) => {
         response = res.getBody();
-
-        console.log('response =>' + response);
       };
 
       uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse);
@@ -66,20 +64,11 @@ const Dropzone = props => {
   });
 
   const files = acceptedFiles.map(file => <p key={file.path}>{file.path}</p>);
-  useEffect(() => {
-    if (currentProgress === 100) {
-      setIsUpload(true);
-    }
-  }, [currentProgress]);
 
   if (files.length > 0) {
     return (
       <div className={'drop-container-full'}>
-        <CircularProgressbar
-          value={currentProgress}
-          text={`${response === '' ? done : currentProgress}%`}
-          maxValue={101}
-        />
+        <CircularProgressbar value={currentProgress} text={`${currentProgress}%`} />
       </div>
     );
   }
@@ -99,6 +88,5 @@ const Dropzone = props => {
 export default Dropzone;
 
 Dropzone.propTypes = {
-  setIsUpload: PropTypes.func,
   setUuid: PropTypes.func,
 };
