@@ -42,10 +42,12 @@ const Upload = props => {
     VideoTasks.getUploadBoardPromise(groupId, uuid, title, description)
       .then(res => {
         if (res.status === 200) {
+          props.handleUploadCode(200);
           console.log('good....200 ok');
         }
       })
       .catch(error => {
+        props.handleUploadCode(400);
         console.log(error.code);
       });
     notify('업로드가 완료되었습니다.');
@@ -110,7 +112,7 @@ const Upload = props => {
 };
 
 Upload.propTypes = {
-  setUploadCode: PropTypes.any,
+  handleUploadCode: PropTypes.func,
 };
 
 export default Upload;
