@@ -9,6 +9,7 @@ export const Video = props => {
   const { options, src } = props;
 
   const getOptions = useCallback(() => {
+    console.log(src);
     return {
       ...options,
       sources: [
@@ -18,7 +19,7 @@ export const Video = props => {
         },
       ],
     };
-  }, []);
+  }, [src]);
 
   const onVideoPlayerReady = player => {
     player.hlsQualitySelector({
@@ -27,10 +28,15 @@ export const Video = props => {
   };
 
   useEffect(() => {
-    const player = videojs('video', getOptions(), () => {
-      onVideoPlayerReady(player);
-    });
-  }, [options]);
+    if (src !== '') {
+      const player = videojs('video', getOptions(), () => {
+        onVideoPlayerReady(player);
+      });
+      return () => {
+        player.dispose();
+      };
+    }
+  }, [options, src]);
 
   return <video-js id="video" class={'vjs-big-play-centered'}></video-js>;
 };

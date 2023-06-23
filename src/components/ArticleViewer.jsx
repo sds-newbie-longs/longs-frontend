@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'styles/ArticleViewer.scss';
 import MemberInfo from 'components/common/MemberInfo';
 import EditSvg from 'components/common/EditSvg';
@@ -7,18 +7,39 @@ import PropTypes from 'prop-types';
 import generate from 'utils/common/ColorGenerator';
 import Video from 'components/common/Video';
 import { VideoOptions } from 'utils/common/VideoOptions';
-import Tasks from 'utils/axios/video/AxiosVideoTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
+import AxiosVideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
 const ArticleViewer = props => {
-  const { description, title, owner, viewCount, videoSrc } = props;
+  const { groupId, videoId } = props;
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [owner, setOwner] = useState('');
+  const [videoSrc, setVideoSrc] = useState('');
+  useEffect(() => {
+    AxiosVideoTasks.getVideoPromise(groupId, videoId).then(res => {
+      const code = res.data.code;
+      if (code === BusinessCode.GET_VIDEO_SUCCESS) {
+        console.log(res.data);
+        const data = res.data;
+        setTitle(data.title);
+        setDescription(data.description);
+        setOwner(data.username);
+        setVideoSrc(
+          'https://act-longs.s3.ap-northeast-2.amazonaws.com/videos/' +
+            data.videoUuid +
+            '/master.m3u8',
+        );
+      }
+    });
+  }, [videoId]);
   const handleEditOnClick = evt => {
     // todo: implement later
   };
 
   const handleDeleteOnclick = () => {
     if (confirm('Delete Video?')) {
-      Tasks.getDeleteVideoPromise().then(res => {
+      AxiosVideoTasks.getDeleteVideoPromise().then(res => {
         const resBody = res.data;
         if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) navigator('/');
         else alert('Error : Cannot Delete Video');
@@ -43,7 +64,6 @@ const ArticleViewer = props => {
           <span className={'article-viewer-title'}>{title}</span>
           <MemberInfo name={owner} color={generate()} />
           <div className={'article-viewer-description-container'}>
-            <p className={'article-viewer-view-count'}>조회수 {viewCount}</p>
             <p className={'article-viewer-description'}>{description}</p>
           </div>
         </div>
@@ -54,9 +74,6 @@ const ArticleViewer = props => {
 
 export default ArticleViewer;
 ArticleViewer.propTypes = {
-  title: PropTypes.string.isRequired,
-  owner: PropTypes.string.isRequired,
-  viewCount: PropTypes.number.isRequired,
-  description: PropTypes.string.isRequired,
-  videoSrc: PropTypes.string.isRequired,
+  groupId: PropTypes.number.isRequired,
+  videoId: PropTypes.number.isRequired,
 };

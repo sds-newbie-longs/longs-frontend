@@ -14,7 +14,7 @@ const MainPage = () => {
   const [isMainList, setIsMainList] = useState(0); // 0 : 기본 화면, 1 : 검색, 2 : 상세 페이지
   const [groupId, setGroupId] = useState(-1);
   const [searchKeyword, setSearchKeyword] = useState('');
-  // const [videoinfo, setVideoInfo] = useState([]);
+  const [videoId, setVideoId] = useState();
 
   useEffect(() => {
     check().catch(() => {
@@ -34,7 +34,7 @@ const MainPage = () => {
       setIsMainList(evt);
     } else {
       setIsMainList(evt[0]);
-      console.log(evt);
+      setVideoId(evt[1]);
     }
   }, []);
 
@@ -61,15 +61,7 @@ const MainPage = () => {
               handleMainListChangeState={handleMainListChangeState}
             />
           ) : (
-            <ArticleViewer
-              title={'title'}
-              description={'description'}
-              owner={'owner'}
-              viewCount={30}
-              videoSrc={
-                'https://act-longs.s3.ap-northeast-2.amazonaws.com/videos/c0c5afcaaad24d91bfb777440ef3bc12/master.m3u8'
-              }
-            />
+            <ArticleViewer groupId={groupId} videoId={videoId} />
           )}
         </div>
       </div>

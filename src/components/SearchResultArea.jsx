@@ -37,8 +37,8 @@ const SearchResultArea = props => {
       {searchResultList.map(data => (
         <p
           className={'search-result-item'}
-          key={data.id}
-          onClick={() => handleMainListChangeState([3, data.id])}
+          key={data.boardId}
+          onClick={() => handleMainListChangeState([3, data.boardId])}
         >
           <img className={'search-result-thumbnail'} src={data.thumbnail_url} />
           <div className={'search-result-info'}>

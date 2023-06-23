@@ -23,7 +23,6 @@ const ContentsArea = props => {
       .then(res => {
         const body = res.data;
         if (body.code === BusinessCode.GET_VIDEO_LIST_SUCCESS) {
-          console.log(body);
           setAllBoardList(body.allBoardList);
           setMemberBoardList(body.memberBoardList);
         }
@@ -57,8 +56,8 @@ const ContentsArea = props => {
             <hr className={'hr'} />
             {memberBoardList.map((memberBoardList, index) => {
               return (
-                <>
-                  <div className={'contents-area-video-info-container'} key={index}>
+                <div key={index}>
+                  <div className={'contents-area-video-info-container'}>
                     <div className={'contents-area-video-info-container-info-wrapper'}>
                       <div className={'contents-area-video-info-list-container-title'}>
                         <span>{memberBoardList.username}</span>
@@ -73,7 +72,7 @@ const ContentsArea = props => {
                     </div>
                   </div>
                   <hr className={'hr'} />
-                </>
+                </div>
               );
             })}
           </Fragment>

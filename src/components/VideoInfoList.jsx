@@ -17,8 +17,7 @@ const VideoInfoList = ({ videoList, handleMainListChangeState }) => {
     handleMainListChangeState: PropTypes.func.isRequired,
   };
   const handelOnClickVideo = () => {
-    console.log(videoList.username);
-    handleMainListChangeState([3, videoList.boardId]);
+    handleMainListChangeState([3, videoList[0].boardId]);
   };
   return (
     <div className={'video-info-list-root'}>
