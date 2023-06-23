@@ -6,23 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Header = props => {
-  const { handleOnSubmit } = props;
+  const { handleOnSubmit, groupName, groupId } = props;
 
   const navigate = useNavigate();
 
-  const handleonSearchClick = data => {
-    console.log('검색 클릭');
+  const handleOnSearchClick = data => {
     handleOnSubmit(data);
   };
 
   const handleOnUploadClick = () => {
     navigate('/upload', {
       state: {
-        groupId: 1,
-        groupName: 'Knox SER',
+        groupName,
+        groupId,
       },
     });
-    console.log('업로드 클릭');
   };
 
   return (
@@ -31,7 +29,7 @@ const Header = props => {
         <SearchField
           isBordered={true}
           placeholder={'Search Videos'}
-          handleOnSubmit={handleonSearchClick}
+          handleOnSubmit={handleOnSearchClick}
         />
       </div>
       <div className="app-header-add-content-button-wrapper">
@@ -43,6 +41,8 @@ const Header = props => {
 
 Header.propTypes = {
   handleOnSubmit: PropTypes.func.isRequired,
+  groupName: PropTypes.string,
+  groupId: PropTypes.number,
 };
 
 export default Header;

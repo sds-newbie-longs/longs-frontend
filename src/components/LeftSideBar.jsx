@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import 'styles/LeftSideBar.scss';
@@ -9,107 +9,117 @@ import BusinessCode from 'utils/common/BuisnessCode';
 import AxiosGroupMemberTasks from 'utils/axios/group_member/AxiosGroupMemberTasks';
 
 const LeftSideBar = props => {
-  const { handleMainListChangeState, handleGroupIdState, userId } = props;
+  const { handleDisableSearchState, handleGroupState } = props;
   const navigate = useNavigate();
   const groupTextRef = useRef();
   const [addGroupBox, setAddGroupBox] = useState(false);
   const [groupList, setGroupList] = useState([]);
-  const [selectGroup, setSelectGroup] = useState(0);
+  let selectedGroup;
+  const userId = Number.parseInt(sessionStorage.getItem('id'));
 
-  useEffect(e => {
-    getGroupList(0);
-  }, []);
-  const getGroupList = groupListSelected => {
+  useEffect(() => {
     Tasks.getSelectGroupsPromise().then(res => {
-      setGroupList([]);
       const code = res.data.code;
       if (code === BusinessCode.GROUP_SELECT_SUCCESS) {
-        if (res.data.channelList.length !== 0) {
-          res.data.channelList.forEach((e, index) => {
-            if (index === groupListSelected) {
-              e.select = true;
-              handleGroupIdState(e.channelId);
-            } else {
-              e.select = false;
-            }
-            setGroupList(groupList => [...groupList, e]);
-          });
-        } else {
-          // 그룹이 존재 하지 않음.
-          handleGroupIdState(0);
-        }
+        const channelList = res.data.channelList;
+        const groupList = channelList.map(channel => {
+          return {
+            id: channel.channelId,
+            name: channel.channelName,
+            owner: channel.ownerId,
+            selected: false,
+          };
+        });
+        groupList[0].selected = true;
+        selectedGroup = groupList[0].id;
+        setGroupList(groupList);
+        handleGroupState(groupList[0]);
       }
     });
-  };
-  const handleOnRemoveClick = (groupKey, ownerId) => {
+  }, []);
+
+  const addGroupList = useCallback(group => {
+    setGroupList(prevState => {
+      return prevState.concat(group);
+    });
+  }, []);
+
+  const deleteGroupFromList = useCallback(groupId => {
+    setGroupList(prevState => {
+      return prevState.filter(group => group.id !== groupId);
+    });
+  }, []);
+
+  const handleOnRemoveClick = useCallback((groupId, ownerId) => {
     if (userId === ownerId) {
-      Tasks.getDeleteGroupsPromise(groupKey).then(async res => {
+      Tasks.getDeleteGroupsPromise(groupId).then(async res => {
         const code = res.data.code;
         if (code === BusinessCode.GROUP_DELETE_SUCCESS) {
-          await getGroupList(0);
+          deleteGroupFromList(groupId);
         }
       });
     } else {
-      AxiosGroupMemberTasks.getDeleteGroupMemberPromise(groupKey).then(async res => {
+      AxiosGroupMemberTasks.getDeleteGroupMemberPromise(groupId).then(async res => {
         const code = res.data.code;
         if (code === BusinessCode.GROUP_MEMBER_DELETE_SUCCESS) {
-          await getGroupList(0);
+          deleteGroupFromList(groupId);
         }
       });
     }
-  };
-  const handleGroupAddClick = () => {
+  }, []);
+
+  const handleGroupAddClick = useCallback(() => {
     setAddGroupBox(!addGroupBox);
-  };
-  const handleOnClickLogo = () => {
-    handleMainListChangeState(0);
+  }, []);
+
+  const handleOnClickLogo = useCallback(() => {
+    handleDisableSearchState();
     navigate('/');
-  };
-  const handleOnSelectClick = evt => {
-    setGroupList([]);
-    handleGroupIdState(evt);
-    handleMainListChangeState(0);
+  }, []);
 
-    groupList.forEach((e, index) => {
-      if (evt === e.channelId) {
-        e.select = true;
-        getGroupList(index);
-        setSelectGroup(index);
-        setGroupList(groupList => [...groupList, e]);
-      } else {
-        e.select = false;
-        setGroupList(groupList => [...groupList, e]);
-      }
+  const handleOnSelectClick = useCallback(groupId => {
+    if (selectedGroup === groupId) return;
+    handleDisableSearchState();
+    setGroupList(prevState => {
+      return prevState.map(group => {
+        if (group.id === groupId) return { ...group, selected: true };
+        else return { ...group, selected: false };
+      });
     });
-    // 여기서 그룹과 동영상이 나오게 하기
-  };
+    handleGroupState(groupList.filter(group => group.id === groupId));
+    selectedGroup = groupId;
+  }, []);
 
-  function handleOnClickAddGroupButton() {
-    Tasks.getInsertGroupsPromise(groupTextRef.current.value)
+  const handleOnClickAddGroupButton = useCallback(() => {
+    const groupName = groupTextRef.current.value;
+    Tasks.getInsertGroupsPromise(groupName)
       .then(response => {
         const code = response.data.code;
         // 전송후 잘 되었다면?
         if (code === BusinessCode.GROUP_INSERT_SUCCESS) {
-          getGroupList(selectGroup);
+          const channelId = response.data.channelId;
+          addGroupList({ id: channelId, name: groupName, owner: userId, selected: false });
           setAddGroupBox(false);
         }
         // 전송후 실패 했다면?
       })
-      .catch(response => {
-        console.log(response);
+      .catch(err => {
+        const errMessage = err.response.data.message;
+        console.log(errMessage);
       });
-  }
+  }, []);
+
   return (
     <div className={'left-side-bar-root'}>
       <div className={'main-logo'} onClick={handleOnClickLogo} />
       <div className={'group-list'}>
         {groupList.map(group => (
           <GroupButton
-            key={group.channelId}
-            groupKey={group.channelId}
-            groupName={group.channelName}
-            selected={group.select}
-            ownerId={group.ownerId}
+            key={group.id}
+            groupKey={group.id}
+            groupName={group.name}
+            selected={group.selected}
+            ownerId={group.owner}
             handleOnSelectClick={handleOnSelectClick}
             handleOnRemoveClick={handleOnRemoveClick}
           ></GroupButton>
@@ -130,7 +140,6 @@ const LeftSideBar = props => {
 export default LeftSideBar;
 
 LeftSideBar.propTypes = {
-  handleMainListChangeState: PropTypes.func.isRequired,
-  handleGroupIdState: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired,
+  handleDisableSearchState: PropTypes.func.isRequired,
+  handleGroupState: PropTypes.func.isRequired,
 };
