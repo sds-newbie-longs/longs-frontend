@@ -4,21 +4,10 @@ function encode(name, data, callback) {
     const msg = e.data;
     switch (msg.type) {
       case 'ready':
-        console.log('worker ready');
         worker.postMessage({ type: 'run', arguments: { name, data } });
         break;
-      case 'stdout':
-        console.log(msg.data);
-        break;
-      case 'stderr':
-        console.log(msg.data);
-        break;
-      case 'start':
-        console.log(msg.data);
-        break;
       case 'done':
-        console.log(msg.data);
-        callback(msg.data);
+        callback(new Blob([msg.data], { type: 'application/octet-stream' }));
     }
   };
 }
