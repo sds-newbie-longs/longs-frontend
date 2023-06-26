@@ -57,8 +57,6 @@ const MemberSideBar = props => {
       const code = res.data.code;
       if (code === BusinessCode.GROUP_MEMBER_SEARCH_SUCCESS) {
         setSearchResult(res.data.searchList);
-        // 임시 사용
-        setSearchResult(prevState => [...prevState, { id: keyword, username: keyword }]);
       }
     });
   };
@@ -78,7 +76,6 @@ const MemberSideBar = props => {
 
   const onInvited = useCallback((id, username) => {
     setSearchResult(() => []);
-    setMembers(prevState => [...prevState, { id, username }]);
     // 초대 및 다시 조회하기
     SetSelectedId(id);
   }, []);
