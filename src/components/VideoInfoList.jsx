@@ -16,13 +16,19 @@ const VideoInfoList = ({ videoList, handleMainListChangeState }) => {
     ).isRequired,
     handleMainListChangeState: PropTypes.func.isRequired,
   };
-  const handelOnClickVideo = () => {
-    handleMainListChangeState([3, videoList[0].boardId]);
+  const handelOnClickVideo = index => {
+    handleMainListChangeState([3, videoList[index].boardId]);
   };
   return (
     <div className={'video-info-list-root'}>
       {videoList.map((videoInfoObj, index) => (
-        <div key={index} className={'video-info-wrapper'} onClick={handelOnClickVideo}>
+        <div
+          key={index}
+          className={'video-info-wrapper'}
+          onClick={() => {
+            handelOnClickVideo(index);
+          }}
+        >
           <VideoInfo videoInfoObj={videoInfoObj} />
         </div>
       ))}
