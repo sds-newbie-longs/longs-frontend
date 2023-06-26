@@ -7,12 +7,14 @@ import ContentsArea from 'components/ContentsArea';
 import SearchResultArea from 'components/SearchResultArea';
 import { useNavigate } from 'react-router';
 import check from 'utils/common/SessionChecker';
+import ArticleViewer from './ArticleViewer';
 
 const MainPage = () => {
   const navigator = useNavigate();
-  const [isSearching, setIsSearching] = useState(false);
+  const [isMainList, setIsMainList] = useState(0); // 0 : 기본 화면, 1 : 검색, 2 : 상세 페이지
   const [groupId, setGroupId] = useState(-1);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [videoId, setVideoId] = useState();
 
   useEffect(() => {
     check().catch(() => {
@@ -21,23 +23,26 @@ const MainPage = () => {
   }, []);
 
   const handleSearchState = useCallback(searchKeyword => {
-    if (!isSearching) {
-      setIsSearching(true);
-      setSearchKeyword(searchKeyword);
-    }
+    setIsMainList(1);
+    setSearchKeyword(searchKeyword);
   }, []);
   const handleGroupIdState = evt => {
     setGroupId(evt);
   };
-  const handleDisableSearchState = useCallback(() => {
-    setIsSearching(false);
+  const handleMainListChangeState = useCallback(evt => {
+    if (typeof evt === 'number') {
+      setIsMainList(evt);
+    } else {
+      setIsMainList(evt[0]);
+      setVideoId(evt[1]);
+    }
   }, []);
 
   return (
     <div className={'main-page'}>
       <div className={'left-side-bar'}>
         <LeftSideBar
-          handleDisableSearchState={handleDisableSearchState}
+          handleMainListChangeState={handleMainListChangeState}
           handleGroupIdState={handleGroupIdState}
           userId={sessionStorage.getItem('id')}
         />
@@ -47,10 +52,16 @@ const MainPage = () => {
           <Header handleOnSubmit={handleSearchState} />
         </div>
         <div className={'video-list'}>
-          {isSearching ? (
-            <SearchResultArea searchKeyword={searchKeyword} groupId={groupId} />
+          {isMainList === 0 ? (
+            <ContentsArea groupId={groupId} handleMainListChangeState={handleMainListChangeState} />
+          ) : isMainList === 1 ? (
+            <SearchResultArea
+              searchKeyword={searchKeyword}
+              groupId={groupId}
+              handleMainListChangeState={handleMainListChangeState}
+            />
           ) : (
-            <ContentsArea groupId={groupId} />
+            <ArticleViewer groupId={groupId} videoId={videoId} />
           )}
         </div>
       </div>
