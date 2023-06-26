@@ -7,14 +7,31 @@ import ContentsArea from 'components/ContentsArea';
 import SearchResultArea from 'components/SearchResultArea';
 import { useNavigate } from 'react-router';
 import check from 'utils/common/SessionChecker';
-import ArticleViewer from './ArticleViewer';
+import ArticleViewer from 'components/ArticleViewer';
+import toast, { Toaster } from 'react-hot-toast';
+import PropTypes from 'prop-types';
 
-const MainPage = () => {
+const MainPage = props => {
   const navigator = useNavigate();
   const [isMainList, setIsMainList] = useState(0); // 0 : 기본 화면, 1 : 검색, 2 : 상세 페이지
   const [groupId, setGroupId] = useState(-1);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [videoId, setVideoId] = useState();
+
+  const { uploadCode } = props;
+
+  useEffect(() => {
+    if (uploadCode === 200) {
+      const notify = () => toast.success('게시물이 성공적으로 업로드 되었습니다.');
+      notify();
+    } else if (uploadCode === 400) {
+      const notify = () => toast.error('게시물 업로드를 실패하였습니다.');
+      notify();
+    } else {
+      toast.dismiss();
+    }
+    console.log('main page => ' + uploadCode);
+  }, [uploadCode]);
 
   useEffect(() => {
     check().catch(() => {
@@ -68,7 +85,12 @@ const MainPage = () => {
       <div className={'right-side-bar'}>
         <MemberSideBar groupId={groupId}></MemberSideBar>
       </div>
+      <Toaster />
     </div>
   );
 };
 export default MainPage;
+
+MainPage.propTypes = {
+  uploadCode: PropTypes.any,
+};
