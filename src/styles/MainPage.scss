@@ -12,7 +12,7 @@
 
 .mid-side-bar {
   display: flex;
-  width: 100%;
+  width: calc(100% - (244px + 275px));
   flex-direction: column;
   background-color: #f6f6fa;
 
@@ -31,6 +31,6 @@
 }
 
 .right-side-bar {
+  width: 275px;
   background-color: white;
-  min-width: 250px;
 }

@@ -1,12 +1,12 @@
-.video-info {
-  &-list-root {
+.video-info{
+  &-list-root{
+    width: 100%;
     display: flex;
     flex-direction: row;
     overflow: scroll;
     gap: 8px;
   }
-
-  &-list-root::-webkit-scrollbar {
-    display: none;
+  &-list-root::-webkit-scrollbar{
+    display:none;
   }
 }

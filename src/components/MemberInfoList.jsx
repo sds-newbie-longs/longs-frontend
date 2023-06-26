@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MemberInfo from 'components/common/MemberInfo';
-import { Colors } from 'utils/common/Colors';
+import generate from 'utils/common/ColorGenerator';
 
 const MemberInfoList = props => {
   const { members } = props;
@@ -11,8 +11,8 @@ const MemberInfoList = props => {
       <div className={'member-list-container'}>
         {members.length === 0
           ? null
-          : members.map((member, index) => {
-              return <MemberInfo key={member.id} name={member.username} color={Colors[index]} />;
+          : members.map(member => {
+              return <MemberInfo key={member.id} name={member.username} color={generate()} />;
             })}
       </div>
     </div>
