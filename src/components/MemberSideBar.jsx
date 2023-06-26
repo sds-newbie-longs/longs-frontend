@@ -39,7 +39,8 @@ const MemberSideBar = props => {
     }
   }, [selectedId]);
   const groupMemberSelect = () => {
-    groupId &&
+    if (groupId !== -1) {
+      // 선택된 업로드가 없는 경우
       Tasks.getGroupMembersPromise(groupId)
         .then(res => {
           const code = res.data.code;
@@ -48,6 +49,7 @@ const MemberSideBar = props => {
           }
         })
         .catch(reason => console.log(reason));
+    }
   };
   const groupMemberSearch = keyword => {
     Tasks.getSearchGroupMemberPromise(groupId, keyword).then(res => {

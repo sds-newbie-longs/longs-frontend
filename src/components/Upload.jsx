@@ -77,7 +77,9 @@ const Upload = () => {
         <div className={'text-container'}>
           <div className={'text-group'}>
             <p className={'group-ment1'}>Group</p>
-            <p className={'group-ment2'}>{groupName}</p>
+            <p className={'group-ment2'}>
+              {groupName}:{groupId}
+            </p>
           </div>
           <div className={'text-title'}>
             <p>Title</p>

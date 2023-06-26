@@ -19,17 +19,16 @@ const ContentsArea = props => {
   }, [groupId]);
 
   const getVideoListByGroup = () => {
-    groupId &&
-      Tasks.getVideoListByGroup(groupId)
-        .then(res => {
-          const body = res.data;
-          if (body.code === BusinessCode.GET_VIDEO_LIST_SUCCESS) {
-            console.log(body);
-            setAllBoardList(body.allBoardList);
-            setMemberBoardList(body.memberBoardList);
-          }
-        })
-        .catch(reason => console.log(reason));
+    Tasks.getVideoListByGroup(groupId)
+      .then(res => {
+        const body = res.data;
+        if (body.code === BusinessCode.GET_VIDEO_LIST_SUCCESS) {
+          console.log(body);
+          setAllBoardList(body.allBoardList);
+          setMemberBoardList(body.memberBoardList);
+        }
+      })
+      .catch(reason => console.log(reason));
   };
 
   const getMemberBoardListJsx = useCallback((boardList, username, index) => {
@@ -92,5 +91,5 @@ const ContentsArea = props => {
 };
 export default ContentsArea;
 ContentsArea.propTypes = {
-  groupId: PropTypes.number,
+  groupId: PropTypes.number.isRequired,
 };
