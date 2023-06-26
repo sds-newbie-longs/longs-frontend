@@ -10,8 +10,9 @@ import Dropzone from 'components/Dropzone';
 import CloseBtn from 'assets/CloseBtn.png';
 import VideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
+// import VideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
-const Upload = props => {
+const Upload = () => {
   const navigate = useNavigate();
   const [isUpload, setIsUpload] = useState(false);
   const [title, setTitle] = useState('');

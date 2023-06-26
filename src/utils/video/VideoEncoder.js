@@ -1,26 +1,24 @@
-function encode(name, data, callback) {
-  const worker = new Worker(new URL('VideoWorker.js', import.meta.url));
-  worker.onmessage = function (e) {
-    const msg = e.data;
-    switch (msg.type) {
-      case 'ready':
-        console.log('worker ready');
-        worker.postMessage({ type: 'run', arguments: { name, data } });
-        break;
-      case 'stdout':
-        console.log(msg.data);
-        break;
-      case 'stderr':
-        console.log(msg.data);
-        break;
-      case 'start':
-        console.log(msg.data);
-        break;
-      case 'done':
-        console.log(msg.data);
-        callback(msg.data);
-    }
-  };
+function encode(name, data, callback, updateProgress) {
+  return new Promise(resolve => {
+    const worker = new Worker(new URL('VideoWorker.js', import.meta.url));
+    worker.onmessage = function (e) {
+      const msg = e.data;
+      switch (msg.type) {
+        case 'start':
+          console.log('start encoding');
+          break;
+        case 'ready':
+          worker.postMessage({ type: 'run', arguments: { name, data } });
+          break;
+        case 'progress':
+          updateProgress(Math.round(msg.data));
+          break;
+        case 'done':
+          callback(new Blob([msg.data], { type: 'application/octet-stream' }));
+          resolve();
+      }
+    };
+  });
 }
 
 // 테스트용 메소드
