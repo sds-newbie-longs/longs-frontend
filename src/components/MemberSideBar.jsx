@@ -38,6 +38,7 @@ const MemberSideBar = props => {
       groupMemberSelect();
     }
   }, [selectedId]);
+
   const groupMemberSelect = () => {
     if (groupId !== -1) {
       // 선택된 업로드가 없는 경우
@@ -87,11 +88,7 @@ const MemberSideBar = props => {
       <div className={'member-side-bar-search-field-container'}>
         <SearchField isBordered={false} placeholder={'Search Members'} handleOnSubmit={askServer} />
         <div className={'member-side-bar-search-result'}>
-          <SearchMemberList
-            resultList={searchResult}
-            handleOnInvited={onInvited}
-            onBlur={() => console.log('list blur')}
-          />
+          <SearchMemberList resultList={searchResult} handleOnInvited={onInvited} />
         </div>
       </div>
       <div className={'member-side-bar-member-list-container'}>

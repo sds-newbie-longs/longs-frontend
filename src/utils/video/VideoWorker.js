@@ -12,10 +12,6 @@ async function encodeVideo() {
 async function loadFFmpeg() {
   ffmpeg = createFFmpeg({
     log: true,
-    progress: p => {
-      clearInterval(interval);
-      interval = setInterval(() => postMessage({ type: 'progress', data: p.ratio * 100 }), 500);
-    },
   });
   await ffmpeg.load();
 }

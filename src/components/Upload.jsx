@@ -12,7 +12,7 @@ import VideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
 // import VideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
-const Upload = () => {
+const Upload = props => {
   const navigate = useNavigate();
   const [isUpload, setIsUpload] = useState(false);
   const [title, setTitle] = useState('');
@@ -22,6 +22,7 @@ const Upload = () => {
   const [uuid, setUuid] = useState('');
 
   const { state } = useLocation();
+  const notify = text => toast(text);
 
   useEffect(() => {
     check().catch(() => navigate('/'));
@@ -33,6 +34,22 @@ const Upload = () => {
     }
   }, []);
 
+  const ClickForUpload = () => {
+    VideoTasks.getUploadBoardPromise(groupId, uuid, title, description)
+      .then(res => {
+        if (res.status === 200) {
+          props.handleUploadCode(200);
+          console.log('good....200 ok');
+        }
+      })
+      .catch(error => {
+        props.handleUploadCode(400);
+        console.log(error.code);
+      });
+    notify('업로드가 완료되었습니다.');
+    setTimeout(() => navigate('/'), 1000);
+  };
+
   const TitleChange = e => {
     setTitle(e.target.value);
   };
@@ -40,19 +57,6 @@ const Upload = () => {
   const DescriptionChange = e => {
     setDescription(e.target.value);
     console.log(uuid);
-  };
-
-  const ClickForUpload = async () => {
-    VideoTasks.getUploadBoardPromise(groupId, uuid, title, description)
-      .then(res => {
-        if (res.status === 200) {
-          console.log('good....200 ok');
-        }
-      })
-      .catch(error => console.log(error.code));
-    const notify = () => toast('동영상이 성공적으로 업로드 되었습니다.');
-    notify();
-    setTimeout(() => navigate('/'), 2000);
   };
 
   const buttonClassName = () => {
@@ -113,5 +117,6 @@ const Upload = () => {
 };
 Upload.propTypes = {
   handleOnUesrInfo: PropTypes.func,
+  handleUploadCode: PropTypes.func,
 };
 export default Upload;

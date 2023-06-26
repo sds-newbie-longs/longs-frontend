@@ -14,7 +14,7 @@ const VideoInfo = ({ videoInfoObj }) => {
   return (
     <div className={'video-info-root'}>
       <div className={'video-info-thumbnail'}>
-        <img src={videoInfoObj.thumbnailUrl} alt={'VIDEO'} />
+        <img src={videoInfoObj.thumbnailUrl} alt={'VIDEO'} crossOrigin={'anonymous'} />
       </div>
       <div className={'video-info-text-container'}>
         <div className={'video-info-text-owner'}>{videoInfoObj.username}</div>
