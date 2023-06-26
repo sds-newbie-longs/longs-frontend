@@ -55,25 +55,29 @@ const ContentsArea = props => {
             </div>
             <hr className={'hr'} />
             {memberBoardList.map((memberBoardList, index) => {
-              return (
-                <div key={index}>
-                  <div className={'contents-area-video-info-container'}>
-                    <div className={'contents-area-video-info-container-info-wrapper'}>
-                      <div className={'contents-area-video-info-list-container-title'}>
-                        <span>{memberBoardList.username}</span>
+              if (memberBoardList.boardList.length === 0) {
+                return null;
+              } else {
+                return (
+                  <div key={index}>
+                    <div className={'contents-area-video-info-container'}>
+                      <div className={'contents-area-video-info-container-info-wrapper'}>
+                        <div className={'contents-area-video-info-list-container-title'}>
+                          <span>{memberBoardList.username}</span>
+                        </div>
+                        <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
                       </div>
-                      <div className={'contents-area-video-list-wrapper-view-all'}>View All</div>
+                      <div className={'video-info-list-container'}>
+                        <VideoInfoList
+                          videoList={memberBoardList.boardList}
+                          handleMainListChangeState={handleMainListChangeState}
+                        />
+                      </div>
                     </div>
-                    <div className={'video-info-list-container'}>
-                      <VideoInfoList
-                        videoList={memberBoardList.boardList}
-                        handleMainListChangeState={handleMainListChangeState}
-                      />
-                    </div>
+                    <hr className={'hr'} />
                   </div>
-                  <hr className={'hr'} />
-                </div>
-              );
+                );
+              }
             })}
           </Fragment>
         </div>
