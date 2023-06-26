@@ -52,6 +52,7 @@ self.onmessage = async evt => {
 
   await setCurrentCodec();
   console.log = originalLog;
+  console.log(currentCodec);
   if (currentCodec !== 'h264') {
     await encodeVideo();
     ffmpeg.FS('unlink', name);
@@ -62,12 +63,9 @@ self.onmessage = async evt => {
   clearInterval(interval);
   console.log('encode complete');
 
-  const result = currentCodec === 'h264' ? data : ffmpeg.FS('readFile', resultFileName);
-  ffmpeg.exit();
-
   postMessage({
     type: 'done',
-    data: result,
+    data: currentCodec === 'h264' ? data : ffmpeg.FS('readFile', resultFileName),
   });
 };
 
