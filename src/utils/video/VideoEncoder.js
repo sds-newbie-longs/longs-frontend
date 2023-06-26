@@ -4,15 +4,17 @@ function encode(name, data, callback, updateProgress) {
     worker.onmessage = function (e) {
       const msg = e.data;
       switch (msg.type) {
+        case 'start':
+          console.log('start encoding');
+          break;
         case 'ready':
           worker.postMessage({ type: 'run', arguments: { name, data } });
           break;
         case 'progress':
-          updateProgress(Math.round(msg.data * 100));
+          updateProgress(Math.round(msg.data));
           break;
         case 'done':
-          console.log(msg.data);
-          callback(msg.data);
+          callback(new Blob([msg.data], { type: 'application/octet-stream' }));
           resolve();
       }
     };
