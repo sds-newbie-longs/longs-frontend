@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Header = props => {
-  const { handleOnSubmit } = props;
+  const { groupId, groupName, handleOnSubmit } = props;
 
   const navigate = useNavigate();
 
@@ -18,8 +18,8 @@ const Header = props => {
   const handleOnUploadClick = () => {
     navigate('/upload', {
       state: {
-        groupId: 1,
-        groupName: 'Knox SER',
+        groupId: groupId,
+        groupName: groupName,
       },
     });
     console.log('업로드 클릭');
@@ -43,6 +43,8 @@ const Header = props => {
 
 Header.propTypes = {
   handleOnSubmit: PropTypes.func.isRequired,
+  groupName: PropTypes.string.isRequired,
+  groupId: PropTypes.number.isRequired,
 };
 
 export default Header;

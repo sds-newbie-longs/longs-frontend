@@ -15,6 +15,7 @@ const MainPage = props => {
   const navigator = useNavigate();
   const [isMainList, setIsMainList] = useState(0); // 0 : 기본 화면, 1 : 검색, 2 : 상세 페이지
   const [groupId, setGroupId] = useState(-1);
+  const [groupName, setGroupName] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [videoId, setVideoId] = useState();
 
@@ -44,7 +45,8 @@ const MainPage = props => {
     setSearchKeyword(searchKeyword);
   }, []);
   const handleGroupIdState = evt => {
-    setGroupId(evt);
+    setGroupName(evt.name);
+    setGroupId(evt.id);
   };
   const handleMainListChangeState = useCallback(evt => {
     if (typeof evt === 'number') {
@@ -66,7 +68,7 @@ const MainPage = props => {
       </div>
       <div className={'mid-side-bar'}>
         <div className={'header'}>
-          <Header handleOnSubmit={handleSearchState} />
+          <Header groupId={groupId} groupName={groupName} handleOnSubmit={handleSearchState} />
         </div>
         <div className={'video-list'}>
           {isMainList === 0 ? (

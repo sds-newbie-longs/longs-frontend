@@ -84,9 +84,7 @@ const Upload = props => {
         <div className={'text-container'}>
           <div className={'text-group'}>
             <p className={'group-ment1'}>Group</p>
-            <p className={'group-ment2'}>
-              {groupName}:{groupId}
-            </p>
+            <p className={'group-ment2'}>{groupName}</p>
           </div>
           <div className={'text-title'}>
             <p>Title</p>

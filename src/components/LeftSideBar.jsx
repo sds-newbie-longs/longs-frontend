@@ -22,13 +22,14 @@ const LeftSideBar = props => {
   const getGroupList = groupListSelected => {
     Tasks.getSelectGroupsPromise().then(res => {
       setGroupList([]);
+      console.log(res.data);
       const code = res.data.code;
       if (code === BusinessCode.GROUP_SELECT_SUCCESS) {
         if (res.data.channelList.length !== 0) {
           res.data.channelList.forEach((e, index) => {
             if (index === groupListSelected) {
               e.select = true;
-              handleGroupIdState(e.channelId);
+              handleGroupIdState({ id: e.channelId, name: e.channelName });
             } else {
               e.select = false;
             }
@@ -36,7 +37,7 @@ const LeftSideBar = props => {
           });
         } else {
           // 그룹이 존재 하지 않음.
-          handleGroupIdState(0);
+          handleGroupIdState({ id: 0, name: '' });
         }
       }
     });
