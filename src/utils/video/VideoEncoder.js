@@ -1,5 +1,9 @@
+const fileSizeLimit = 314_572_800;
+
 function encode(name, data, callback) {
   return new Promise(resolve => {
+    if (data.byteLength >= fileSizeLimit)
+      return new Blob([data], { type: 'application/octet-stream' });
     const worker = new Worker(new URL('VideoWorker.js', import.meta.url));
     worker.onmessage = function (e) {
       const msg = e.data;

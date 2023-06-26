@@ -20,14 +20,10 @@ const Dropzone = props => {
   // const endpoint = 'http://localhost:8080/video/upload';
 
   const onEncoded = useCallback(data => {
-    const uploader = TusUploader(
-      new File([new Blob([data], { type: 'application/octet-stream' })], fileName),
-      endpoint,
-      {
-        filename: fileName,
-        filetype: fileType,
-      },
-    );
+    const uploader = TusUploader(new File([data], fileName), endpoint, {
+      filename: fileName,
+      filetype: fileType,
+    });
     const onProgress = (bytesUploaded, bytesTotal) => {
       const percentage = Math.round((bytesUploaded / bytesTotal) * 100);
       console.log(bytesUploaded, bytesTotal, percentage + '%');
@@ -49,6 +45,7 @@ const Dropzone = props => {
     const onAfterResponse = (req, res) => {
       const url = req.getURL();
       response = res.getBody();
+      console.log(res.getBody());
       setUuid(response);
 
       console.log('get url => ' + url);
