@@ -5,6 +5,7 @@ import Logo from 'assets/MainLogo.svg';
 import { useNavigate } from 'react-router';
 import Tasks from 'utils/axios/member/AxiosMemberTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -19,6 +20,9 @@ const Login = () => {
       const code = res.data.code;
       if (code === BusinessCode.LOGIN_SUCCESS) {
         navigate('/');
+      } else if (code === BusinessCode.LOGIN_FAILED) {
+        const notify = () => toast.error('해당 아이디는 존재하지 않습니다.');
+        notify();
       }
     });
   };
@@ -51,6 +55,7 @@ const Login = () => {
         <button className={buttonClassName()} type="submit" onClick={onClick}>
           Login
         </button>
+        <Toaster />
       </div>
     </div>
   );
