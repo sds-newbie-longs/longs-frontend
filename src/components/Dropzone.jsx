@@ -5,19 +5,17 @@ import 'react-circular-progressbar/dist/styles.css';
 import 'styles/Dropzone.scss';
 import AddButton from 'components/common/AddButton';
 import PropTypes from 'prop-types';
-// import { encode } from 'utils/video/VideoEncoder';
 import TusUploader from 'utils/video/TusUploader';
 import { encode } from 'utils/video/VideoEncoder';
 import toast, { Toaster } from 'react-hot-toast';
 
 const Dropzone = props => {
-  const { setIsUpload, setUuid } = props;
+  const { setIsUpload, setBoardId, groupId } = props;
   const [currentProgress, setCurrentProgress] = useState(0);
-  const done = 'done';
   let response, fileName, fileType;
-  const endpoint = 'https://longs-api.iamnew.net/video/upload';
-  // const endpoint = 'http://35.216.94.36/video/upload';
-  // const endpoint = 'http://localhost:8080/video/upload';
+  const endpoint = 'https://longs-api.iamnew.net/groups/' + groupId + '/video/upload';
+  // // const endpoint = 'http://35.216.94.36/video/upload';
+  // const endpoint = 'http://localhost:8080/groups/' + groupId + '/video/upload';
 
   const onEncoded = useCallback(data => {
     const uploader = TusUploader(new File([data], fileName), endpoint, {
@@ -32,7 +30,10 @@ const Dropzone = props => {
     // 업로드가 성공적으로 완료되었을 때 실행
     const onSuccess = () => {
       console.log('response =>' + response);
+      if (response !== '') setBoardId(response);
+      console.log('=======upload end========');
     };
+
     const onError = err => {
       console.log(err);
     };
@@ -43,12 +44,8 @@ const Dropzone = props => {
     };
     // 응답을 성공적으로 받았을 때 실행
     const onAfterResponse = (req, res) => {
-      const url = req.getURL();
       response = res.getBody();
-      console.log(res.getBody());
-      setUuid(response);
-
-      console.log('get url => ' + url);
+      console.log(response);
     };
 
     uploader.startUpload(onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse);
@@ -95,11 +92,7 @@ const Dropzone = props => {
     return (
       <div className={'drop-container-full'}>
         <Toaster />
-        <CircularProgressbar
-          value={currentProgress}
-          text={`${response === '' ? done : currentProgress}%`}
-          maxValue={101}
-        />
+        <CircularProgressbar value={currentProgress} text={`${currentProgress}%`} maxValue={101} />
       </div>
     );
   }
@@ -120,5 +113,6 @@ export default Dropzone;
 
 Dropzone.propTypes = {
   setIsUpload: PropTypes.func,
-  setUuid: PropTypes.func,
+  setBoardId: PropTypes.func,
+  groupId: PropTypes.number,
 };

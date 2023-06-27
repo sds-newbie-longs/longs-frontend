@@ -25,6 +25,9 @@ export const Video = props => {
     player.hlsQualitySelector({
       displayCurrentQuality: true,
     });
+
+    const qualityLevels = player.qualityLevels();
+    console.log(qualityLevels);
   };
 
   useEffect(() => {

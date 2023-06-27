@@ -2,6 +2,7 @@ import { Upload } from 'tus-js-client';
 
 const TusUploader = (file, endpoint, metadata) => {
   let upload = null;
+  console.log(file);
 
   const startUpload = (onProgress, onSuccess, onError, onBeforeRequest, onAfterResponse) => {
     const options = {

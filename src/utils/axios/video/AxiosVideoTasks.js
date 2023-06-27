@@ -5,12 +5,12 @@ const Tasks = {
   getDeleteVideoPromise: boardId => {
     return axios.delete(Urls.DELETE, { data: { boardId } });
   },
-  getUploadBoardPromise: (channelId, videoUuid, title, description) => {
+  getUploadBoardPromise: (channelId, boardId, title, description) => {
     return axios.post(
       Urls.POST + channelId + '/boards',
       {
         channelId,
-        videoUuid,
+        boardId,
         title,
         description,
       },

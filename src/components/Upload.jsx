@@ -19,7 +19,7 @@ const Upload = props => {
   const [description, setDescription] = useState('');
   const [groupId, setGroupId] = useState(0);
   const [groupName, setGroupName] = useState('');
-  const [uuid, setUuid] = useState('');
+  const [boardId, setBoardId] = useState('');
 
   const { state } = useLocation();
   const notify = text => toast(text);
@@ -35,7 +35,7 @@ const Upload = props => {
   }, []);
 
   const ClickForUpload = () => {
-    VideoTasks.getUploadBoardPromise(groupId, uuid, title, description)
+    VideoTasks.getUploadBoardPromise(groupId, boardId, title, description)
       .then(res => {
         if (res.status === 200) {
           props.handleUploadCode(200);
@@ -56,7 +56,7 @@ const Upload = props => {
 
   const DescriptionChange = e => {
     setDescription(e.target.value);
-    console.log(uuid);
+    console.log(boardId);
   };
 
   const buttonClassName = () => {
@@ -80,7 +80,7 @@ const Upload = props => {
           onClick={ClickToGoMain}
         />
         <p className={'upload-ment'}>Upload Files</p>
-        <Dropzone setIsUpload={setIsUpload} setUuid={setUuid} />
+        <Dropzone setIsUpload={setIsUpload} setBoardId={setBoardId} groupId={state.groupId} />
         <div className={'text-container'}>
           <div className={'text-group'}>
             <p className={'group-ment1'}>Group</p>
