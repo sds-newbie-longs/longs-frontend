@@ -1,4 +1,4 @@
-const fileSizeLimit = 314_572_800;
+const fileSizeLimit = 0;
 
 function encode(name, data, callback) {
   return new Promise(resolve => {
