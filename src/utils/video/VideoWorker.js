@@ -20,9 +20,11 @@ async function encodeVideo() {
 }
 
 async function loadFFmpeg() {
-  ffmpeg = createFFmpeg({
-    log: true,
-  });
+  if (ffmpeg === null || ffmpeg === undefined) {
+    ffmpeg = createFFmpeg({
+      log: true,
+    });
+  }
   await ffmpeg.load();
 }
 
