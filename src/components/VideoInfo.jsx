@@ -11,6 +11,9 @@ const VideoInfo = ({ videoInfoObj }) => {
       description: PropTypes.string.isRequired,
     }).isRequired,
   };
+
+  console.log(videoInfoObj.thumbnailUrl);
+
   return (
     <div className={'video-info-root'}>
       <div className={'video-info-thumbnail'}>

@@ -26,9 +26,7 @@ const ArticleViewer = props => {
         setDescription(data.description);
         setOwner(data.username);
         setVideoSrc(
-          'https://act-longs.s3.ap-northeast-2.amazonaws.com/videos/' +
-            data.videoUuid +
-            '/master.m3u8',
+          'https://d1t7v2x03n53xl.cloudfront.net/videos/' + data.videoUuid + '/master.m3u8',
         );
       }
     });

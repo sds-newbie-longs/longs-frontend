@@ -6,7 +6,17 @@ let interval, ffmpeg, resultFileName, currentCodec, name, data, fileName;
 
 async function encodeVideo() {
   postMessage({ type: 'start' });
-  await ffmpeg.run('-i', name, '-c:v', 'libx264', '-c:a', 'copy', resultFileName);
+  await ffmpeg.run(
+    '-i',
+    name,
+    '-c:v',
+    'libx264',
+    '-c:a',
+    'copy',
+    '-preset',
+    'ultrafast',
+    resultFileName,
+  );
 }
 
 async function loadFFmpeg() {
