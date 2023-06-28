@@ -13,9 +13,9 @@ const Dropzone = props => {
   const { setIsUpload, setBoardId, groupId } = props;
   const [currentProgress, setCurrentProgress] = useState(0);
   let response, fileName, fileType;
-  const endpoint = 'https://longs-api.iamnew.net/groups/' + groupId + '/video/upload';
+  // const endpoint = 'https://longs-api.iamnew.net/groups/' + groupId + '/video/upload';
   // // const endpoint = 'http://35.216.94.36/video/upload';
-  // const endpoint = 'http://localhost:8080/groups/' + groupId + '/video/upload';
+  const endpoint = 'http://localhost:8080/groups/' + groupId + '/video/upload';
 
   const onEncoded = useCallback(data => {
     const uploader = TusUploader(new File([data], fileName), endpoint, {
