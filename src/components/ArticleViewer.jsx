@@ -9,6 +9,7 @@ import Video from 'components/common/Video';
 import { VideoOptions } from 'utils/common/VideoOptions';
 import BusinessCode from 'utils/common/BuisnessCode';
 import AxiosVideoTasks from 'utils/axios/video/AxiosVideoTasks';
+import { useNavigate } from 'react-router';
 
 const ArticleViewer = props => {
   const { groupId, videoId } = props;
@@ -16,11 +17,11 @@ const ArticleViewer = props => {
   const [description, setDescription] = useState('');
   const [owner, setOwner] = useState('');
   const [videoSrc, setVideoSrc] = useState('');
+  const navigator = useNavigate();
   useEffect(() => {
     AxiosVideoTasks.getVideoPromise(groupId, videoId).then(res => {
       const code = res.data.code;
       if (code === BusinessCode.GET_VIDEO_SUCCESS) {
-        console.log(res.data);
         const data = res.data;
         setTitle(data.title);
         setDescription(data.description);
@@ -37,7 +38,7 @@ const ArticleViewer = props => {
 
   const handleDeleteOnclick = () => {
     if (confirm('Delete Video?')) {
-      AxiosVideoTasks.getDeleteVideoPromise().then(res => {
+      AxiosVideoTasks.getDeleteVideoPromise(groupId, videoId).then(res => {
         const resBody = res.data;
         if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) navigator('/');
         else alert('Error : Cannot Delete Video');
@@ -50,8 +51,12 @@ const ArticleViewer = props => {
       <div className={'article-viewer-content'}>
         <div className={'article-viewer-video-frame'}>
           <div className={'article-viewer-video-edit'}>
-            <EditSvg onClick={handleEditOnClick} />
-            <DeleteSvg onClick={handleDeleteOnclick} />
+            <div onClick={handleEditOnClick}>
+              <EditSvg />
+            </div>
+            <div onClick={handleDeleteOnclick}>
+              <DeleteSvg />
+            </div>
           </div>
           <div className={'article-viewer-video'}>
             <Video options={VideoOptions} src={videoSrc} />

@@ -2,8 +2,8 @@ import axios from 'utils/axios/AxiosInstance';
 import Urls from 'utils/axios/video/VideoUrls';
 
 const Tasks = {
-  getDeleteVideoPromise: boardId => {
-    return axios.delete(Urls.DELETE, { data: { boardId } });
+  getDeleteVideoPromise: (groupId, boardId) => {
+    return axios.delete(Urls.DELETE.replace('{groupId}', groupId).replace('{boardId}', boardId));
   },
   getUploadBoardPromise: (channelId, boardId, title, description) => {
     boardId = Number.parseInt(boardId);
