@@ -32,8 +32,8 @@ const Tasks = {
     return axios.get(requestUrl);
   },
   getVideoHighScalePromise: boardId => {
-    const requestUrl = Urls.HIGH_SCALE + boardId;
-    return axios.post(requestUrl);
+    const requestUrl = Urls.HIGH_SCALE;
+    return axios.post(requestUrl, { boardId });
   },
 };
 

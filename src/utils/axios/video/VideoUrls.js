@@ -4,7 +4,7 @@ const Urls = {
   GET: '/groups/{groupId}/boards/{boardId}',
   GET_VIDEO_LIST: '/groups/{groupId}/boards/boardList',
   GET_SEARCH_VIDEO_LIST: '/groups/{groupId}/boards/search?keyword=',
-  HIGH_SCALE: '/upload/720p/',
+  HIGH_SCALE: '/upload/720p',
 };
 Object.freeze(Urls);
 
