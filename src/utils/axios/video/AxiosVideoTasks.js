@@ -31,6 +31,10 @@ const Tasks = {
     const requestUrl = Urls.GET.replace('{groupId}', groupId).replace('{boardId}', boardId);
     return axios.get(requestUrl);
   },
+  getVideoHighScalePromise: boardId => {
+    const requestUrl = Urls.HIGH_SCALE + boardId;
+    return axios.post(requestUrl);
+  },
 };
 
 export default Tasks;

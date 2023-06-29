@@ -40,6 +40,7 @@ const Upload = props => {
           if (res.status === 200) {
             props.handleUploadCode(200);
             console.log('good....200 ok');
+            VideoTasks.getVideoHighScalePromise(boardId).catch(err => console.log(err));
           }
         })
         .catch(error => {
