@@ -9,15 +9,13 @@ import Video from 'components/common/Video';
 import { VideoOptions } from 'utils/common/VideoOptions';
 import BusinessCode from 'utils/common/BuisnessCode';
 import AxiosVideoTasks from 'utils/axios/video/AxiosVideoTasks';
-import { useNavigate } from 'react-router';
 
 const ArticleViewer = props => {
-  const { groupId, videoId } = props;
+  const { groupId, videoId, handleMainListChangeState } = props;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [owner, setOwner] = useState('');
   const [videoSrc, setVideoSrc] = useState('');
-  const navigator = useNavigate();
   useEffect(() => {
     AxiosVideoTasks.getVideoPromise(groupId, videoId).then(res => {
       const code = res.data.code;
@@ -40,7 +38,7 @@ const ArticleViewer = props => {
     if (confirm('Delete Video?')) {
       AxiosVideoTasks.getDeleteVideoPromise(groupId, videoId).then(res => {
         const resBody = res.data;
-        if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) navigator('/');
+        if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) handleMainListChangeState(0);
         else alert('Error : Cannot Delete Video');
       });
     }
@@ -79,4 +77,5 @@ export default ArticleViewer;
 ArticleViewer.propTypes = {
   groupId: PropTypes.number.isRequired,
   videoId: PropTypes.number.isRequired,
+  handleMainListChangeState: PropTypes.func.isRequired,
 };
