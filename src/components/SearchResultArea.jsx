@@ -40,7 +40,11 @@ const SearchResultArea = props => {
           key={data.boardId}
           onClick={() => handleMainListChangeState([3, data.boardId])}
         >
-          <img className={'search-result-thumbnail'} src={data.thumbnailUrl} />
+          <img
+            className={'search-result-thumbnail'}
+            src={data.thumbnailUrl}
+            crossOrigin={'anonymous'}
+          />
           <div className={'search-result-info'}>
             <div className={'search-result-title'}> {data.title} </div>
             <div className={'search-result-owner'}> {data.owner} </div>

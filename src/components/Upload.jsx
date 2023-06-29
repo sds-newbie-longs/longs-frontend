@@ -22,7 +22,6 @@ const Upload = props => {
   const [boardId, setBoardId] = useState('');
 
   const { state } = useLocation();
-  const notify = text => toast(text);
 
   useEffect(() => {
     check().catch(() => navigate('/'));
@@ -35,19 +34,31 @@ const Upload = props => {
   }, []);
 
   const ClickForUpload = () => {
-    VideoTasks.getUploadBoardPromise(groupId, boardId, title, description)
-      .then(res => {
-        if (res.status === 200) {
-          props.handleUploadCode(200);
-          console.log('good....200 ok');
-        }
-      })
-      .catch(error => {
-        props.handleUploadCode(400);
-        console.log(error.code);
-      });
-    notify('업로드가 완료되었습니다.');
-    setTimeout(() => navigate('/'), 1000);
+    if (isUpload && title.length > 0) {
+      VideoTasks.getUploadBoardPromise(groupId, boardId, title, description)
+        .then(res => {
+          if (res.status === 200) {
+            props.handleUploadCode(200);
+            console.log('good....200 ok');
+          }
+        })
+        .catch(error => {
+          props.handleUploadCode(400);
+          console.log(error.code);
+        });
+      const notify = () => toast('업로드가 완료되었습니다.');
+      notify();
+      setTimeout(() => navigate('/'), 1000);
+    } else {
+      if (title.length === 0) {
+        const noTitle = () => toast.error('제목을 입력해 주세요.');
+        noTitle();
+      }
+      if (!isUpload) {
+        const notUpload = () => toast.error('아직 업로드 중입니다.');
+        notUpload();
+      }
+    }
   };
 
   const TitleChange = e => {

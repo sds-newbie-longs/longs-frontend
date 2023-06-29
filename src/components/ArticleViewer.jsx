@@ -11,7 +11,7 @@ import BusinessCode from 'utils/common/BuisnessCode';
 import AxiosVideoTasks from 'utils/axios/video/AxiosVideoTasks';
 
 const ArticleViewer = props => {
-  const { groupId, videoId } = props;
+  const { groupId, videoId, handleMainListChangeState } = props;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [owner, setOwner] = useState('');
@@ -20,7 +20,6 @@ const ArticleViewer = props => {
     AxiosVideoTasks.getVideoPromise(groupId, videoId).then(res => {
       const code = res.data.code;
       if (code === BusinessCode.GET_VIDEO_SUCCESS) {
-        console.log(res.data);
         const data = res.data;
         setTitle(data.title);
         setDescription(data.description);
@@ -37,9 +36,9 @@ const ArticleViewer = props => {
 
   const handleDeleteOnclick = () => {
     if (confirm('Delete Video?')) {
-      AxiosVideoTasks.getDeleteVideoPromise().then(res => {
+      AxiosVideoTasks.getDeleteVideoPromise(groupId, videoId).then(res => {
         const resBody = res.data;
-        if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) navigator('/');
+        if (resBody.code === BusinessCode.DELETE_VIDEO_SUCCESS) handleMainListChangeState(0);
         else alert('Error : Cannot Delete Video');
       });
     }
@@ -50,8 +49,12 @@ const ArticleViewer = props => {
       <div className={'article-viewer-content'}>
         <div className={'article-viewer-video-frame'}>
           <div className={'article-viewer-video-edit'}>
-            <EditSvg onClick={handleEditOnClick} />
-            <DeleteSvg onClick={handleDeleteOnclick} />
+            <div onClick={handleEditOnClick}>
+              <EditSvg />
+            </div>
+            <div onClick={handleDeleteOnclick}>
+              <DeleteSvg />
+            </div>
           </div>
           <div className={'article-viewer-video'}>
             <Video options={VideoOptions} src={videoSrc} />
@@ -74,4 +77,5 @@ export default ArticleViewer;
 ArticleViewer.propTypes = {
   groupId: PropTypes.number.isRequired,
   videoId: PropTypes.number.isRequired,
+  handleMainListChangeState: PropTypes.func.isRequired,
 };

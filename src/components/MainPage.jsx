@@ -80,7 +80,11 @@ const MainPage = props => {
               handleMainListChangeState={handleMainListChangeState}
             />
           ) : (
-            <ArticleViewer groupId={groupId} videoId={videoId} />
+            <ArticleViewer
+              groupId={groupId}
+              videoId={videoId}
+              handleMainListChangeState={handleMainListChangeState}
+            />
           )}
         </div>
       </div>

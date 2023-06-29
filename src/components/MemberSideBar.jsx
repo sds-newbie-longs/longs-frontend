@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import SearchMemberList from 'components/common/SearchMemberList';
 import Tasks from 'utils/axios/group_member/AxiosGroupMemberTasks';
 import BusinessCode from 'utils/common/BuisnessCode';
+import { useNavigate } from 'react-router';
 
 const MemberSideBar = props => {
   const { groupId } = props;
@@ -13,6 +14,7 @@ const MemberSideBar = props => {
   const [members, setMembers] = useState([]);
   const [search, SetSearch] = useState('');
   const [selectedId, SetSelectedId] = useState(0);
+  const navigator = useNavigate();
 
   useEffect(() => {
     document.onclick = evt => {
@@ -80,6 +82,10 @@ const MemberSideBar = props => {
     SetSelectedId(id);
   }, []);
 
+  const handleLogoutButton = () => {
+    navigator('/login');
+  };
+
   return (
     <div className={'member-side-bar-root'}>
       <div className={'member-side-bar-search-field-container'}>
@@ -92,6 +98,9 @@ const MemberSideBar = props => {
         <span className={'member-side-bar-member-count'}>Members - {members.length}</span>
         <hr />
         <MemberInfoList members={members} />
+      </div>
+      <div className={'logout-button'} onClick={handleLogoutButton}>
+        logout
       </div>
     </div>
   );
